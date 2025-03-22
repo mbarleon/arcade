@@ -18,6 +18,9 @@ namespace arcade::factory {
         ~FunctionFactory() = default;
 
         template <typename T>
-        T loadFunction(const void *handle, const std::string &name);
+        static T loadFunction(const void *handle, const std::string &name);
+
+        static void *openLib(const std::string &path);
+        static void closeLib(void *handle);
     };
 };

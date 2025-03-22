@@ -9,6 +9,7 @@
 
 #include "../Games/IGame.hpp"
 #include "../Graphicals/IDisplayModule.hpp"
+#include "../Utils/FunctionFactory.hpp"
 #include <memory>
 
 namespace arcade::core {
