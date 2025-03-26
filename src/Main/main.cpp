@@ -5,6 +5,7 @@
 ** main
 */
 
+#include <cstring>
 #include <iostream>
 #include "../Core/Core.hpp"
 #include "../Utils/Error.hpp"
@@ -32,10 +33,11 @@ static const char *error_handling(int ac, char **av)
 int main(int ac, char **av)
 {
     const char *display;
+    arcade::core::Core core;
 
     try {
         display = error_handling(ac, av);
-        arcade::core::Core().run(display);
+        core.run(display);
     } catch (arcade::exception::Error &e) {
         std::cerr << "ERROR: " << e.what() << " at " << e.where() << std::endl;
         return 84;
