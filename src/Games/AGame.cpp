@@ -6,6 +6,20 @@
 */
 
 #include "AGame.hpp"
+#include <algorithm>
+
+/*
+ * public
+ */
+
+arcade::game::AGame::~AGame()
+{
+    /* empty dtor */
+}
+
+/*
+ * create/remove/get Entity
+ */
 
 /*
  * push an entity at position (specify the char c for lib-Ncurses / non-GUI)
@@ -14,42 +28,52 @@
  *  - Position vector2u where the entity should be displayed
  *  - char for TTY-API (like ncurses)
  *  - uint32_t is the color of the entity
+ *
+ * using an entityIndex for faster lookups
  */
 void arcade::game::AGame::addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos, char c,
     uint32_t color)
 {
     types::Entity entity = {.type = type, .pos = pos, .display_char = c, .color = color};
 
-    _entities.insert({draw, entity});
+    _entities[draw].push_back(entity);
+    _entityIndex[pos] = &_entities[draw].back();
 }
 
 /*
- * INFO:
  * remove entity at position {x, y}
  */
 void arcade::game::AGame::removeEntityAt(const types::Position &pos)
 {
-    for (auto it = _entities.begin(); it != _entities.end(); ++it) {
-        if (it->second.pos == pos) {
-            _entities.erase(it);
-            break;
+    const auto it = _entityIndex.find(pos);
+
+    if (it != _entityIndex.end()) {
+        for (auto &[draw, entity_vec] : _entities) {
+            const auto entity_it = std::find_if(entity_vec.begin(), entity_vec.end(),
+                [&](const types::Entity &e) { return &e == it->second; });
+
+            if (entity_it != entity_vec.end()) {
+                entity_vec.erase(entity_it);
+                break;
+            }
         }
+        _entityIndex.erase(it);
     }
 }
 
 /*
- * INFO:
  * get entity at position {x, y}
  */
 arcade::types::Entity *arcade::game::AGame::getEntityAt(const types::Position &pos)
 {
-    for (auto it = _entities.begin(); it != _entities.end(); ++it) {
-        if (it->second.pos == pos) {
-            return &it->second;
-        }
-    }
-    return nullptr;
+    const auto it = _entityIndex.find(pos);
+
+    return (it != _entityIndex.end()) ? it->second : nullptr;
 }
+
+/*
+ * getters
+ */
 
 const std::string &arcade::game::AGame::getName() const
 {
@@ -66,16 +90,14 @@ bool arcade::game::AGame::isGameOver() const
     return _gameOver;
 }
 
-const std::unordered_map<arcade::types::EntityDraw, arcade::types::Entity> &arcade::game::AGame::getEntities() const
+const arcade::game::AGame::Entities &arcade::game::AGame::getEntities() const
 {
     return _entities;
 }
 
-const std::pair<uint32_t, uint32_t> &arcade::game::AGame::getMapSize() const
-{
-    return _mapSize;
-}
-
+/*
+ * setters
+ */
 void arcade::game::AGame::setGameOver(bool gameOver)
 {
     _gameOver = gameOver;
@@ -85,6 +107,10 @@ void arcade::game::AGame::clearEntities()
 {
     _entities.clear();
 }
+
+/*
+ * must be implemented in inheritance
+ */
 
 /*
  * INFO:
@@ -101,12 +127,7 @@ void arcade::game::AGame::init()
  * INFO:
  * game receive graphical API events. InputEvent is defined `Types.hpp`
  */
-void arcade::game::AGame::handleInput(__attribute__((unused)) const std::vector<types::InputEvent> event)
-{
-    //
-}
-
-void arcade::game::AGame::update()
+void arcade::game::AGame::update(__attribute__((unused)) const std::vector<types::InputEvent> events)
 {
     //
 }

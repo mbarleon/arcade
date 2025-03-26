@@ -18,24 +18,27 @@ namespace arcade::game {
             AGame() = default;
             virtual ~AGame() = 0;
 
+            /* core methods */
             void init() override;
-            void update() override;
+            void update(const std::vector<types::InputEvent> events) override;
             void stop() override;
 
+            /* getters */
             const std::string &getName() const override;
-            const std::unordered_map<types::EntityDraw, types::Entity> &getEntities() const override;
-            const std::pair<uint32_t, uint32_t> &getMapSize() const override;
+            const Entities &getEntities() const override;
 
+            /* entities */
             void addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos, char c,
                 uint32_t color) override;
             void removeEntityAt(const types::Position &pos) override;
             types::Entity *getEntityAt(const types::Position &pos) override;
 
+            /* display methods */
             bool isGameOver() const override;
-            void handleInput(const std::vector<types::InputEvent> event) override;
             int getScore() const override;
 
         protected:
+            /* setters */
             void setGameOver(bool gameOver);
             void clearEntities();
 
@@ -45,7 +48,7 @@ namespace arcade::game {
             int _score;
             bool _gameOver;
 
-            std::unordered_map<types::EntityDraw, types::Entity> _entities;
-            std::pair<uint32_t, uint32_t> _mapSize;
+            Entities _entities;
+            std::unordered_map<types::Position, types::Entity *> _entityIndex;
     };
-};
+};// namespace arcade::game

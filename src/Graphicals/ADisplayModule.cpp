@@ -8,25 +8,35 @@
 #include "ADisplayModule.hpp"
 
 /*
+ * public
+ */
+
+arcade::display::ADisplayModule::~ADisplayModule()
+{
+}
+
+/*
+ * NOTE: override the following methods in inheritance
+ */
+
+/*
  * INFO:
  * this is where you initialize game attributes
- * i recommand you to "super()" call this method in your override to store values:
- *   - ADisplayModule::init(mapSize, entities)
  */
-void arcade::display::ADisplayModule::init(std::pair<uint32_t, uint32_t> mapSize,
-    std::unordered_map<types::EntityDraw, types::Entity> entities)
+
+void arcade::display::ADisplayModule::init()
 {
-    _mapSize = mapSize;
-    _entities = entities;
+    //
 }
 
 /*
  * INFO:
  * this is where you declare things you draw (no inf loop, it is handle by the Core)
  */
-void arcade::display::ADisplayModule::draw(std::unordered_map<types::EntityDraw, types::Entity> entities)
+
+void arcade::display::ADisplayModule::draw(__attribute__((unused)) Entities entities)
 {
-    _entities = entities;
+    //
 }
 
 /*
@@ -35,7 +45,7 @@ void arcade::display::ADisplayModule::draw(std::unordered_map<types::EntityDraw,
  */
 std::vector<arcade::types::InputEvent> arcade::display::ADisplayModule::event()
 {
-    return std::vector<types::InputEvent>(types::KEY_UNKNOWN);
+    return std::vector<types::InputEvent>{types::KEY_UNKNOWN};
 }
 
 /*
@@ -44,8 +54,11 @@ std::vector<arcade::types::InputEvent> arcade::display::ADisplayModule::event()
  */
 void arcade::display::ADisplayModule::stop()
 {
-    _entities.clear();
 }
+
+/*
+ * getters
+ */
 
 const std::string &arcade::display::ADisplayModule::getName() const
 {

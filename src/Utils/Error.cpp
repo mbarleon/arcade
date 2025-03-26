@@ -1,18 +1,30 @@
 /*
 ** EPITECH PROJECT, 2025
-** B-OOP-400-STG-4-1-arcade-mathieu.barleon
+** Arcade
 ** File description:
-** Error
+** Core.cpp
 */
 
 #include "Error.hpp"
 
-const char *arcade::error::Error::where(void) const noexcept
+/*
+* public
+*/
+
+/*
+ * INFO:
+ * this allows you to get where the error happened
+ */
+const char *arcade::exception::Error::where(void) const noexcept
 {
     return _where.c_str();
 }
 
-const char *arcade::error::Error::what(void) const noexcept
+/*
+ * INFO:
+ * this allows you to get the error message
+ */
+const char *arcade::exception::Error::what(void) const noexcept
 {
     return _what.c_str();
 }

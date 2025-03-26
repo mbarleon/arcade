@@ -10,14 +10,14 @@
 #include "IDisplayModule.hpp"
 
 namespace arcade::display {
-    class ADisplayModule : public IDisplayModule {
+    class ADisplayModule : public IDisplayModule
+    {
         public:
             ADisplayModule() = default;
             virtual ~ADisplayModule() = 0;
 
-            void init(std::pair<uint32_t, uint32_t> mapSize,
-                std::unordered_map<types::EntityDraw, types::Entity> entities) override;
-            void draw(std::unordered_map<types::EntityDraw, types::Entity> entities) override;
+            void init() override;
+            void draw(Entities entities) override;
             std::vector<types::InputEvent> event() override;
             void stop() override;
 
@@ -25,7 +25,5 @@ namespace arcade::display {
 
         protected:
             std::string _name;
-            std::pair<uint32_t, uint32_t> _mapSize;
-            std::unordered_map<types::EntityDraw, types::Entity> _entities;
     };
-};
+};// namespace arcade::display

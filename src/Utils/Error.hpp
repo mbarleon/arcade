@@ -1,25 +1,46 @@
 /*
 ** EPITECH PROJECT, 2025
-** B-OOP-400-STG-4-1-arcade-mathieu.barleon
+** Arcade
 ** File description:
 ** Error
 */
 
 #pragma once
 
-#include <string>
 #include <exception>
+#include <sstream>
+#include <string>
 
-namespace arcade::error {
-    class Error: public std::exception {
+/*
+* generic Error class
+*
+* example:
+*  - throw exception::Error("arcade::Core", "failed to open ", <path>, " because: ", dlerror());
+*/
+namespace arcade::exception {
+    class Error : public std::exception {
         public:
-            Error(const std::string what, const std::string where):
-                _what(what), _where(where) {}
+            template<typename... Args>
+            Error(const std::string &where, Args &&...args)
+                : _where(where), _what(concatStrings(std::forward<Args>(args)...))
+            {
+                /* empty */
+            }
 
-            const char *where(void) const noexcept;
-            const char *what(void) const noexcept override;
+            const char *what() const noexcept override;
+            const char *where() const noexcept;
+
         private:
-            const std::string _what;
             const std::string _where;
+            const std::string _what;
+
+            template<typename... Args>
+            static std::string concatStrings(Args &&...args)
+            {
+                std::ostringstream oss;
+
+                (oss << ... << args);
+                return oss.str();
+            }
     };
-};
+};// namespace arcade::exception
