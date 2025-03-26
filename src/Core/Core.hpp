@@ -8,7 +8,6 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "../Games/IGame.hpp"
 #include "../Graphicals/IDisplayModule.hpp"
 
