@@ -15,13 +15,12 @@
 namespace arcade::game {
     class IGame {
         public:
-            /* maybe in ::types ? */
             using Entities = std::unordered_map<types::EntityDraw, std::vector<types::Entity>>;
 
             virtual ~IGame() = default;
 
             virtual void init() = 0;
-            virtual void update(const std::vector<types::InputEvent> events) = 0;
+            virtual void update(const std::unordered_map<types::Position, std::vector<types::InputEvent>>) = 0;
             virtual void stop() = 0;
 
             /* getters */
@@ -33,7 +32,7 @@ namespace arcade::game {
 
             /* entities */
             virtual void addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos, char c,
-                uint32_t color) = 0;
+                uint32_t color, const std::string str) = 0;
             virtual void removeEntityAt(const types::Position &pos) = 0;
             virtual types::Entity *getEntityAt(const types::Position &pos) = 0;
     };

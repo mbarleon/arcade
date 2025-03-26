@@ -9,6 +9,7 @@
 #include <iostream>
 #include "../Core/Core.hpp"
 #include "../Utils/Error.hpp"
+#include "../Utils/Logger.hpp"
 
 static void helper(void)
 {
@@ -39,7 +40,7 @@ int main(int ac, char **av)
         display = error_handling(ac, av);
         core.run(display);
     } catch (arcade::exception::Error &e) {
-        std::cerr << "ERROR: " << e.what() << " at " << e.where() << std::endl;
+        arcade::logger::error(e);
         return 84;
     }
     return 0;
