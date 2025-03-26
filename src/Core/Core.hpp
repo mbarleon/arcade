@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <string>
 #include <memory>
 #include "../Games/IGame.hpp"
 #include "../Graphicals/IDisplayModule.hpp"
@@ -28,9 +29,9 @@ namespace arcade::core {
             void run(const char *display);
 
         private:
-            void arcade::core::Core::load_game(const char *game);
-            void arcade::core::Core::load_display(const char *display);
-            void arcade::core::Core::runSingleGame(std::string &game, const char *display);
+            void load_game(const char *game);
+            void load_display(const char *display);
+            void runSingleGame(std::string &game, const char *display);
 
             bool _quit = false;
 

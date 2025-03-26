@@ -48,9 +48,8 @@ void arcade::core::Core::run(const char *display)
 {
     std::string game = "lib/arcade_menu.so";
 
-    while (!_quit) {
+    while (!_quit)
         runSingleGame(game, display);
-    }
 
     utils::getFunction<GAME_DESTROY>("destroy", _game_handle)(_game);
     utils::getFunction<DISPLAY_DESTROY>("destroy", _display_handle)(_display);
