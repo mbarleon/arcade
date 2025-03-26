@@ -6,8 +6,44 @@
 */
 
 #include "Core.hpp"
-#include "../Utils/GetLib.hpp"
+#include "Types.hpp"
 #include "../Utils/Error.hpp"
+#include "../Utils/GetLib.hpp"
+
+std::string arcade::core::Core::getPath(std::filesystem::path path)
+{
+    if (!path.has_parent_path())
+        throw exception::Error("getPath", "Wrong path");
+
+    std::filesystem::path last_folder = path.parent_path().filename();
+    std::filesystem::path filename = path.filename();
+
+    if (last_folder.empty() || filename.empty())
+        throw exception::Error("getPath", "Wrong path");
+    return std::string(last_folder) + "/" + std::string(filename);
+}
+
+arcade::core::Core::Core()
+{
+    const std::filesystem::path base_path{"lib"};
+
+    for (auto const& dir_entry : std::filesystem::directory_iterator{base_path}) {
+        try {
+            void *handle = utils::load_dll_so(dir_entry.path());
+            auto type = utils::getFunction<TYPE_CAST>("getType", _display_handle)();
+            utils::unload_dll_so(handle);
+
+            auto path = getPath(dir_entry.path());
+            auto it = _libs.find(path);
+            if (type == types::LibType::GAME && it != _libs.end())
+                _games.insert(it->first, path);
+            if (type == types::LibType::DISPLAY && it != _libs.end())
+                _displays.insert(it->first, path);
+        } catch (const exception::Error &e) {
+            continue;
+        }
+    }
+}
 
 void arcade::core::Core::load_display(const char *display)
 {
@@ -27,6 +63,15 @@ void arcade::core::Core::load_game(const char *game)
     _game = utils::getFunction<GAME_CREATE>("create", _game_handle)();
 }
 
+const char *arcade::core::Core::nextLib(const std::string &libName)
+{
+    auto it = _displays.find(libName)++;
+
+    if (it == _displays.end());
+        return _displays.begin()->first.c_str();
+    return it->first.c_str();
+}
+
 void arcade::core::Core::runSingleGame(std::string &game, const char *display)
 {
     std::string ret;
@@ -35,9 +80,15 @@ void arcade::core::Core::runSingleGame(std::string &game, const char *display)
     load_display(display);
 
     while (!_game->isGameOver()) {
-        _game->update(_display->event());
+        auto event = _display->event();
+
+        if (event.second == types::InputEvent::KEY_F8)
+            load_display(nextLib(_display->getName()));
+
+        _game->update(event);
         _display->draw(_game->getEntities());
     }
+
     if (_game->getName() == "MENU")
         game = utils::getFunction<SELECTED_CAST>("getSelected", _display_handle)();
     else

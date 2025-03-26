@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include "../../include/Types.hpp"
 #include <string>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
+#include "../../include/Types.hpp"
 
 namespace arcade::game {
     class IGame {
@@ -20,7 +20,7 @@ namespace arcade::game {
             virtual ~IGame() = default;
 
             virtual void init() = 0;
-            virtual void update(const std::unordered_map<types::Position, std::vector<types::InputEvent>>) = 0;
+            virtual void update(const std::pair<types::Position, types::InputEvent>) = 0;
             virtual void stop() = 0;
 
             /* getters */

@@ -12,6 +12,12 @@
 
 // clang-format off
 namespace arcade::types {
+enum LibType {
+    MENU,
+    GAME,
+    DISPLAY
+};
+
 enum InputEvent {
     KEY_UNKNOWN = -1,
     KEY_A = 0,
@@ -155,7 +161,6 @@ struct Mouse {
     Position pos;
     InputEvent event;
 };
-
 
 /*
 * INFO:
