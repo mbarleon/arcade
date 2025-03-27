@@ -1,0 +1,9 @@
+PROJECT_NAME           = Arcade
+OUTPUT_DIRECTORY       = ./doc
+INPUT                  = ./src ./include 
+FILE_PATTERNS          = *.cpp *.hpp
+RECURSIVE              = YES
+
+GENERATE_LATEX         = YES
+HAVE_DOT               = YES
+DOT_IMAGE_FORMAT       = svg

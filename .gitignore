@@ -46,6 +46,10 @@ coding-style-reports.log
 *.env
 # other files
 temp/
+
+#Documentation file
 !Doxygen
-doc
-doc/*
+doc/html
+doc/html/*
+doc/latex
+doc/latex/*
