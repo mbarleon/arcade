@@ -12,7 +12,29 @@
 #include <unordered_map>
 #include "../../include/Types.hpp"
 
+/**
+ * @file IGame.hpp
+ * @brief Declaration of the game interface class.
+ * @author Shared with the partner group
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * This class defines the interface that all game classes must implement
+ * to be compatible with the Arcade platform.
+ * It includes the required functions for integrating a game into the system.
+ */
+
 namespace arcade::game {
+    /**
+     * @class IGame
+     * @brief Classe interface de jeu.
+     *
+     * @details
+     * This class defines the interface that all game classes must implement
+     * to be compatible with the Arcade platform.
+     * It includes the required functions for integrating a game into the system.
+     */
     class IGame {
         public:
             using Entities = std::unordered_map<types::EntityDraw, std::vector<types::Entity>>;

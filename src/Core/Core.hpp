@@ -23,7 +23,31 @@
 #define GAME_DESTROY void (*)(arcade::game::IGame *game)
 #define DISPLAY_DESTROY void (*)(arcade::display::IDisplayModule *display)
 
+/**
+ * @file Core.hpp
+ * @brief Declaration of the Core class and associated definitions.
+ * @author mbarleon
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * The Core class launches the program and acts as a bridge between graphical libraries and games.
+ * It also handles dynamic switching between libraries or games at runtime.
+ * 
+ * In addition, it manages communication between these two key components and handles file-related
+ * errors during program startup.
+ */
+
 namespace arcade::core {
+    /**
+     * @class Core
+     * @brief Main class responsible for communication between games and graphical libraries.
+     *
+     * @details
+     * The Core class manages the main loop of the Arcade program.
+     * It handles dynamic loading, management, and runtime switching of games and graphical libraries.
+     * It also centralizes event handling, rendering, and error management during startup or execution.
+     */
     class Core {
         public:
             Core();

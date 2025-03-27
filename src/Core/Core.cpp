@@ -10,6 +10,23 @@
 #include "../Utils/Error.hpp"
 #include "../Utils/GetLib.hpp"
 
+/**
+ * @file Core.cpp
+ * @brief Contains the core program methods.
+ * @author mbarleon
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * The core of the program handles communication between the graphical libraries and the games.
+ * It allows switching the graphical library at runtime while preserving the game's state and data.
+ */
+
+/**
+ * @brief Returns the file path including its parent folder.
+ * @details Returns a string representing the full path in the format "parent/file".
+ * @return A string containing the path in the format "parent/file".
+ */
 std::string arcade::core::Core::getPath(std::filesystem::path path)
 {
     if (!path.has_parent_path())
@@ -23,6 +40,12 @@ std::string arcade::core::Core::getPath(std::filesystem::path path)
     return std::string(last_folder) + "/" + std::string(filename);
 }
 
+/**
+ * @brief Builds and initializes the core with the available files.
+ * @details Initializes the Core class and fills its private members with the available
+ * games and graphical libraries, so they don't need to be checked again later.
+ * @return void
+ */
 arcade::core::Core::Core()
 {
     const std::filesystem::path base_path{"lib"};

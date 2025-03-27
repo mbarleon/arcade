@@ -11,13 +11,27 @@
 #include <sstream>
 #include <string>
 
-/*
-* generic Error class
-*
-* example:
-*  - throw exception::Error("arcade::Core", "failed to open ", <path>, " because: ", dlerror());
-*/
+/**
+ * @file Error.hpp
+ * @brief Declaration of the program's custom exception class.
+ * @author Shared with the partner group
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * This file contains the declaration of the Error class created for the Arcade project.
+ * It inherits from the standard std::exception class and provides a custom error message mechanism.
+ */
+
 namespace arcade::exception {
+    /**
+     * @class Error
+     * @brief Custom exception class.
+     *
+     * @details
+     * This error class inherits from std::exception. It allows the program to be cleanly
+     * interrupted when problems are detected, while providing a clear error message.
+     */
     class Error : public std::exception {
         public:
             template<typename... Args>

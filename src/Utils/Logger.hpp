@@ -10,6 +10,19 @@
 #include "Error.hpp"
 #include <iostream>
 
+/**
+ * @file Logger.hpp
+ * @brief This file contains the class used for writing debug logs.
+ * @author Shared with the partner group
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * Debug logs are tools intended for developers.
+ * They are not meant for the end user, but are used to assist in diagnosing
+ * and fixing potential errors during development.
+ */
+
 namespace arcade::logger {
     constexpr const char *GRAY = "\033[38;5;8m";
     constexpr const char *RED_BOLD = "\033[1;31m";

@@ -46,3 +46,6 @@ coding-style-reports.log
 *.env
 # other files
 temp/
+!Doxygen
+doc
+doc/*

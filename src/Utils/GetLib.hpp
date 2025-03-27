@@ -11,6 +11,17 @@
 #include <dlfcn.h>
 #include <string>
 
+/**
+ * @file GetLib.cpp
+ * @brief This file contains the function responsible for managing shared libraries (.so).
+ * @author Shared with the partner group
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details The fucntion allow loading, unloading, and extracting symbols from .so files,
+ * in order to dynamically use game and graphical libraries using dlopen, dlclose, and dlsym.
+ */
+
 namespace arcade::utils {
     template<typename T>
     T getFunction(const std::string &name, void *handle)
