@@ -12,7 +12,7 @@
 #include <string>
 
 /**
- * @file GetLib.cpp
+ * @file GetLib.hpp
  * @brief This file contains the function responsible for managing shared libraries (.so).
  * @author Shared with the partner group
  * @version 1.0

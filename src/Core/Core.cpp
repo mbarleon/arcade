@@ -68,6 +68,13 @@ arcade::core::Core::Core()
     }
 }
 
+/**
+ * @brief Dynamically loads and unloads graphical libraries.
+ * @details If a graphical library is already loaded, it is first unloaded
+ * before loading the new one.
+ * @return void
+ */
+
 void arcade::core::Core::load_display(const char *display)
 {
     if (_display)
@@ -76,6 +83,12 @@ void arcade::core::Core::load_display(const char *display)
     void *display_handle = utils::load_dll_so(display);
     _display = utils::getFunction<DISPLAY_CREATE>("create", _display_handle)();
 }
+
+/**
+ * @brief Dynamically loads a game.
+ * @details If a game is already loaded, it is first unloaded before loading the new one.
+ * @return void
+ */
 
 void arcade::core::Core::load_game(const char *game)
 {
@@ -86,6 +99,12 @@ void arcade::core::Core::load_game(const char *game)
     _game = utils::getFunction<GAME_CREATE>("create", _game_handle)();
 }
 
+/**
+ * @brief Switches to the next graphical library.
+ * @details Switches from the currently loaded graphical library to the next one
+ * in the list of libraries stored in the Core (private variable).
+ * @return The file path of the selected graphical library.
+ */
 const char *arcade::core::Core::nextLib(const std::string &libName)
 {
     auto it = _displays.find(libName)++;
@@ -95,6 +114,12 @@ const char *arcade::core::Core::nextLib(const std::string &libName)
     return it->first.c_str();
 }
 
+/**
+ * @brief Main game loop.
+ * @details Central loop that forwards input events from the graphical libraries to the game,
+ * and sends the entities to display back to the graphical libraries.
+ * @return void
+ */
 void arcade::core::Core::runSingleGame(std::string &game, const char *display)
 {
     std::string ret;
@@ -118,6 +143,12 @@ void arcade::core::Core::runSingleGame(std::string &game, const char *display)
         game = "lib/arcade_menu.so";
 }
 
+/**
+ * @brief Main loop of the Arcade program.
+ * @details This loop launches the game loops and starts a new one
+ * when the previous game ends.
+ * @return void
+ */
 void arcade::core::Core::run(const char *display)
 {
     std::string game = "lib/arcade_menu.so";
