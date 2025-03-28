@@ -53,15 +53,15 @@ arcade::core::Core::Core()
     for (auto const& dir_entry : std::filesystem::directory_iterator{base_path}) {
         try {
             void *handle = utils::load_dll_so(dir_entry.path());
-            auto type = utils::getFunction<TYPE_CAST>("getType", _display_handle)();
+            auto type = utils::getFunction<TYPE_CAST>("getType", handle)();
+            auto name = utils::getFunction<STRING_CAST>("getName", handle)();
             utils::unload_dll_so(handle);
 
             auto path = getPath(dir_entry.path());
-            auto it = _libs.find(path);
-            if (type == types::LibType::GAME && it != _libs.end())
-                _games.insert(it->first, path);
-            if (type == types::LibType::DISPLAY && it != _libs.end())
-                _displays.insert(it->first, path);
+            if (type == types::LibType::GAME)
+                _games.insert(std::string(name), path);
+            if (type == types::LibType::DISPLAY)
+                _displays.insert(std::string(name), path);
         } catch (const exception::Error &e) {
             continue;
         }
@@ -75,13 +75,16 @@ arcade::core::Core::Core()
  * @return void
  */
 
-void arcade::core::Core::load_display(const char *display)
+void arcade::core::Core::loadDisplay(const char *display)
 {
-    if (_display != nullptr)
-        utils::getFunction<DISPLAY_DESTROY>("destroy", _display_handle)(_display);
+    if (_display != nullptr) {
+        utils::getFunction<DISPLAY_DESTROY>("destroy", _displayHandle)(_display);
+        utils::unload_dll_so(_display);
+    }
 
     void *display_handle = utils::load_dll_so(display);
-    _display = utils::getFunction<DISPLAY_CREATE>("create", _display_handle)();
+    _libName = utils::getFunction<STRING_CAST>("getName", _displayHandle)();
+    _display = utils::getFunction<DISPLAY_CREATE>("create", _displayHandle)();
 }
 
 /**
@@ -90,13 +93,16 @@ void arcade::core::Core::load_display(const char *display)
  * @return void
  */
 
-void arcade::core::Core::load_game(const char *game)
+void arcade::core::Core::loadGame(const char *game)
 {
-    if (_game != nullptr)
-        utils::getFunction<GAME_DESTROY>("destroy", _game_handle)(_game);
+    if (_game != nullptr) {
+        utils::getFunction<GAME_DESTROY>("destroy", _gameHandle)(_game);
+        utils::unload_dll_so(_game);
+    }
 
     void *game_handle = utils::load_dll_so(game);
-    _game = utils::getFunction<GAME_CREATE>("create", _game_handle)();
+    _gameName = utils::getFunction<STRING_CAST>("getName", _gameHandle)();
+    _game = utils::getFunction<GAME_CREATE>("create", _gameHandle)();
 }
 
 /**
@@ -105,13 +111,38 @@ void arcade::core::Core::load_game(const char *game)
  * in the list of libraries stored in the Core (private variable).
  * @return The file path of the selected graphical library.
  */
-const char *arcade::core::Core::nextLib(const std::string &libName)
+const char *arcade::core::Core::nextLib(void)
 {
-    auto it = _displays.find(libName)++;
+    auto it = _displays.find(_libName)++;
 
     if (it == _displays.end());
         return _displays.begin()->first.c_str();
     return it->first.c_str();
+}
+
+/**
+ * @brief Handle special inputs in the core.
+ * @details Allows the user to change library, quit or restart game.
+ * @return An int that tells the caller loop if it should break or not.
+ */
+int arcade::core::Core::handleInputs(const std::string &game,
+    const std::pair<types::Position, types::InputEvent> &event)
+{
+    switch (event.second)
+    {
+        case types::InputEvent::KEY_F8:
+            loadDisplay(nextLib());
+            return 0;
+        case types::InputEvent::KEY_ESCAPE:
+            if (strcmp(_gameName, "MENU") == 0)
+                _quit = true;
+            return 1;
+        case types::InputEvent::KEY_F12:
+            loadGame(game.c_str());
+            return 0;
+        default:
+            return 0;
+    }
 }
 
 /**
@@ -120,26 +151,27 @@ const char *arcade::core::Core::nextLib(const std::string &libName)
  * and sends the entities to display back to the graphical libraries.
  * @return void
  */
-void arcade::core::Core::runSingleGame(std::string &game, const char *display)
+void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
 {
     std::string ret;
 
-    load_game(game.c_str());
-    load_display(display);
+    loadGame(game.c_str());
+    loadDisplay(display.c_str());
 
     while (!_game->isGameOver()) {
         auto event = _display->event();
 
-        if (event.second == types::InputEvent::KEY_F8)
-            load_display(nextLib(_display->getName()));
+        if (handleInputs(game, event) == 1)
+            break;
 
         _game->update(event);
         _display->draw(_game->getEntities());
     }
 
-    if (_game->getName() == "MENU")
-        game = utils::getFunction<SELECTED_CAST>("getSelected", _display_handle)();
-    else
+    if (strcmp(_gameName, "MENU") == 0) {
+        game = utils::getFunction<STRING_CAST>("getSelectedGame", _gameHandle)();
+        display = utils::getFunction<STRING_CAST>("getSelectedDisplay", _gameHandle)();
+    } else
         game = "lib/arcade_menu.so";
 }
 
@@ -151,11 +183,18 @@ void arcade::core::Core::runSingleGame(std::string &game, const char *display)
  */
 void arcade::core::Core::run(const char *display)
 {
+    std::string new_display = display;
     std::string game = "lib/arcade_menu.so";
 
     while (!_quit)
-        runSingleGame(game, display);
+        runSingleGame(game, new_display);
 
-    utils::getFunction<GAME_DESTROY>("destroy", _game_handle)(_game);
-    utils::getFunction<DISPLAY_DESTROY>("destroy", _display_handle)(_display);
+    if (_game != nullptr) {
+        utils::getFunction<GAME_DESTROY>("destroy", _gameHandle)(_game);
+        utils::unload_dll_so(_game);
+    }
+    if (_display != nullptr) {
+        utils::getFunction<DISPLAY_DESTROY>("destroy", _displayHandle)(_display);
+        utils::unload_dll_so(_display);
+    }
 }
