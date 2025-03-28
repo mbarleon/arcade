@@ -169,8 +169,11 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
     }
 
     if (strcmp(_gameName, "MENU") == 0) {
-        game = utils::getFunction<STRING_CAST>("getSelectedGame", _gameHandle)();
-        display = utils::getFunction<STRING_CAST>("getSelectedDisplay", _gameHandle)();
+        auto tmp_game = utils::getFunction<STRING_CAST>("getSelectedGame", _gameHandle)();
+        auto tmp_display = utils::getFunction<STRING_CAST>("getSelectedDisplay", _gameHandle)();
+
+        game = strcmp(tmp_game, "") == 0 ? game : tmp_game;
+        display = strcmp(tmp_display, "") == 0 ? display : tmp_display;
     } else
         game = "lib/arcade_menu.so";
 }
