@@ -26,5 +26,5 @@ void arcade::display::ADisplayModule::stop()
 
 const std::string &arcade::display::ADisplayModule::getName() const
 {
-    return this->_name;
+    return _name;
 }
