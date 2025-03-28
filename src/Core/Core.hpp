@@ -67,8 +67,8 @@ namespace arcade::core {
             game::IGame *_game = nullptr;
             display::IDisplayModule *_display = nullptr;
 
-            void *_game_handle = NULL;
-            void *_display_handle = NULL;
+            void *_game_handle = nullptr;
+            void *_display_handle = nullptr;
 
             std::unordered_map<std::string, std::string> _games;
             std::unordered_map<std::string, std::string> _displays;
