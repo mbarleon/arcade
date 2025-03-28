@@ -48,14 +48,17 @@ namespace arcade::game {
             /* getters */
             virtual const std::string &getName() const = 0;
             virtual const Entities &getEntities() const = 0;
-
-            virtual bool isGameOver() const = 0;
             virtual int getScore() const = 0;
+            virtual bool isGameOver() const = 0;
+
+            /* setters */
+            virtual void setGameOver(bool state) = 0;
 
             /* entities */
             virtual void addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos, char c,
                 uint32_t color, const std::string str) = 0;
             virtual void removeEntityAt(const types::Position &pos) = 0;
             virtual types::Entity *getEntityAt(const types::Position &pos) = 0;
+            virtual void clearEntities() = 0;
     };
 };// namespace arcade::game
