@@ -41,9 +41,7 @@ namespace arcade::game {
 
             virtual ~IGame() = default;
 
-            virtual void init() = 0;
             virtual void update(const std::pair<types::Position, types::InputEvent>) = 0;
-            virtual void stop() = 0;
 
             /* getters */
             virtual const std::string &getName() const = 0;

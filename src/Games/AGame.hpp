@@ -15,9 +15,7 @@ namespace arcade::game {
             AGame() = default;
             virtual ~AGame() = 0;
 
-            void init() override;
             void update(const std::pair<types::Position, types::InputEvent>) override;
-            void stop() override;
 
             /* getters */
             const std::string &getName() const override;

@@ -138,8 +138,8 @@ enum EntityDraw { NONE, RECTANGLE, CIRCLE, SPRITE };
 
 /* position vector2u */
 struct Position {
-    uint32_t x;
-    uint32_t y;
+    int x;
+    int y;
 
     /* overload operator == to compare (pos == other.pos) */
     bool operator==(const Position &other) const

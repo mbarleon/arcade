@@ -15,10 +15,8 @@ namespace arcade::display {
             ADisplayModule() = default;
             virtual ~ADisplayModule() = 0;
 
-            void init() override;
             void draw(Entities entities) override;
             std::pair<types::Position, types::InputEvent> event() override;
-            void stop() override;
 
             const std::string &getName() const override;
 

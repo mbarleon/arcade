@@ -7,10 +7,6 @@
 
 #include "ADisplayModule.hpp"
 
-void arcade::display::ADisplayModule::init()
-{
-}
-
 void arcade::display::ADisplayModule::draw(Entities entities)
 {
 }
@@ -18,10 +14,6 @@ void arcade::display::ADisplayModule::draw(Entities entities)
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::ADisplayModule::event()
 {
     return std::pair<types::Position, types::InputEvent>();
-}
-
-void arcade::display::ADisplayModule::stop()
-{
 }
 
 const std::string &arcade::display::ADisplayModule::getName() const

@@ -78,7 +78,6 @@ arcade::core::Core::Core()
 void arcade::core::Core::loadDisplay(const char *display)
 {
     if (_display != nullptr) {
-        _display->stop();
         utils::getFunction<DISPLAY_DESTROY>("destroy", _displayHandle)(_display);
         utils::unload_dll_so(_display);
     }
@@ -86,7 +85,6 @@ void arcade::core::Core::loadDisplay(const char *display)
     void *display_handle = utils::load_dll_so(display);
     _libName = utils::getFunction<STRING_CAST>("getName", _displayHandle)();
     _display = utils::getFunction<DISPLAY_CREATE>("create", _displayHandle)();
-    _display->init();
 }
 
 /**
@@ -98,7 +96,6 @@ void arcade::core::Core::loadDisplay(const char *display)
 void arcade::core::Core::loadGame(const char *game)
 {
     if (_game != nullptr) {
-        _game->stop();
         utils::getFunction<GAME_DESTROY>("destroy", _gameHandle)(_game);
         utils::unload_dll_so(_game);
     }
@@ -106,7 +103,6 @@ void arcade::core::Core::loadGame(const char *game)
     void *game_handle = utils::load_dll_so(game);
     _gameName = utils::getFunction<STRING_CAST>("getName", _gameHandle)();
     _game = utils::getFunction<GAME_CREATE>("create", _gameHandle)();
-    _game->init();
 }
 
 /**
@@ -197,12 +193,10 @@ void arcade::core::Core::run(const char *display)
         runSingleGame(game, new_display);
 
     if (_game != nullptr) {
-        _game->stop();
         utils::getFunction<GAME_DESTROY>("destroy", _gameHandle)(_game);
         utils::unload_dll_so(_game);
     }
     if (_display != nullptr) {
-        _display->stop();
         utils::getFunction<DISPLAY_DESTROY>("destroy", _displayHandle)(_display);
         utils::unload_dll_so(_display);
     }
