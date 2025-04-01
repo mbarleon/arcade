@@ -11,11 +11,6 @@ void arcade::game::AGame::update(const std::pair<types::Position, types::InputEv
 {
 }
 
-const std::string &arcade::game::AGame::getName() const
-{
-    return _name;
-}
-
 const arcade::game::IGame::Entities &arcade::game::AGame::getEntities() const
 {
     return _entities;

@@ -18,7 +18,6 @@ namespace arcade::game {
             void update(const std::pair<types::Position, types::InputEvent>) override;
 
             /* getters */
-            const std::string &getName() const override;
             const Entities &getEntities() const override;
             int getScore() const override;
             bool isGameOver() const override;
@@ -34,7 +33,6 @@ namespace arcade::game {
             void clearEntities() override;
 
         protected:
-            std::string _name;
             int _score;
             bool _gameOver;
             Entities _entities;

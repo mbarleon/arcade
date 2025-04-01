@@ -17,11 +17,6 @@ namespace arcade::display {
 
             void draw(Entities entities) override;
             std::pair<types::Position, types::InputEvent> event() override;
-
-            const std::string &getName() const override;
-
-        protected:
-            std::string _name;
     };
 };
 

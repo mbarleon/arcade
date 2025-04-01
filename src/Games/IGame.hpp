@@ -44,7 +44,6 @@ namespace arcade::game {
             virtual void update(const std::pair<types::Position, types::InputEvent>) = 0;
 
             /* getters */
-            virtual const std::string &getName() const = 0;
             virtual const Entities &getEntities() const = 0;
             virtual int getScore() const = 0;
             virtual bool isGameOver() const = 0;

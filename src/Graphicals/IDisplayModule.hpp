@@ -52,7 +52,5 @@ namespace arcade::display {
 
             virtual void draw(Entities entities) = 0;
             virtual std::pair<types::Position, types::InputEvent> event() = 0;
-
-            virtual const std::string &getName() const = 0;
     };
 };// namespace arcade::display

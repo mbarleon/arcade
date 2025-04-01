@@ -15,8 +15,3 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::A
 {
     return std::pair<types::Position, types::InputEvent>();
 }
-
-const std::string &arcade::display::ADisplayModule::getName() const
-{
-    return _name;
-}
