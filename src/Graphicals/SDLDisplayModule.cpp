@@ -62,7 +62,7 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
             }
 
             if (it.first == arcade::types::CIRCLE) {
-                throw arcade::exception::Error("SDL CAN'T DISPLAY CIRCLE : Line 34");
+                drawCircle(ti.pos.x, ti.pos.y);
                 continue;
             }
 
@@ -70,6 +70,17 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
                 continue;
             }
         }
+    }
+}
+
+void arcade::display::SDLDisplayModule::drawCircle(int baseX, int baseY)
+{
+    const int centerX = baseX + CIRCLE_RADIUS;
+    const int centerY = baseY + CIRCLE_RADIUS;
+
+    for (int dy = -CIRCLE_RADIUS; dy <= CIRCLE_RADIUS; dy++) {
+        int dx = (int)sqrt(CIRCLE_RADIUS * CIRCLE_RADIUS - dy * dy);
+        SDL_RenderDrawLine(_renderer, centerX - dx, centerY + dy, centerX + dx, centerY + dy);
     }
 }
 

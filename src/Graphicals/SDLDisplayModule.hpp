@@ -22,8 +22,9 @@ namespace arcade::display {
             void draw(Entities entities) override;
             std::pair<types::Position, types::InputEvent> event() override;
 
-        protected:
         private:
+            void drawCircle(int baseX, int baseY);
+
             SDL_Window* _window;
             SDL_Renderer* _renderer;
             SDL_Event _event;
