@@ -28,6 +28,7 @@ namespace arcade::display {
             SDL_Renderer* _renderer;
             SDL_Event _event;
             SDL_Point _mouse;
+            bool _quit = false;
     };
 }
 

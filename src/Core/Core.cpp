@@ -128,16 +128,15 @@ const char *arcade::core::Core::nextLib(void)
 int arcade::core::Core::handleInputs(const std::string &game,
     const std::pair<types::Position, types::InputEvent> &event)
 {
-    switch (event.second)
-    {
-        case types::InputEvent::KEY_F8:
+    switch (event.second) {
+        case types::InputEvent::AKEY_F8:
             loadDisplay(nextLib());
             return 0;
-        case types::InputEvent::KEY_ESCAPE:
+        case types::InputEvent::AKEY_ESCAPE:
             if (strcmp(_gameName, "MENU") == 0)
                 _quit = true;
             return 1;
-        case types::InputEvent::KEY_F12:
+        case types::InputEvent::AKEY_F12:
             loadGame(game.c_str());
             return 0;
         default:
