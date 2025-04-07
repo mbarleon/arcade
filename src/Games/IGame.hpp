@@ -53,7 +53,7 @@ namespace arcade::game {
 
             /* entities */
             virtual void addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos, char c,
-                uint32_t color, const std::string str) = 0;
+                uint32_t color) = 0;
             virtual void removeEntityAt(const types::Position &pos) = 0;
             virtual types::Entity *getEntityAt(const types::Position &pos) = 0;
             virtual void clearEntities() = 0;

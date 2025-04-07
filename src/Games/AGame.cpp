@@ -7,6 +7,13 @@
 
 #include "AGame.hpp"
 
+arcade::game::AGame::AGame()
+{
+    _score = 0;
+    _gameOver = false;
+    clearEntities();
+}
+
 void arcade::game::AGame::update(const std::pair<types::Position, types::InputEvent>)
 {
 }
@@ -32,7 +39,7 @@ void arcade::game::AGame::setGameOver(bool state)
 }
 
 void arcade::game::AGame::addEntity(types::EntityType type, types::EntityDraw draw,
-    types::Position pos, char c, uint32_t color, const std::string str)
+    types::Position pos, char c, uint32_t color)
 {
     types::Entity entity = {type, pos, c, color};
 

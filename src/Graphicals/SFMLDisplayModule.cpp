@@ -7,10 +7,36 @@
 
 #include "SFMLDisplayModule.hpp"
 
+extern "C" {
+    arcade::display::IDisplayModule *create(void)
+    {
+        return new arcade::display::SFMLDisplayModule();
+    }
+
+    void destroy(arcade::display::IDisplayModule *display)
+    {
+        delete display;
+    }
+
+    arcade::types::LibType getType(void)
+    {
+        return arcade::types::DISPLAY;
+    }
+
+    const char *getName()
+    {
+        return "SFML";
+    }
+}
+
 arcade::display::SFMLDisplayModule::SFMLDisplayModule()
 {
-    _win.create(sf::VideoMode(VIDEO_SIZE.first, VIDEO_SIZE.second), _name, sf::Style::Default);
+    sf::Vector2f pixelSize = {RECTANGLE_SIZE, RECTANGLE_SIZE};
+
+    _win.create(sf::VideoMode(VIDEO_SIZE.first, VIDEO_SIZE.second), "Arcade", sf::Style::Default);
     sf::Listener::setGlobalVolume(50);
+    _pixel.setSize(pixelSize);
+    _circle.setRadius(CIRCLE_RADIUS);
 }
 
 arcade::display::SFMLDisplayModule::~SFMLDisplayModule()
@@ -19,6 +45,28 @@ arcade::display::SFMLDisplayModule::~SFMLDisplayModule()
 
 void arcade::display::SFMLDisplayModule::draw(Entities entities)
 {
+    sf::Vector2f pos;
+
+    for (auto &it : entities) {
+        if (it.first == arcade::types::NONE)
+            continue;
+        for (auto &ti : it.second) {
+            pos = {ti.pos.x * RECTANGLE_SIZE, ti.pos.y * RECTANGLE_SIZE};
+            if (it.first == arcade::types::RECTANGLE) {
+                _pixel.setPosition(pos);
+                _pixel.setFillColor((sf::Color)ti.color);
+                _win.draw(_pixel);
+                continue;
+            }
+            if (it.first == arcade::types::CIRCLE) {
+                _circle.setPosition(pos);
+                _circle.setFillColor((sf::Color)ti.color);
+                _win.draw(_circle);
+            }
+            // if (it.first == arcade::types::SPRITE)
+            //     continue;
+        }
+    }
 }
 
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::SFMLDisplayModule::event()
@@ -27,13 +75,13 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::S
 
     if (_win.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::KEY_ESCAPE);
+            return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::AKEY_ESCAPE);
         else if (_event.type == sf::Event::KeyPressed)
-            return std::make_pair(types::Position{_mouse.x, _mouse.y}, (types::InputEvent)_event.key); // MISSING CAST
-        else if (_event.type == sf::Event::Resized)
-            _win.setView(sf::View(sf::FloatRect(0, 0, _event.size.width, _event.size.height)));
-        // MOUSE EVENT
-        this->~SFMLDisplayModule();
+            return std::make_pair(types::Position{_mouse.x, _mouse.y}, (types::InputEvent)_event.key.code);
+        else if (_event.type == sf::Event::MouseButtonPressed)
+            return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::ARIGHT_BUTTON);
+        // else if (_event.type == sf::Event::Resized)
+        //     _win.setView(sf::View(sf::FloatRect(0, 0, _event.size.width, _event.size.height)));
     }
-    return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::KEY_UNKNOWN);
+    return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::AKEY_UNKNOWN);
 }

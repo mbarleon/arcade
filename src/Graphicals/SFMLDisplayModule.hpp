@@ -26,6 +26,8 @@ namespace arcade::display {
             sf::RenderWindow _win;
             sf::Event _event;
             sf::Vector2i _mouse;
+            sf::RectangleShape _pixel;
+            sf::CircleShape _circle;
     };
 };
 

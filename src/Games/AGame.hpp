@@ -12,7 +12,7 @@
 namespace arcade::game {
     class AGame : public IGame {
         public:
-            AGame() = default;
+            AGame();
             virtual ~AGame() = 0;
 
             void update(const std::pair<types::Position, types::InputEvent>) override;
@@ -27,7 +27,7 @@ namespace arcade::game {
 
             /* entities */
             void addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos,
-                char c, uint32_t color, const std::string str) override;
+                char c, uint32_t color) override;
             void removeEntityAt(const types::Position &pos) override;
             types::Entity *getEntityAt(const types::Position &pos) override;
             void clearEntities() override;

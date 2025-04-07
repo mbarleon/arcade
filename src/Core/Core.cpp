@@ -6,7 +6,7 @@
 */
 
 #include "Core.hpp"
-#include "Types.hpp"
+#include "../../include/Types.hpp"
 #include "../Utils/Error.hpp"
 #include "../Utils/GetLib.hpp"
 
@@ -59,9 +59,9 @@ arcade::core::Core::Core()
 
             auto path = getPath(dir_entry.path());
             if (type == types::LibType::GAME)
-                _games.insert(std::string(name), path);
+                _games.insert({std::string(name), path});
             if (type == types::LibType::DISPLAY)
-                _displays.insert(std::string(name), path);
+                _displays.insert({std::string(name), path});
         } catch (const exception::Error &e) {
             continue;
         }
