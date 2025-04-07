@@ -7,22 +7,20 @@
 
 CXX				=	g++
 
-SRC				=	SFMLDisplayModule.cpp		\
-					../ADisplayModule.cpp		\
+SRC				=	PacmanGame.cpp		\
+					../AGame.cpp		\
 					../../Utils/Error.cpp		\
 					../../Utils/GetLib.cpp		\
 					../../Utils/Logger.cpp		\
 
 OBJ				=	$(SRC:.cpp=.o)
 
-NAME			=	../../../lib/arcade_sfml.so
+NAME			=	../../../lib/arcade_pacman.so
 
 CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC \
 					-iquote ../../../include/ -iquote ../
 
 LDFLAGS			=	-shared
-
-LDLIBS			=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 DEBUG_FALGS		=	-g
 
@@ -32,7 +30,7 @@ debug:				all
 all:				$(NAME)
 
 $(NAME):			$(OBJ)
-					$(CXX) $(LDFLAGS) -o $(NAME) $(OBJ) $(LDLIBS)
+					$(CXX) $(LDFLAGS) -o $(NAME) $(OBJ)
 
 clean:
 					rm -f $(OBJ)

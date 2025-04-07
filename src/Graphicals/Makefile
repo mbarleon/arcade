@@ -7,6 +7,7 @@
 
 LIBS	=	NCurses 	\
 			SDL 		\
+			SFML		\
 
 all:        $(LIBS)
 debug:      $(LIBS)

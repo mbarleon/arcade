@@ -9,7 +9,7 @@
     #define PACMANGAME_HPP_
     #define MAP_HEIGHT 31
     #define MAP_WIDTH 28
-    #include "AGame.hpp"
+    #include "../AGame.hpp"
 
 namespace arcade::game {
     class PacmanGame : public AGame {
@@ -24,7 +24,7 @@ namespace arcade::game {
             arcade::types::EntityDraw getEntityDraw(char c);
             arcade::types::color_t getEntityColor(char c);
 
-            static constexpr char *_pacmap[] = {
+            static constexpr const char *_pacmap[] = {
                 "0000000000000000000000000000",
                 "0............00............0",
                 "0.0000.00000.00.00000.0000.0",

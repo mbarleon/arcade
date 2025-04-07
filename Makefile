@@ -49,6 +49,7 @@ graphicals:
 
 $(CORE_NAME):		$(CORE_OBJ)
 					$(CXX) -o $(CORE_NAME) $(CORE_OBJ)
+					rm -f src/Utils/Error.o src/Utils/GetLib.o src/Utils/Logger.o
 
 clean:
 					rm -f $(CORE_OBJ)

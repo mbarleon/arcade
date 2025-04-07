@@ -43,6 +43,7 @@ arcade::game::PacmanGame::~PacmanGame()
 
 void arcade::game::PacmanGame::update(const std::pair<types::Position, types::InputEvent> event)
 {
+    (void)event;
 }
 
 arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)

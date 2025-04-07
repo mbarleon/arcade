@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-LIBS	=	
+LIBS	=	Pacman	\
 
 all:        $(LIBS)
 debug:      $(LIBS)
