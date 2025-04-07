@@ -59,9 +59,9 @@ arcade::core::Core::Core()
 
             auto path = getPath(dir_entry.path());
             if (type == types::LibType::GAME)
-                _games.insert(std::string(name), path);
+                _games.insert({std::string(name), path});
             if (type == types::LibType::DISPLAY)
-                _displays.insert(std::string(name), path);
+                _displays.insert({std::string(name), path});
         } catch (const exception::Error &e) {
             continue;
         }
@@ -82,7 +82,7 @@ void arcade::core::Core::loadDisplay(const char *display)
         utils::unload_dll_so(_display);
     }
 
-    void *display_handle = utils::load_dll_so(display);
+    _displayHandle = utils::load_dll_so(display);
     _libName = utils::getFunction<STRING_CAST>("getName", _displayHandle)();
     _display = utils::getFunction<DISPLAY_CREATE>("create", _displayHandle)();
 }
@@ -100,7 +100,7 @@ void arcade::core::Core::loadGame(const char *game)
         utils::unload_dll_so(_game);
     }
 
-    void *game_handle = utils::load_dll_so(game);
+    _gameHandle = utils::load_dll_so(game);
     _gameName = utils::getFunction<STRING_CAST>("getName", _gameHandle)();
     _game = utils::getFunction<GAME_CREATE>("create", _gameHandle)();
 }
@@ -115,7 +115,7 @@ const char *arcade::core::Core::nextLib(void)
 {
     auto it = _displays.find(_libName)++;
 
-    if (it == _displays.end());
+    if (it == _displays.end())
         return _displays.begin()->first.c_str();
     return it->first.c_str();
 }

@@ -7,7 +7,7 @@
 
 #ifndef SFMLDISPLAYMODULE_HPP_
     #define SFMLDISPLAYMODULE_HPP_
-    #include "ADisplayModule.hpp"
+    #include "../ADisplayModule.hpp"
     #include <SFML/Audio.hpp>
     #include <SFML/Graphics.hpp>
     #include <SFML/System.hpp>

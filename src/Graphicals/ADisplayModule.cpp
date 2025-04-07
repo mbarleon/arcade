@@ -7,8 +7,13 @@
 
 #include "ADisplayModule.hpp"
 
+arcade::display::ADisplayModule::ADisplayModule() = default;
+
+arcade::display::ADisplayModule::~ADisplayModule() = default;
+
 void arcade::display::ADisplayModule::draw(Entities entities)
 {
+    (void)entities;
 }
 
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::ADisplayModule::event()

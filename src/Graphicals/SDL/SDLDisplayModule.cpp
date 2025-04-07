@@ -6,7 +6,6 @@
 */
 
 #include "SDLDisplayModule.hpp"
-#include "../Utils/Error.hpp"
 
 extern "C" {
     arcade::display::IDisplayModule *create(void)
@@ -56,7 +55,7 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
                 color.components[1], color.components[2], color.components[3]);
 
             if (it.first == arcade::types::RECTANGLE) {
-                SDL_Rect rect = {ti.pos.x, ti.pos.y, RECTANGLE_SIZE, RECTANGLE_SIZE};
+                SDL_Rect rect = {ti.pos.x, ti.pos.y, static_cast<int>(RECTANGLE_SIZE), static_cast<int>(RECTANGLE_SIZE)};
                 SDL_RenderFillRect(_renderer, &rect);
                 continue;
             }
@@ -124,7 +123,7 @@ arcade::display::SDLDisplayModule::~SDLDisplayModule()
     SDL_Quit();
 }
 
-arcade::types::InputEvent mapSDLKeyToInputEvent(SDL_Keycode key)
+arcade::types::InputEvent arcade::display::SDLDisplayModule::mapSDLKeyToInputEvent(SDL_Keycode key)
 {
     switch (key) {
         case SDLK_a: return arcade::types::AKEY_A;
