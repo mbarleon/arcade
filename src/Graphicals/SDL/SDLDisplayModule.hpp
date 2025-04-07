@@ -11,7 +11,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <utility>
-#include "../ADisplayModule.hpp"
+#include "ADisplayModule.hpp"
 #include "../../Utils/Error.hpp"
 
 namespace arcade::display {

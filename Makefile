@@ -28,7 +28,7 @@ DEBUG_FALGS		=	-g
 debug:				CXXFLAGS += $(DEBUG_FALGS)
 debug:				all
 
-all:				core graphicals games
+all:				graphicals games core
 
 core_debug:			CXXFLAGS += $(DEBUG_FALGS)
 core_debug:			core
@@ -48,17 +48,16 @@ graphicals:
 					$(MAKE) -C $(GRAPH_FOLDER)
 
 $(CORE_NAME):		$(CORE_OBJ)
-					$(CXX) -o $(CORE_NAME) $(CORE_OBJ)
-					rm -f src/Utils/Error.o src/Utils/GetLib.o src/Utils/Logger.o
+					$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
-					rm -f $(CORE_OBJ)
+					$(RM) $(CORE_OBJ)
 					$(MAKE) -C $(GAME_FOLDER) clean
 					$(MAKE) -C $(GRAPH_FOLDER) clean
 
 
 fclean:				clean
-					rm -f $(CORE_NAME)
+					$(RM) $(CORE_NAME)
 					$(MAKE) -C $(GAME_FOLDER) fclean
 					$(MAKE) -C $(GRAPH_FOLDER) fclean
 

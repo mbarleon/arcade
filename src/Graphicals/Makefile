@@ -20,6 +20,7 @@ $(LIBS):
 		debug)	$(MAKE) -C $@ debug ;; \
 		clean)	$(MAKE) -C $@ clean ;; \
 		fclean)	$(MAKE) -C $@ fclean ;; \
+		re)		$(MAKE) -C $@ re;; \
 		*)		$(MAKE) -C $@ ;; \
 	esac
 

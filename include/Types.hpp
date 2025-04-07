@@ -181,10 +181,12 @@ enum components_e { R, G, B, A };
 /*
 * simple types::Position hash for unordered_map
 */
-template<>
-struct std::hash<arcade::types::Position> {
-    size_t operator()(const arcade::types::Position &pos) const
-    {
-        return std::hash<uint32_t>()(pos.x) ^ (std::hash<uint32_t>()(pos.y) << 1);
-    }
+namespace std {
+    template<>
+    struct hash<arcade::types::Position> {
+        size_t operator()(const arcade::types::Position &pos) const
+        {
+            return std::hash<uint32_t>()(pos.x) ^ (std::hash<uint32_t>()(pos.y) << 1);
+        }
+    };
 };

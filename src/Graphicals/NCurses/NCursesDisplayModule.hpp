@@ -8,7 +8,7 @@
 #pragma once
 
 #include <ncurses.h>
-#include "../ADisplayModule.hpp"
+#include "ADisplayModule.hpp"
 
 namespace arcade::display {
     class NCursesDisplayModule: public ADisplayModule {

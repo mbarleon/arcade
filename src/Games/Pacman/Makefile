@@ -15,7 +15,9 @@ SRC				=	PacmanGame.cpp		\
 
 OBJ				=	$(SRC:.cpp=.o)
 
-NAME			=	../../../lib/arcade_pacman.so
+TARGET_FOLDER	=	../../../lib/
+
+NAME			=	$(TARGET_FOLDER)arcade_pacman.so
 
 CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC \
 					-iquote ../../../include/ -iquote ../
@@ -30,14 +32,14 @@ debug:				all
 all:				$(NAME)
 
 $(NAME):			$(OBJ)
-					$(CXX) $(LDFLAGS) -o $(NAME) $(OBJ)
+					$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
-					rm -f $(OBJ)
+					$(RM) $(OBJ)
 
 
 fclean:				clean
-					rm -f $(NAME)
+					$(RM) $(NAME)
 
 re:					fclean all
 
