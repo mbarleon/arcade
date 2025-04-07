@@ -11,7 +11,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <utility>
-#include "ADisplayModule.hpp"
+#include "../ADisplayModule.hpp"
+#include "../../Utils/Error.hpp"
 
 namespace arcade::display {
     class SDLDisplayModule : public ADisplayModule {
@@ -24,11 +25,11 @@ namespace arcade::display {
 
         private:
             void drawCircle(int baseX, int baseY);
+            types::InputEvent mapSDLKeyToInputEvent(SDL_Keycode key);
 
             SDL_Window* _window;
             SDL_Renderer* _renderer;
             SDL_Event _event;
-            SDL_Point _mouse;
             bool _quit = false;
     };
 }
