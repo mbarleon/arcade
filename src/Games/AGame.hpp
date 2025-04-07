@@ -13,7 +13,7 @@ namespace arcade::game {
     class AGame : public IGame {
         public:
             AGame();
-            virtual ~AGame() = 0;
+            virtual ~AGame() {};
 
             void update(const std::pair<types::Position, types::InputEvent>) override;
 

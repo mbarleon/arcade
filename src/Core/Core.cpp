@@ -54,14 +54,14 @@ arcade::core::Core::Core()
         try {
             void *handle = utils::load_dll_so(dir_entry.path());
             auto type = utils::getFunction<TYPE_CAST>("getType", handle)();
-            auto name = utils::getFunction<STRING_CAST>("getName", handle)();
+            std::string name(utils::getFunction<STRING_CAST>("getName", handle)());
             utils::unload_dll_so(handle);
 
             auto path = getPath(dir_entry.path());
             if (type == types::LibType::GAME)
-                _games.insert({std::string(name), path});
+                _games.insert({name, path});
             if (type == types::LibType::DISPLAY)
-                _displays.insert({std::string(name), path});
+                _displays.insert({name, path});
         } catch (const exception::Error &e) {
             continue;
         }
