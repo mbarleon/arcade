@@ -7,10 +7,21 @@
 
 LIBS	=	Pacman	\
 
+UTILS			=	../Utils
+
+all:		$(UTILS)
 all:        $(LIBS)
+
+debug:		$(UTILS)
 debug:      $(LIBS)
+
+clean:		$(UTILS)
 clean:      $(LIBS)
-fclean:     clean $(LIBS)
+
+fclean:		clean
+fclean:		$(UTILS)
+fclean:     $(LIBS)
+
 re:         fclean all
 
 $(LIBS):
@@ -22,4 +33,13 @@ $(LIBS):
 		*)		$(MAKE) -C $@ ;; \
 	esac
 
-.PHONY: all debug clean fclean re $(LIBS)
+$(UTILS):
+	@case "$(MAKECMDGOALS)" in \
+		debug)	$(MAKE) -C $@ debug ;; \
+		clean)	$(MAKE) -C $@ clean ;; \
+		fclean)	$(MAKE) -C $@ fclean ;; \
+		re)		$(MAKE) -C $@ re;; \
+		*)		$(MAKE) -C $@ ;; \
+	esac
+
+.PHONY: all debug clean fclean re $(LIBS) $(UTILS)

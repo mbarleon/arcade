@@ -7,45 +7,38 @@
 
 CXX				=	g++
 
-SRC				=	SDLDisplayModule.cpp		\
-					../ADisplayModule.cpp		\
+AR				=	ar
+
+SRC				=	Error.cpp				\
+					GetLib.cpp				\
+					Logger.cpp				\
 
 OBJ				=	$(SRC:.cpp=.o)
 
-TARGET_FOLDER	=	../../../lib/
-
-NAME			=	$(TARGET_FOLDER)arcade_sdl2.so
+NAME			=	libarcade_utils.a
 
 CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC \
-					-iquote ../../../include/ -iquote ../
-
-UTILS			=	../../Utils
-
-LDFLAGS			=	-shared  -L$(UTILS)
-
-LDLIBS			=	-lSDL2 -larcade_utils
+					-iquote ../../include/ -iquote .
 
 DEBUG_FALGS		=	-g
 
+ARFLAGS			=	-rc
+
 debug:				CXXFLAGS += $(DEBUG_FALGS)
-debug:				$(UTILS)
 debug:				all
 
-all:				$(UTILS)
 all:				$(NAME)
 
 $(NAME):			$(OBJ)
-					$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+					$(AR) $(ARFLAGS) $@ $^
 
-clean:				$(UTILS)
 clean:
 					$(RM) $(OBJ)
 
-fclean:				$(UTILS)
+
 fclean:				clean
 					$(RM) $(NAME)
 
-re:					$(UTILS)
 re:					fclean all
 
 .PHONY:				debug					\
@@ -53,4 +46,3 @@ re:					fclean all
 					clean					\
 					fclean					\
 					re						\
-					$(UTILS)				\
