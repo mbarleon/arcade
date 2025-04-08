@@ -9,7 +9,7 @@ LIBS	=	NCurses 	\
 			SDL 		\
 			SFML		\
 
-UTILS			=	../Utils
+UTILS	=	../Utils
 
 all:		$(UTILS)
 all:        $(LIBS)
