@@ -9,9 +9,6 @@ CXX				=	g++
 
 SRC				=	SFMLDisplayModule.cpp		\
 					../ADisplayModule.cpp		\
-					../../Utils/Error.cpp		\
-					../../Utils/GetLib.cpp		\
-					../../Utils/Logger.cpp		\
 
 OBJ				=	$(SRC:.cpp=.o)
 

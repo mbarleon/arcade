@@ -9,9 +9,6 @@ CXX				=	g++
 
 CORE_SRC		=	src/Core/Core.cpp		\
 					src/Main/main.cpp		\
-					src/Utils/Error.cpp		\
-					src/Utils/GetLib.cpp	\
-					src/Utils/Logger.cpp	\
 
 CORE_OBJ		=	$(CORE_SRC:.cpp=.o)
 
