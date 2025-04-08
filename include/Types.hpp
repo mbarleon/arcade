@@ -174,8 +174,11 @@ typedef union color_u {
 * INFO:
 * To be used with color_t.components to access the correct component
 */
-enum components_e { R, G, B, A };
-
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+    enum components_e { R, G, B, A };
+#else
+    enum components_e { A, B, G, R };
+#endif
 };// namespace arcade::types
 
 /*
