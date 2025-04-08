@@ -134,7 +134,7 @@ enum Direction { UP, DOWN, LEFT, RIGHT };
 enum ButtonState { DISABLED, HOVER, PRESSED };
 
 enum EntityType { EMPTY, WALL, PLAYER, FOOD, ENEMY, OBSTACLE, COLLECTIBLE };
-enum EntityDraw { NONE, RECTANGLE, CIRCLE, SPRITE };
+enum EntityDraw { NONE, RECTANGLE, CIRCLE, SPRITE, TEXT };
 
 /* position vector2u */
 struct Position {
