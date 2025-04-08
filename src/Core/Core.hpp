@@ -8,6 +8,8 @@
 #pragma once
 
 #include <vector>
+#include <chrono>
+#include <thread>
 #include <string>
 #include <cstring>
 #include <filesystem>
@@ -15,6 +17,7 @@
 #include "../Games/IGame.hpp"
 #include "../Graphicals/IDisplayModule.hpp"
 
+#define THREAD_SLEEP 16
 #define STRING_CAST const char *(*)()
 #define TYPE_CAST types::LibType (*)(void)
 #define GAME_CREATE arcade::game::IGame *(*)()
@@ -53,6 +56,9 @@ namespace arcade::core {
             ~Core() = default;
 
             void run(const char *display);
+
+            std::unordered_map<std::string, std::string> getGames(void) const;
+            std::unordered_map<std::string, std::string> getDisplays(void) const;
 
         private:
             const char *nextLib(void);

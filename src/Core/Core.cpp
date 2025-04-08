@@ -165,6 +165,7 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
 
         _game->update(event);
         _display->draw(_game->getEntities());
+        std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_SLEEP));
     }
 
     if (strcmp(_gameName, "MENU") == 0) {
@@ -186,7 +187,7 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
 void arcade::core::Core::run(const char *display)
 {
     std::string new_display = display;
-    std::string game = "lib/arcade_menu.so";
+    std::string game = "lib/arcade_snake.so";
 
     while (!_quit)
         runSingleGame(game, new_display);
@@ -199,4 +200,14 @@ void arcade::core::Core::run(const char *display)
         utils::getFunction<DISPLAY_DESTROY>("destroy", _displayHandle)(_display);
         utils::unload_dll_so(_display);
     }
+}
+
+std::unordered_map<std::string, std::string> arcade::core::Core::getGames(void) const
+{
+    return _games;
+}
+
+std::unordered_map<std::string, std::string> arcade::core::Core::getDisplays(void) const
+{
+    return _displays;
 }
