@@ -6,6 +6,7 @@
 ##
 
 LIBS	=	Pacman	\
+			Snake	\
 
 UTILS	=	../Utils
 
