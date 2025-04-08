@@ -34,7 +34,8 @@ arcade::game::PacmanGame::PacmanGame()
     for (int y = 0; y < MAP_HEIGHT; ++y)
         for (int x = 0; x < MAP_WIDTH; ++x)
             addEntity(getEntityType(_pacmap[y][x]), getEntityDraw(_pacmap[y][x]),
-            (arcade::types::Position){x, y}, _pacmap[y][x], getEntityColor(_pacmap[y][x]).color);
+            (arcade::types::Position){x, y}, _pacmap[y][x],
+            getEntityColor(_pacmap[y][x]).color, "");
 }
 
 arcade::game::PacmanGame::~PacmanGame()
@@ -82,14 +83,14 @@ arcade::types::color_t arcade::game::PacmanGame::getEntityColor(char c)
 {
     switch (c) {
         case '0':
-            return {.components = {62, 78, 249, 0}};
+            return getRGBA(62, 78, 249, 255);
         case '.':
-            return {.components = {255, 255, 0, 0}};
+            return getRGBA(255, 255, 0, 255);
         case 'G':
-            return {.components = {255, 255, 0, 0}};
+            return getRGBA(255, 255, 0, 255);
         case '_':
-            return {.components = {62, 249, 233, 0}};
+            return getRGBA(62, 249, 233, 255);
         default:
-            return {.components = {0, 0, 0, 0}};
+            return getRGBA(0, 0, 0, 255);
     }
 }

@@ -47,6 +47,7 @@ void arcade::display::SFMLDisplayModule::draw(Entities entities)
 {
     sf::Vector2f pos;
 
+    _win.clear();
     for (auto &it : entities) {
         if (it.first == arcade::types::NONE)
             continue;
@@ -67,6 +68,7 @@ void arcade::display::SFMLDisplayModule::draw(Entities entities)
             //     continue;
         }
     }
+    _win.display();
 }
 
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::SFMLDisplayModule::event()

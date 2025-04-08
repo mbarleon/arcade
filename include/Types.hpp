@@ -9,6 +9,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <string>
 
 namespace arcade::types {
 enum LibType {
@@ -147,12 +148,35 @@ struct Position {
     }
 };
 
+/* structure to store sprites */
+struct Sprite {
+    std::string key;
+    const unsigned char *assets = nullptr;
+    size_t length;
+
+    bool operator==(const Sprite &other) const 
+    {
+        return key == other.key;
+    }
+};
+
 /* entity structure to store game/display data */
 struct Entity {
     EntityType type;
     Position pos;
     char display_char;
     uint32_t color;
+    std::string str;
+    Sprite sprite;
+
+    bool operator==(const Entity &other) const
+    {
+        return type == other.type &&
+               pos == other.pos &&
+               display_char == other.display_char &&
+               color == other.color &&
+               str == other.str;
+    }
 };
 
 /* mouse structure to store pos/event */
@@ -174,7 +198,11 @@ typedef union color_u {
 * INFO:
 * To be used with color_t.components to access the correct component
 */
-enum components_e { R, G, B, A };
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+    enum components_e { R, G, B, A };
+#else
+    enum components_e { A, B, G, R };
+#endif
 
 };// namespace arcade::types
 

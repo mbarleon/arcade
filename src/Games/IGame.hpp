@@ -38,6 +38,7 @@ namespace arcade::game {
     class IGame {
         public:
             using Entities = std::unordered_map<types::EntityDraw, std::vector<types::Entity>>;
+            using EntitiesIndex = std::unordered_map<types::Position, types::Entity *>;
 
             virtual ~IGame() = default;
 
@@ -53,7 +54,7 @@ namespace arcade::game {
 
             /* entities */
             virtual void addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos, char c,
-                uint32_t color) = 0;
+                uint32_t color, const std::string str, const types::Sprite sprite) = 0;
             virtual void removeEntityAt(const types::Position &pos) = 0;
             virtual types::Entity *getEntityAt(const types::Position &pos) = 0;
             virtual void clearEntities() = 0;

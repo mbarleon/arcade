@@ -27,16 +27,18 @@ namespace arcade::game {
 
             /* entities */
             void addEntity(types::EntityType type, types::EntityDraw draw, types::Position pos,
-                char c, uint32_t color) override;
+                char c, uint32_t color, const std::string str, const types::Sprite sprite = {}) override;
             void removeEntityAt(const types::Position &pos) override;
             types::Entity *getEntityAt(const types::Position &pos) override;
             void clearEntities() override;
 
         protected:
+            types::color_t getRGBA(int r, int g, int b, int a);
+
             int _score;
             bool _gameOver;
             Entities _entities;
-            std::unordered_map<types::Position, types::Entity *> _entitiesIndex;
+            EntitiesIndex _entitiesIndex;
     };
 };
 

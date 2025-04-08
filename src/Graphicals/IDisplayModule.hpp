@@ -40,12 +40,11 @@ namespace arcade::display {
     class IDisplayModule {
         public:
             static constexpr const char *DEFAULT_FONT_PATH = "./assets/font.ttf";
-            static constexpr std::pair VIDEO_SIZE = {600, 600};
+            static constexpr std::pair VIDEO_SIZE = {600, 800};
             static constexpr float CIRCLE_RADIUS = 10.0f;
             static constexpr float RECTANGLE_SIZE = 20.0f;
             static constexpr float TEXT_SIZE = 20.0f;
 
-            /* maybe in ::types ? */
             using Entities = std::unordered_map<types::EntityDraw, std::vector<types::Entity>>;
 
             virtual ~IDisplayModule() = default;
