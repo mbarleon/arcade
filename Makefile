@@ -18,7 +18,7 @@ GAME_FOLDER		=	src/Games
 
 GRAPH_FOLDER	=	src/Graphicals
 
-CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -iquote ./include/
+CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC -iquote ./include/
 
 UTILS			=	src/Utils
 
