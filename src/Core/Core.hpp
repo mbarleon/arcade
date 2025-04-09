@@ -77,8 +77,8 @@ namespace arcade::core {
             void *_gameHandle = nullptr;
             void *_displayHandle = nullptr;
 
-            const char *_libName;
-            const char *_gameName;
+            const char *_libName = "";
+            const char *_gameName = "";
 
             std::unordered_map<std::string, std::string> _games;
             std::unordered_map<std::string, std::string> _displays;
