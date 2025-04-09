@@ -88,6 +88,9 @@ $(UTILS):
 		*)		$(MAKE) -C $@ ;; \
 	esac
 
+doc:
+					doc/generate.sh && doc/open.sh
+
 .PHONY:				debug					\
 					all						\
 					core_debug				\
@@ -98,4 +101,5 @@ $(UTILS):
 					clean					\
 					fclean					\
 					re						\
+					doc						\
 					$(UTILS)				\

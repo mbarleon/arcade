@@ -5,4 +5,10 @@
 ## open
 ##
 
-xdg-open ./doc/html/index.html
+#!/bin/bash
+
+if [ $(uname -a | cut -d' ' -f1) == 'Darwin' ]; then
+    open ./doc/html/index.html
+else
+    xdg-open ./doc/html/index.html
+fi

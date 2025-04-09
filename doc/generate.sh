@@ -5,4 +5,6 @@
 ## generate
 ##
 
+#!/bin/bash
+
 doxygen doc/Doxygen
