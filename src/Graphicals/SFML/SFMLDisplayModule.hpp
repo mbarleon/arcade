@@ -29,6 +29,9 @@ namespace arcade::display {
             sf::Vector2i _mouse;
             sf::RectangleShape _pixel;
             sf::CircleShape _circle;
+            sf::Font _font;
+            std::unordered_map<std::string, std::pair<sf::Texture, sf::Sprite>> _sprites;
+            std::unordered_map<std::string, sf::Text> _textes;
     };
 };
 

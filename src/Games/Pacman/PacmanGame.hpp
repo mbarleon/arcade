@@ -10,6 +10,7 @@
     #define MAP_HEIGHT 31
     #define MAP_WIDTH 28
     #include "../AGame.hpp"
+    #include <cstring>
 
 namespace arcade::game {
     class PacmanGame : public AGame {
@@ -24,6 +25,7 @@ namespace arcade::game {
             arcade::types::EntityDraw getEntityDraw(char c);
             arcade::types::color_t getEntityColor(char c);
 
+            char _entities[MAP_HEIGHT][MAP_WIDTH];
             static constexpr const char *_pacmap[] = {
                 "0000000000000000000000000000",
                 "0............00............0",

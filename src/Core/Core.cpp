@@ -188,7 +188,7 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
 void arcade::core::Core::run(const char *display)
 {
     std::string new_display = display;
-    std::string game = "lib/arcade_menu.so";
+    std::string game = "lib/arcade_pacman.so";
 
     while (!_quit)
         runSingleGame(game, new_display);

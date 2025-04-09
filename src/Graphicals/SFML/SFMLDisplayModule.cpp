@@ -37,6 +37,8 @@ arcade::display::SFMLDisplayModule::SFMLDisplayModule()
     sf::Listener::setGlobalVolume(50);
     _pixel.setSize(pixelSize);
     _circle.setRadius(CIRCLE_RADIUS);
+    _font.loadFromFile("SFPro.OTF");
+    _font.setSmooth(false);
 }
 
 arcade::display::SFMLDisplayModule::~SFMLDisplayModule()
@@ -63,9 +65,36 @@ void arcade::display::SFMLDisplayModule::draw(Entities entities)
                 _circle.setPosition(pos);
                 _circle.setFillColor((sf::Color)ti.color);
                 _win.draw(_circle);
+                continue;
             }
-            // if (it.first == arcade::types::SPRITE)
-            //     continue;
+            if (it.first == arcade::types::SPRITE) {
+                if (_sprites.find(ti.sprite.key) == _sprites.end()) {
+                    sf::Texture texture;
+                    sf::Sprite sprite;
+                    _sprites[ti.sprite.key] = std::make_pair(texture, sprite);
+                    sf::Texture &texture_ = _sprites.at(ti.sprite.key).first;
+                    sf::Sprite &sprite_ = _sprites.at(ti.sprite.key).second;
+                    texture_.loadFromMemory(ti.sprite.assets, ti.sprite.length);
+                    texture_.setSmooth(false);
+                    sprite_.setTexture(texture_);
+                }
+                sf::Sprite &sprite2_ = _sprites.at(ti.sprite.key).second;
+                sprite2_.setPosition(pos);
+                _win.draw(sprite2_);
+                continue;
+            }
+            if (it.first == arcade::types::TEXT) {
+                if (_textes.find(ti.sprite.key) == _textes.end()) {
+                    sf::Text text;
+                    _textes[ti.sprite.key] = text;
+                    _textes[ti.sprite.key].setFont(_font);
+                }
+                sf::Text &text_ = _textes.at(ti.sprite.key);
+                text_.setFillColor((sf::Color)ti.color);
+                text_.setPosition(pos);
+                text_.setString(ti.str);
+                _win.draw(text_);
+            }
         }
     }
     _win.display();
