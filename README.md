@@ -1,0 +1,109 @@
+# Arcade
+
+> Arcade games with multiple libraries supported
+
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-blue)
+
+---
+
+## 📦 Features
+
+- Built with custom modular libraries
+- Cross-platform support (Linux/macOS)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- `g++` / `clang`
+- `make`
+- (Optional) `doxygen`, `python3`
+
+### Installation
+
+```bash
+git clone git@github.com:EpitechPromo2028/B-OOP-400-STG-4-1-arcade-mathieu.barleon.git
+cd project-name
+make
+```
+
+### Running
+
+./arcade [graphical_lib]
+
+# Example Usage
+
+./arcade lib/arcade_ncurses.so
+
+# Create your own library
+
+# Project Structure
+
+```
+B-OOP-400-STG-4-1-arcade-mathieu.barleon/
+├── doc/
+│   ├── Doxygen
+│   ├── generate.sh
+│   └── open.sh
+├── include/
+│   ├── Macro.hpp
+│   └── Types.hpp
+├── lib/
+│   └── .gitkeep
+├── src/
+│   ├── Core/
+│   │   ├── Core.cpp
+│   │   └── Core.hpp
+│   ├── Games/
+│   │   ├── Pacman/
+│   │   │   ├── Assets/
+│   │   │   │   └── Pac/
+│   │   │   │       └── pac.hpp
+│   │   │   ├── Makefile
+│   │   │   ├── PacmanGame.cpp
+│   │   │   └── PacmanGame.hpp
+│   │   ├── Snake/
+│   │   │   ├── Makefile
+│   │   │   ├── SnakeGame.cpp
+│   │   │   └── SnakeGame.hpp
+│   │   ├── AGame.cpp
+│   │   ├── AGame.hpp
+│   │   ├── IGame.hpp
+│   │   └── Makefile
+│   ├── Graphicals/
+│   │   ├── NCurses/
+│   │   │   ├── Makefile
+│   │   │   ├── NCursesDisplayModule.cpp
+│   │   │   └── NCursesDisplayModule.hpp
+│   │   ├── SDL/
+│   │   │   ├── Makefile
+│   │   │   ├── SDLDisplayModule.cpp
+│   │   │   └── SDLDisplayModule.hpp
+│   │   ├── SFML/
+│   │   │   ├── Makefile
+│   │   │   ├── SFMLCharTraitFix.cpp
+│   │   │   ├── SFMLDisplayModule.cpp
+│   │   │   └── SFMLDisplayModule.hpp
+│   │   ├── ADisplayModule.cpp
+│   │   ├── ADisplayModule.hpp
+│   │   ├── IDisplayModule.hpp
+│   │   └── Makefile
+│   ├── Main/
+│   │   └── main.cpp
+│   ├── Utils/
+│   │   ├── Error.cpp
+│   │   ├── Error.hpp
+│   │   ├── GetLib.cpp
+│   │   ├── GetLib.hpp
+│   │   ├── Logger.cpp
+│   │   ├── Logger.hpp
+│   │   └── Makefile
+├── .gitignore
+├── Makefile
+├── README.md
+└── SFPro.OTF
+```

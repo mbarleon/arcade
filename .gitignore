@@ -53,3 +53,4 @@ doc/html
 doc/html/*
 doc/latex
 doc/latex/*
+venv/

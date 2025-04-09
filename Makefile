@@ -91,6 +91,9 @@ $(UTILS):
 doc:
 					doc/generate.sh && doc/open.sh
 
+doc_clean:
+					$(RM) -r doc/html doc/latex
+
 .PHONY:				debug					\
 					all						\
 					core_debug				\
@@ -102,4 +105,5 @@ doc:
 					fclean					\
 					re						\
 					doc						\
+					doc_clean				\
 					$(UTILS)				\
