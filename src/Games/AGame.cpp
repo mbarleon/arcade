@@ -6,6 +6,7 @@
 */
 
 #include "AGame.hpp"
+#include <iostream>
 
 arcade::game::AGame::AGame()
 {
@@ -44,25 +45,26 @@ void arcade::game::AGame::addEntity(types::EntityType type, types::EntityDraw dr
     types::Entity entity = {.type = type, .pos = pos, .display_char = c,
         .color = color, .str = str, .sprite = sprite};
 
-    _entities[draw].push_back(entity);
-    _entitiesIndex[pos] = &_entities[draw].back();
+    auto &vec = _entities[draw];
+    vec.push_back(entity);
+    _entitiesIndex[pos] = std::prev(vec.end());
 }
 
 void arcade::game::AGame::removeEntityAt(const types::Position &pos)
 {
     const auto it = _entitiesIndex.find(pos);
+    if (it == _entitiesIndex.end())
+        return;
 
-    if (it != _entitiesIndex.end()) {
-        for (auto &[draw, vect] : _entities) {
-            for (auto vect_it = vect.begin(); vect_it != vect.end(); ++vect_it) {
-                if (&(*vect_it) == it->second) {
-                    vect.erase(vect_it);
-                    _entitiesIndex.erase(it);
-                    return;
-                }
-            }
+    for (auto &[draw, vect] : _entities) {
+        auto entity_it = it->second;
+        if (entity_it >= vect.begin() && entity_it < vect.end()) {
+            std::cout << "Before: " << vect.size() << " " << _entitiesIndex.size() << std::endl;
+            vect.erase(entity_it);
+            _entitiesIndex.erase(it);
+            std::cout << "After: " << vect.size() << " " << _entitiesIndex.size() << std::endl;
+            return;
         }
-        _entitiesIndex.erase(it);
     }
 }
 
@@ -71,13 +73,14 @@ arcade::types::Entity *arcade::game::AGame::getEntityAt(const types::Position &p
     const auto it = _entitiesIndex.find(pos);
 
     if (it != _entitiesIndex.end())
-        return it->second;
+        return &(*it->second);
     return nullptr;
 }
 
 void arcade::game::AGame::clearEntities()
 {
     _entities.clear();
+    _entitiesIndex.clear();
 }
 
 arcade::types::color_t arcade::game::AGame::getRGBA(int r, int g, int b, int a)

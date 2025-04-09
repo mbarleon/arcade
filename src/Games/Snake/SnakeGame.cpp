@@ -31,19 +31,144 @@ extern "C" {
 
 arcade::game::SnakeGame::SnakeGame()
 {
-    for (int y = 0; y < MAP_HEIGHT; ++y)
-        for (int x = 0; x < MAP_WIDTH; ++x)
-            if (x == 0 || x == MAP_WIDTH - 1 || y == 0 || y == MAP_HEIGHT - 1)
-                addEntity(types::WALL, types::RECTANGLE,
-                    (arcade::types::Position){x, y}, 'x',
-                    getRGBA(255, 255, 0, 255).color, "");
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+
+    int pos_x = static_cast<int>((MAP_HEIGHT + 1) / 2);
+    int pos_y = static_cast<int>((MAP_WIDTH + 1) / 2);
+
+    genApple();
+
+    _snake.push_front(types::Position{pos_x - 1, pos_y});
+    _snake.push_front(types::Position{pos_x, pos_y});
+    _snake.push_front(types::Position{pos_x + 1, pos_y});
 }
 
 arcade::game::SnakeGame::~SnakeGame()
 {
 }
 
+void arcade::game::SnakeGame::updateDirection(const types::InputEvent event)
+{
+    switch (event) {
+        case types::AKEY_UP:
+            if (_direction != types::DOWN)
+                _direction = types::UP;
+            return;
+        case types::AKEY_DOWN:
+            if (_direction != types::UP)
+                _direction = types::DOWN;
+            return;
+        case types::AKEY_LEFT:
+            if (_direction != types::RIGHT)
+                _direction = types::LEFT;
+            return;
+        case types::AKEY_RIGHT:
+            if (_direction != types::LEFT)
+                _direction = types::RIGHT;
+            return;
+        default:
+            return;
+    }
+}
+
 void arcade::game::SnakeGame::update(const std::pair<types::Position, types::InputEvent> event)
 {
-    (void)event;
+    if (_gameOver)
+        return;
+
+    updateDirection(event.second);
+
+    int offset_x = 0;
+    int offset_y = 0;
+    switch (_direction) {
+        case types::RIGHT:
+            offset_x = 1;
+            break;
+        case types::LEFT:
+            offset_x = -1;
+            break;
+        case types::UP:
+            offset_y = -1;
+            break;
+        case types::DOWN:
+            offset_y = 1;
+            break;
+        default:
+            break;
+    }
+
+    _timer = (_timer + 1) % 3;
+    if (_timer == 0)
+        move(offset_x, offset_y);
+}
+
+void arcade::game::SnakeGame::genApple(void)
+{
+    int min = 1;
+    int max_h = MAP_HEIGHT - 1;
+    int max_w = MAP_WIDTH - 1;
+
+    int random_h = min + std::rand() % (max_h - min + 1);
+    int random_w = min + std::rand() % (max_w - min + 1);
+
+    for (int y = random_h; y < MAP_HEIGHT; ++y) {
+        for (int x = random_w; x < MAP_WIDTH; ++x) {
+            if (getEntityAt(types::Position{x, y}) == nullptr) {
+                _apple = types::Position{x, y};
+                return;
+            }
+        }
+    }
+    for (int y = 0; y < random_h; ++y) {
+        for (int x = 0; x < MAP_WIDTH; ++x) {
+            if (getEntityAt(types::Position{x, y}) == nullptr) {
+                _apple = types::Position{x, y};
+                return;
+            }
+        }
+    }
+}
+
+void arcade::game::SnakeGame::reset_entities(types::Entity *frontEntity)
+{
+    clearEntities();
+    for (int y = 0; y < MAP_HEIGHT; ++y)
+        for (int x = 0; x < MAP_WIDTH; ++x)
+            if (x == 0 || x == MAP_WIDTH - 1 || y == 0 || y == MAP_HEIGHT - 1)
+                addEntity(types::WALL, types::RECTANGLE,
+                    (types::Position){x, y}, 'x',
+                    getRGBA(0, 0, 255, 255).color, "");
+
+    if (!frontEntity || frontEntity->type != types::FOOD)
+        addEntity(types::FOOD, types::CIRCLE, _apple, 'o', getRGBA(255, 0, 0, 255).color, "");
+}
+
+void arcade::game::SnakeGame::move(int offset_x, int offset_y)
+{
+    types::Position snake_front = _snake.front();
+    types::Position front = types::Position{snake_front.x + offset_x, snake_front.y + offset_y};
+    types::Entity *frontEntity = getEntityAt(front);
+
+    reset_entities(frontEntity);
+    if (frontEntity == nullptr) {
+        _snake.push_front(front);
+        addEntity(types::PLAYER, types::RECTANGLE, front, 'x',
+            getRGBA(0, 255, 0, 255).color, "");
+        _snake.pop_back();
+    } else if (front == _apple) {
+        _snake.push_front(front);
+        addEntity(types::PLAYER, types::RECTANGLE, front, 'x',
+            getRGBA(0, 255, 0, 255).color, "");
+        _size++;
+        if (_size == _max_size)
+            _gameOver = true;
+        genApple();
+    } else {
+        _gameOver = true;
+    }
+    for (auto it = _snake.begin(); it != _snake.end(); ++it) {
+        addEntity(types::PLAYER, types::RECTANGLE,
+            types::Position{it->x, it->y}, 'x',
+            getRGBA(0, 255, 0, 255).color, "");
+    }
 }

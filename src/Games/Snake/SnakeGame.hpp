@@ -7,8 +7,11 @@
 
 #ifndef SNAKEGAME_HPP_
     #define SNAKEGAME_HPP_
-    #define MAP_WIDTH 30
-    #define MAP_HEIGHT 30
+    #define MAP_WIDTH 31
+    #define MAP_HEIGHT 31
+    #include <list>
+    #include <ctime>
+    #include <cstdlib>
     #include "AGame.hpp"
 
 namespace arcade::game {
@@ -18,6 +21,18 @@ namespace arcade::game {
             ~SnakeGame() override;
 
             void update(const std::pair<types::Position, types::InputEvent> event) override;
+        private:
+            void genApple(void);
+            void move(int offset_x, int offset_y);
+            void reset_entities(types::Entity *frontEntity);
+            void updateDirection(const types::InputEvent event);
+
+            int _timer = 0;
+            std::size_t _size = 3;
+            types::Position _apple;
+            std::list<types::Position> _snake;
+            types::Direction _direction = types::RIGHT;
+            std::size_t _max_size = (MAP_HEIGHT - 2) * (MAP_WIDTH - 2);
     };
 };
 

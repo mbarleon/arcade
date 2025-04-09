@@ -113,11 +113,12 @@ void arcade::core::Core::loadGame(const char *game)
  */
 const char *arcade::core::Core::nextLib(void)
 {
-    auto it = _displays.find(_libName)++;
+    auto it = _displays.find(_libName);
 
+    it++;
     if (it == _displays.end())
-        return _displays.begin()->first.c_str();
-    return it->first.c_str();
+        return _displays.begin()->second.c_str();
+    return it->second.c_str();
 }
 
 /**
@@ -187,7 +188,7 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
 void arcade::core::Core::run(const char *display)
 {
     std::string new_display = display;
-    std::string game = "lib/arcade_snake.so";
+    std::string game = "lib/arcade_menu.so";
 
     while (!_quit)
         runSingleGame(game, new_display);

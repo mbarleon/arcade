@@ -38,7 +38,7 @@ namespace arcade::game {
     class IGame {
         public:
             using Entities = std::unordered_map<types::EntityDraw, std::vector<types::Entity>>;
-            using EntitiesIndex = std::unordered_map<types::Position, types::Entity *>;
+            using EntitiesIndex = std::unordered_map<types::Position, std::vector<types::Entity>::iterator>;
 
             virtual ~IGame() = default;
 
