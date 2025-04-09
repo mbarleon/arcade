@@ -9,6 +9,7 @@
     #define SNAKEGAME_HPP_
     #define MAP_WIDTH 31
     #define MAP_HEIGHT 31
+    #define SNAKE_SLOWDOWN_FACTOR 4
     #include <list>
     #include <ctime>
     #include <cstdlib>
@@ -23,14 +24,15 @@ namespace arcade::game {
             void update(const std::pair<types::Position, types::InputEvent> event) override;
         private:
             void genApple(void);
+            void addBaseEntities(void);
             void move(int offset_x, int offset_y);
-            void reset_entities(types::Entity *frontEntity);
             void updateDirection(const types::InputEvent event);
 
             int _timer = 0;
             std::size_t _size = 3;
             types::Position _apple;
             std::list<types::Position> _snake;
+            types::Direction _last_move = types::RIGHT;
             types::Direction _direction = types::RIGHT;
             std::size_t _max_size = (MAP_HEIGHT - 2) * (MAP_WIDTH - 2);
     };

@@ -154,7 +154,7 @@ struct Sprite {
     const unsigned char *assets = nullptr;
     size_t length;
 
-    bool operator==(const Sprite &other) const 
+    bool operator==(const Sprite &other) const
     {
         return key == other.key;
     }
@@ -214,7 +214,10 @@ namespace std {
     struct hash<arcade::types::Position> {
         size_t operator()(const arcade::types::Position &pos) const
         {
-            return std::hash<uint32_t>()(pos.x) ^ (std::hash<uint32_t>()(pos.y) << 1);
+            std::size_t h1 = std::hash<uint32_t>{}(pos.x);
+            std::size_t h2 = std::hash<uint32_t>{}(pos.y);
+
+            return h1 ^ (h2 + 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
         }
     };
 };

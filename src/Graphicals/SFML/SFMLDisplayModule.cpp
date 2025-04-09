@@ -102,6 +102,9 @@ void arcade::display::SFMLDisplayModule::draw(Entities entities)
 
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::SFMLDisplayModule::event()
 {
+    if (!_win.isOpen())
+        return std::make_pair(types::Position{0, 0}, types::AKEY_ESCAPE);
+
     _mouse = sf::Mouse::getPosition();
 
     if (_win.pollEvent(_event)) {
