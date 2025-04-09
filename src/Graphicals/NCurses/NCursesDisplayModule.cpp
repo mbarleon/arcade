@@ -153,8 +153,8 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::N
     if (ch == KEY_MOUSE) {
         MEVENT event;
         if (getmouse(&event) == OK) {
-            result.first.x = event.x * 10;
-            result.first.y = event.y * 10;
+            result.first.x = event.x;
+            result.first.y = event.y;
             result.second = arcade::types::ARIGHT_BUTTON;
             return result;
         }
