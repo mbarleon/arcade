@@ -71,19 +71,19 @@ void arcade::game::SnakeGame::updateDirection(const types::InputEvent event)
 {
     switch (event) {
         case types::AKEY_UP:
-            if (_direction != types::DOWN)
+            if (_last_move != types::DOWN)
                 _direction = types::UP;
             return;
         case types::AKEY_DOWN:
-            if (_direction != types::UP)
+            if (_last_move != types::UP)
                 _direction = types::DOWN;
             return;
         case types::AKEY_LEFT:
-            if (_direction != types::RIGHT)
+            if (_last_move != types::RIGHT)
                 _direction = types::LEFT;
             return;
         case types::AKEY_RIGHT:
-            if (_direction != types::LEFT)
+            if (_last_move != types::LEFT)
                 _direction = types::RIGHT;
             return;
         default:
@@ -155,6 +155,7 @@ void arcade::game::SnakeGame::move(int offset_x, int offset_y)
     types::Position front = types::Position{snake_front.x + offset_x, snake_front.y + offset_y};
     types::Entity *frontEntity = getEntityAt(front);
 
+    _last_move = _direction;
     if (frontEntity == nullptr) {
         _snake.push_front(front);
         addEntity(types::PLAYER, types::RECTANGLE, front, 'x',

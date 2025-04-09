@@ -32,6 +32,7 @@ namespace arcade::game {
             std::size_t _size = 3;
             types::Position _apple;
             std::list<types::Position> _snake;
+            types::Direction _last_move = types::RIGHT;
             types::Direction _direction = types::RIGHT;
             std::size_t _max_size = (MAP_HEIGHT - 2) * (MAP_WIDTH - 2);
     };
