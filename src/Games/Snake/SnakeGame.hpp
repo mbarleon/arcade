@@ -7,8 +7,8 @@
 
 #ifndef SNAKEGAME_HPP_
     #define SNAKEGAME_HPP_
-    #define MAP_WIDTH 31
-    #define MAP_HEIGHT 31
+    #define MAP_WIDTH 29
+    #define MAP_HEIGHT 29
     #define SNAKE_SLOWDOWN_FACTOR 4
     #include <list>
     #include <ctime>

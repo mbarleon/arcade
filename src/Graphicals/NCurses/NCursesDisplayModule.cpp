@@ -137,7 +137,10 @@ void arcade::display::NCursesDisplayModule::draw(Entities entities)
         for (auto &ti : it.second) {
             int x = ti.pos.x;
             int y = ti.pos.y;
-            mvaddch(y, x, ti.display_char);
+            if (it.first == arcade::types::TEXT)
+                mvaddstr(y, x, ti.str.c_str());
+            else
+                mvaddch(y, x, ti.display_char);
         }
     }
     refresh();
