@@ -166,7 +166,7 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
 
     loadGame(game.c_str());
 
-    if (_libName != getLibName(display))
+    if (_libName[0] == '\0' || _libName != getLibName(display))
         loadDisplay(display.c_str());
 
     while (!_game->isGameOver()) {
