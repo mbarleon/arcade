@@ -145,6 +145,15 @@ int arcade::core::Core::handleInputs(const std::string &game,
     }
 }
 
+std::string arcade::core::Core::getLibName(std::string display)
+{
+    for (auto it = _displays.begin(); it != _displays.end(); it++) {
+        if (it->second == display)
+            return it->first;
+    }
+    return "";
+}
+
 /**
  * @brief Main game loop.
  * @details Central loop that forwards input events from the graphical libraries to the game,
@@ -156,7 +165,9 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
     std::string ret;
 
     loadGame(game.c_str());
-    loadDisplay(display.c_str());
+
+    if (_libName != getLibName(display))
+        loadDisplay(display.c_str());
 
     while (!_game->isGameOver()) {
         auto event = _display->event();
