@@ -38,7 +38,6 @@ namespace arcade::game {
             int _score;
             bool _gameOver;
             Entities _entities;
-            EntitiesIndex _entitiesIndex;
     };
 };
 
