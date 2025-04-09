@@ -26,17 +26,21 @@ def applyReplacements(content: str, name: str, ldflags: list[str], ldlibs: list[
         .replace("__Name__", name.capitalize())
         .replace("__NAME__", name.upper())
         .replace("__name__", name.lower())
+        .replace("__ldflags__", getString(ldflags, "-L"))
+        .replace("__ldlibs__", getString(ldlibs, "-l"))
     )
-    new_content.replace("__ldflags__", getString(ldflags, "-L"))
-    new_content.replace("__ldlibs__", getString(ldlibs, "-l"))
+    return new_content
 
-def processFile(targetFolder: str, file: str, name: str, ldflags: list[str], ldlibs: list[str]):
-    with open(file, "r") as f:
+def processFile(targetFolder: str, files: str, file: str, name: str, ldflags: list[str], ldlibs: list[str]):
+    with open(join(files, file), "r") as f:
         content = f.read()
 
     newContent = applyReplacements(content, name, ldflags, ldlibs)
     newFile = getNewName(file, name)
 
+    if (newContent is None):
+        remove(targetFolder)
+        raise OSError
     with open(join(targetFolder, newFile), "w") as f:
         f.write(newContent)
 
@@ -48,6 +52,5 @@ def buildFiles(targetFolder: str, files: str, name: str, force: bool, ldflags: l
             raise FileExistsError
 
     mkdir(targetFolder)
-
     for file in listdir(files):
-        processFile(targetFolder, file, name, ldflags, ldlibs)
+        processFile(targetFolder, files, file, name, ldflags, ldlibs)

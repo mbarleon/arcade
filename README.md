@@ -41,6 +41,14 @@ make
 
 # Create your own library
 
+To create your own library, run the following command with the appropriate flags (see --help for more informations).
+
+```bash
+python3 GenrateTemplate/templateCreator.py
+```
+
+After you have typed this command, simply complete the functions in the `.cpp` file created by the script. Feel free to add more private fucntions in your library.
+
 # Project Structure
 
 ```
@@ -49,6 +57,26 @@ B-OOP-400-STG-4-1-arcade-mathieu.barleon/
 │   ├── Doxygen
 │   ├── generate.sh
 │   └── open.sh
+├── GenerateTemplate/
+│   ├── TemplateCreator/
+│   │   ├── Games/
+│   │   │   ├── __Name__Game.cpp
+│   │   │   ├── __Name__Game.hpp
+│   │   │   └── Makefile
+│   │   ├── Graphicals/
+│   │   │   ├── __Name__DisplayModule.cpp
+│   │   │   ├── __Name__DisplayModule.hpp
+│   │   │   └── Makefile
+│   │   ├── Menu/
+│   │   │   ├── __Name__Game.cpp
+│   │   │   ├── __Name__Game.hpp
+│   │   │   └── Makefile
+│   │   ├── __init__.py
+│   │   ├── BuildFiles.py
+│   │   ├── Main.py
+│   │   ├── ParseArgs.py
+│   │   └── ReadFlags.py
+│   └── templateCreator.py
 ├── include/
 │   ├── Macro.hpp
 │   └── Types.hpp

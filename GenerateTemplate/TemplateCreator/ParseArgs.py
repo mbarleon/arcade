@@ -42,7 +42,7 @@ def parseArgs(argv: list[str]) -> tuple[str, str, bool, str, str]:
         elif opt in ("-d", "--ldflags"):
             ldflags = arg
         elif opt in ("-l", "--ldlibs"):
-            ldlibs = True
+            ldlibs = arg
         else:
             helper(stderr)
             exit(84)

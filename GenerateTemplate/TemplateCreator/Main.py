@@ -44,11 +44,13 @@ def main(argv: list[str]):
         print("Error in ldlibs or ldflags.", file=stderr)
         exit(84)
 
+    targetFolder = os.path.join(targetFolder, name.capitalize())
+
     try:
         buildFiles(targetFolder, files, name, force, ldflags, ldlibs)
     except FileExistsError:
-        print("Error: folder already exists and force was not specified.", file=stderr)
+        print(f"Error: folder {targetFolder} already exists and force was not specified.", file=stderr)
         exit(84)
-    except OSError:
-        print("FATAL ERROR: ABORTING", file=stderr)
+    except OSError as e:
+        print("FATAL ERROR: ABORTING", e, file=stderr)
         exit(84)
