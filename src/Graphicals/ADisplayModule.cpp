@@ -11,9 +11,8 @@ arcade::display::ADisplayModule::ADisplayModule() = default;
 
 arcade::display::ADisplayModule::~ADisplayModule() = default;
 
-void arcade::display::ADisplayModule::draw(Entities entities)
+void arcade::display::ADisplayModule::draw(__attribute__((unused)) Entities entities)
 {
-    (void)entities;
 }
 
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::ADisplayModule::event()

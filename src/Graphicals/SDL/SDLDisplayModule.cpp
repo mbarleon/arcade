@@ -78,7 +78,7 @@ void arcade::display::SDLDisplayModule::drawCircle(int baseX, int baseY)
     const int centerY = baseY + CIRCLE_RADIUS;
 
     for (int dy = -CIRCLE_RADIUS; dy <= CIRCLE_RADIUS; dy++) {
-        int dx = (int)sqrt(CIRCLE_RADIUS * CIRCLE_RADIUS - dy * dy);
+        int dx = static_cast<int>(sqrt(CIRCLE_RADIUS * CIRCLE_RADIUS - dy * dy));
         SDL_RenderDrawLine(_renderer, centerX - dx, centerY + dy, centerX + dx, centerY + dy);
     }
 }
