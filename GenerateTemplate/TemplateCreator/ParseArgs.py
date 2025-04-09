@@ -47,8 +47,15 @@ def parseArgs(argv: list[str]) -> tuple[str, str, bool, str, str]:
             helper(stderr)
             exit(84)
 
-    if None in (mode, name or (mode not in ("game", "graphical", "menu"))):
+    if (mode == "menu" and name == None):
+        name = "menu"
+
+    if None in (mode, name) or (mode not in ("game", "graphical", "menu")):
         helper(stderr)
         exit(84)
+
+    if (mode == "menu" and name.lower() != "menu"):
+        print("Menu's name must be \"menu\". User input will be ignored.", file=stderr)
+        name = "menu"
 
     return mode, name, False if force is None else True, ldflags, ldlibs

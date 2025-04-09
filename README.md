@@ -49,6 +49,8 @@ python3 GenrateTemplate/templateCreator.py
 
 After you have typed this command, simply complete the functions in the `.cpp` file created by the script. Feel free to add more private fucntions in your library.
 
+Beware, the functions in the extern "C" part must remain unchanged.
+
 # Project Structure
 
 ```
