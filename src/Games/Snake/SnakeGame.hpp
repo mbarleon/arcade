@@ -28,7 +28,7 @@ namespace arcade::game {
             void move(int offset_x, int offset_y);
             void updateDirection(const types::InputEvent event);
 
-            int _timer = 0;
+            int _timer = 1;
             std::size_t _size = 3;
             types::Position _apple;
             std::list<types::Position> _snake;
