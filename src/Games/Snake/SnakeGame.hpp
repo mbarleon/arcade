@@ -15,7 +15,25 @@
     #include <cstdlib>
     #include "AGame.hpp"
 
+/**
+ * @file SnakeGame.hpp
+ * @brief Declaration of the SnakeGame class and associated definitions.
+ * @author mbarleon
+ * @version 1.0
+ * @date 2025-04-09
+ *
+ * @details
+ * The SnakeGame class contains all the methods to run the snake game in the arcade.
+ */
 namespace arcade::game {
+    /**
+     * @class SnakeGame
+     * @brief Class responsible for running the snake game.
+     *
+     * @details
+     * The SnakeGame class manages the position and the growth of the snake in the game.
+     * It also manages the generation of apples.
+     */
     class SnakeGame : public AGame {
         public:
             SnakeGame();

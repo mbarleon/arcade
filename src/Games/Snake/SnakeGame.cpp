@@ -5,6 +5,17 @@
 ** SnakeGame
 */
 
+/**
+ * @file SnakeGame.cpp
+ * @brief Snake Game.
+ * @author mbarleon
+ * @version 1.0
+ * @date 2025-04-09
+ *
+ * @details
+ * This file contains the snake game.
+ */
+
 #include "SnakeGame.hpp"
 
 extern "C" {
@@ -29,6 +40,10 @@ extern "C" {
     }
 }
 
+/**
+ * @brief Adds entities at game creation.
+ * @details This function adds all the entities that are needed when the game starts.
+ */
 void arcade::game::SnakeGame::addBaseEntities(void)
 {
     for (int y = 2; y < MAP_HEIGHT + 2; ++y)
@@ -47,6 +62,11 @@ void arcade::game::SnakeGame::addBaseEntities(void)
     }
 }
 
+/**
+ * @brief Constructor for the SnakeGame class.
+ * @details This function creates all the entities needed at game start.
+ * It also calls srand for all the random that will be done during the game.
+ */
 arcade::game::SnakeGame::SnakeGame()
 {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
@@ -63,10 +83,18 @@ arcade::game::SnakeGame::SnakeGame()
     addBaseEntities();
 }
 
+/**
+ * @brief Destructor for the SnakeGame class.
+ * @details This function is empty.
+ */
 arcade::game::SnakeGame::~SnakeGame()
 {
 }
 
+/**
+ * @brief Change the direction of the snake.
+ * @details This functions changes the direction of the snake according to the current event and the last move.
+ */
 void arcade::game::SnakeGame::updateDirection(const types::InputEvent event)
 {
     switch (event) {
@@ -91,6 +119,10 @@ void arcade::game::SnakeGame::updateDirection(const types::InputEvent event)
     }
 }
 
+/**
+ * @brief Update the game.
+ * @details This functions calls updateDirection, computes the movment offsets and moves the snake every SNAKE_SLOWDOWN_FACTOR frames.
+ */
 void arcade::game::SnakeGame::update(const std::pair<types::Position, types::InputEvent> event)
 {
     if (_gameOver)
@@ -122,6 +154,10 @@ void arcade::game::SnakeGame::update(const std::pair<types::Position, types::Inp
         move(offset_x, offset_y);
 }
 
+/**
+ * @brief Generate an apple.
+ * @details This functions generates an apple with random coordinates.
+ */
 void arcade::game::SnakeGame::genApple(void)
 {
     int min = 1;
@@ -149,6 +185,11 @@ void arcade::game::SnakeGame::genApple(void)
     }
 }
 
+/**
+ * @brief Move the snake.
+ * @details This functions moves the snake and removes the useless entities.
+ * It sets _gameOver to true if needed.
+ */
 void arcade::game::SnakeGame::move(int offset_x, int offset_y)
 {
     types::Position snake_front = _snake.front();
