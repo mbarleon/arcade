@@ -31,11 +31,11 @@ extern "C" {
 
 void arcade::game::SnakeGame::addBaseEntities(void)
 {
-    for (int y = 0; y < MAP_HEIGHT; ++y)
+    for (int y = 2; y < MAP_HEIGHT + 2; ++y)
         for (int x = 0; x < MAP_WIDTH; ++x)
-            if (x == 0 || x == MAP_WIDTH - 1 || y == 0 || y == MAP_HEIGHT - 1)
+            if (x == 0 || x == MAP_WIDTH - 1 || y == 2 || y == MAP_HEIGHT + 1)
                 addEntity(types::WALL, types::RECTANGLE,
-                    (types::Position){x, y}, 'x',
+                    (types::Position){x, y}, '#',
                     getRGBA(0, 0, 255, 255).color, "");
 
     addEntity(types::FOOD, types::CIRCLE, _apple, 'o', getRGBA(255, 0, 0, 255).color, "");
@@ -51,7 +51,7 @@ arcade::game::SnakeGame::SnakeGame()
 {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    int pos_x = static_cast<int>((MAP_HEIGHT + 1) / 2);
+    int pos_x = static_cast<int>((MAP_HEIGHT + 1) / 2) + 2;
     int pos_y = static_cast<int>((MAP_WIDTH + 1) / 2);
 
     genApple();
@@ -125,10 +125,10 @@ void arcade::game::SnakeGame::update(const std::pair<types::Position, types::Inp
 void arcade::game::SnakeGame::genApple(void)
 {
     int min = 1;
-    int max_h = MAP_HEIGHT - 1;
+    int max_h = MAP_HEIGHT + 1;
     int max_w = MAP_WIDTH - 1;
 
-    int random_h = min + std::rand() % (max_h - min);
+    int random_h = min + 2 + std::rand() % (max_h - (min + 2));
     int random_w = min + std::rand() % (max_w - min);
 
     for (int y = random_h; y < max_h; ++y) {
@@ -139,7 +139,7 @@ void arcade::game::SnakeGame::genApple(void)
             }
         }
     }
-    for (int y = min; y < random_h; ++y) {
+    for (int y = min + 2; y < random_h; ++y) {
         for (int x = min; x < max_w; ++x) {
             if (getEntityAt(types::Position{x, y}) == nullptr) {
                 _apple = types::Position{x, y};
@@ -154,6 +154,11 @@ void arcade::game::SnakeGame::move(int offset_x, int offset_y)
     types::Position snake_front = _snake.front();
     types::Position front = types::Position{snake_front.x + offset_x, snake_front.y + offset_y};
     types::Entity *frontEntity = getEntityAt(front);
+
+    std::string str = "Score: " + std::to_string(_size - 3);
+
+    removeEntityAt(types::Position{0, 0});
+    addEntity(types::EMPTY, types::TEXT, types::Position{0, 0}, ' ', getRGBA(0, 255, 255, 255).color, str);
 
     _last_move = _direction;
     if (frontEntity == nullptr) {
