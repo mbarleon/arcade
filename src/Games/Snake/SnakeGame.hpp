@@ -14,6 +14,7 @@
     #include <ctime>
     #include <cstdlib>
     #include <fstream>
+    #include <limits>
     #include "AGame.hpp"
 
 /**

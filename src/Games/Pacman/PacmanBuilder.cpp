@@ -112,17 +112,11 @@ void arcade::game::PacmanGame::removeGameEntities()
         removeEntityAt(pos);
 }
 
-void arcade::game::PacmanGame::initPlayer(int y, int x)
-{
-    addEntity(types::PLAYER, types::SPRITE, getPosition(y, x), 'O', 0, "",
-    {.key = "Pacman", .assets = pac_bottom_4_png, .length = pac_bottom_4_png_len});
-
-    _pacPos = {x, y};
-}
-
 void arcade::game::PacmanGame::initGameEntities()
 {
-    initPlayer(16, 13);
+    addEntity(types::PLAYER, types::SPRITE, getPosition(13, 16), 'O', 0, "",
+    {.key = "Pacman", .assets = pac_bottom_4_png, .length = pac_bottom_4_png_len});
+    _pacPos = {16, 13};
 
     addEntity(types::ENEMY, types::SPRITE, getPosition(13, 13), 'B', 0, "",
     {.key = "Blinky", .assets = red_bottom_png, .length = red_bottom_png_len});

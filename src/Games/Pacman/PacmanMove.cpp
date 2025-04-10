@@ -7,6 +7,18 @@
 
 #include "PacmanGame.hpp"
 
+void arcade::game::PacmanGame::movePlayer(int y, int x)
+{
+    types::Position realPacPos = {_pacPos.x, _pacPos.y + MAP_MARGIN_TOP};
+    types::Entity *pac = getEntityAt(realPacPos);
+
+    if (pac) {
+        pac->pos.x = x;
+        pac->pos.y = y + MAP_MARGIN_TOP;
+        _pacPos = {x, y};
+    }   
+}
+
 arcade::types::Position arcade::game::PacmanGame::getNextCasePos()
 {
     types::Position pos = {_pacPos.x, _pacPos.y};

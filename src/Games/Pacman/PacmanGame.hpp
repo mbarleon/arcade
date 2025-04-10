@@ -28,9 +28,9 @@ namespace arcade::game {
             types::Sprite getEntitySprite(char c);
             types::Position getPosition(int y, int x);
 
-            void initPlayer(int y, int x);
             void initGameEntities();
             void initGameMap();
+            void movePlayer(int y, int x);
             void removeGameEntities();
             void updateWantedDirection();
             void updateDirection(types::InputEvent event);
