@@ -51,6 +51,16 @@ After you have typed this command, simply complete the functions in the `.cpp` f
 
 Beware, the functions in the extern "C" part must remain unchanged.
 
+# Contact
+
+If you have any question, feel free to conctact the maintainers.
+
+Mathieu BARLEON (@mbarleon): mathieu.barleon@epitech.eu
+
+Jason KOENIG (@OkotEgarim): jason.koenig@epitech.eu
+
+Noé CARABIN (@CorpsB): noe.carabin@epitech.eu
+
 # Project Structure
 
 ```
