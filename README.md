@@ -154,14 +154,14 @@ B-OOP-400-STG-4-1-arcade-mathieu.barleon/
 │   │   └── Makefile
 │   ├── Main/
 │   │   └── main.cpp
-│   ├── Utils/
-│   │   ├── Error.cpp
-│   │   ├── Error.hpp
-│   │   ├── GetLib.cpp
-│   │   ├── GetLib.hpp
-│   │   ├── Logger.cpp
-│   │   ├── Logger.hpp
-│   │   └── Makefile
+│   └── Utils/
+│       ├── Error.cpp
+│       ├── Error.hpp
+│       ├── GetLib.cpp
+│       ├── GetLib.hpp
+│       ├── Logger.cpp
+│       ├── Logger.hpp
+│       └── Makefile
 ├── .gitignore
 ├── Makefile
 ├── README.md
