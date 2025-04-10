@@ -78,7 +78,7 @@ void arcade::core::Core::loadDisplay(const char *display)
 {
     if (_display != nullptr) {
         utils::getFunction<DISPLAY_DESTROY>("destroy", _displayHandle)(_display);
-        utils::unload_dll_so(_display);
+        utils::unload_dll_so(_displayHandle);
     }
 
     _displayHandle = utils::load_dll_so(display);
@@ -95,7 +95,7 @@ void arcade::core::Core::loadGame(const char *game)
 {
     if (_game != nullptr) {
         utils::getFunction<GAME_DESTROY>("destroy", _gameHandle)(_game);
-        utils::unload_dll_so(_game);
+        utils::unload_dll_so(_gameHandle);
     }
 
     _gameHandle = utils::load_dll_so(game);
@@ -210,11 +210,11 @@ void arcade::core::Core::run(const char *display)
 
     if (_game != nullptr) {
         utils::getFunction<GAME_DESTROY>("destroy", _gameHandle)(_game);
-        utils::unload_dll_so(_game);
+        utils::unload_dll_so(_gameHandle);
     }
     if (_display != nullptr) {
         utils::getFunction<DISPLAY_DESTROY>("destroy", _displayHandle)(_display);
-        utils::unload_dll_so(_display);
+        utils::unload_dll_so(_displayHandle);
     }
 }
 
