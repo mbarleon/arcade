@@ -56,8 +56,8 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
             arcade::types::color_t color;
             color.color = ti.color;
 
-            SDL_SetRenderDrawColor(_renderer, color.components[0],
-                color.components[1], color.components[2], color.components[3]);
+            SDL_SetRenderDrawColor(_renderer, color.components[types::R],
+                color.components[types::G], color.components[types::B], color.components[types::A]);
 
             if (it.first == arcade::types::RECTANGLE) {
                 SDL_Rect rect = { static_cast<int>(ti.pos.x * RECTANGLE_SIZE), static_cast<int>(ti.pos.y * RECTANGLE_SIZE), static_cast<int>(RECTANGLE_SIZE), static_cast<int>(RECTANGLE_SIZE)};
@@ -94,10 +94,10 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
 
             if (it.first == arcade::types::TEXT) {
                 SDL_Color sdlColor = {
-                    color.components[0],
-                    color.components[1],
-                    color.components[2],
-                    color.components[3]
+                    color.components[types::R],
+                    color.components[types::G],
+                    color.components[types::B],
+                    color.components[types::A]
                 };
                 SDL_Surface *surface = TTF_RenderText_Blended(this->_font, ti.str.c_str(), sdlColor);
                 SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
