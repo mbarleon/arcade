@@ -71,6 +71,24 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
             }
 
             if (it.first == arcade::types::SPRITE) {
+                SDL_RWops *rw = SDL_RWFromConstMem(ti.sprite.assets, static_cast<int>(ti.sprite.length));
+                if (!rw)
+                    throw std::runtime_error("SDL_RWFromConstMem failed");
+                SDL_Surface *surface = IMG_Load_RW(rw, 1);
+                if (!surface)
+                    throw std::runtime_error(std::string("IMG_Load_RW failed: ") + IMG_GetError());
+                SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
+                SDL_FreeSurface(surface);
+                if (!texture)
+                    throw std::runtime_error("SDL_CreateTextureFromSurface failed");
+                SDL_Rect dest = {
+                    static_cast<int>(ti.pos.x * RECTANGLE_SIZE),
+                    static_cast<int>(ti.pos.y * RECTANGLE_SIZE),
+                    0, 0
+                };
+                SDL_QueryTexture(texture, nullptr, nullptr, &dest.w, &dest.h);
+                SDL_RenderCopy(this->_renderer, texture, nullptr, &dest);
+                SDL_DestroyTexture(texture);
                 continue;
             }
 
@@ -96,8 +114,8 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
 
 void arcade::display::SDLDisplayModule::drawCircle(int baseX, int baseY)
 {
-    const int centerX = baseX + CIRCLE_RADIUS;
-    const int centerY = baseY + CIRCLE_RADIUS;
+    const int centerX = baseX * RECTANGLE_SIZE + CIRCLE_RADIUS;
+    const int centerY = baseY * RECTANGLE_SIZE + CIRCLE_RADIUS;
 
     for (int dy = -CIRCLE_RADIUS; dy <= CIRCLE_RADIUS; dy++) {
         int dx = static_cast<int>(sqrt(CIRCLE_RADIUS * CIRCLE_RADIUS - dy * dy));

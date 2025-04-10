@@ -29,7 +29,7 @@ UTILS			=	../../Utils
 
 LDFLAGS			=	-shared  -L$(UTILS)
 
-LDLIBS = -lSDL2 -lSDL2_ttf -larcade_utils
+LDLIBS = -lSDL2 -lSDL2_ttf -lSDL2_image -larcade_utils
 
 DEBUG_FALGS		=	-g
 
