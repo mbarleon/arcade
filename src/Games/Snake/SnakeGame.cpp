@@ -83,6 +83,7 @@ arcade::game::SnakeGame::SnakeGame()
     _snake.push_front(types::Position{pos_x + 1, pos_y});
 
     addBaseEntities();
+    _getScore();
 }
 
 /**
@@ -192,6 +193,86 @@ void arcade::game::SnakeGame::genApple(void)
 }
 
 /**
+ * @brief Loads the score.
+ * @details Loads the score from the file.
+ * @return void
+ */
+void arcade::game::SnakeGame::_getScore(void)
+{
+    std::string line;
+    std::ifstream file("Score/SnakeGame.arcade");
+
+    if (!file || !file.is_open())
+        return;
+    std::getline(file, line);
+
+    for (char& ch : line) {
+        if (ch == '\n') {
+            ch = '\0';
+        }
+    }
+    try {
+        std::size_t idx;
+        unsigned long long val = std::stoull(line, &idx);
+        if (idx != line.size())
+            return;
+        if (val > std::numeric_limits<std::size_t>::max())
+            return;
+        _high_score = static_cast<std::size_t>(val);
+    } catch (const std::invalid_argument& e) {
+        file.close();
+        return;
+    } catch (const std::out_of_range& e) {
+        file.close();
+        return;
+    }
+    file.close();
+}
+
+/**
+ * @brief Saves the score.
+ * @details Saves the score to the file.
+ * @return void
+ */
+void arcade::game::SnakeGame::_saveScore(void)
+{
+    std::ofstream file("Score/SnakeGame.arcade");
+
+    if (!file || !file.is_open())
+        return;
+    _high_score = _high_score < _size - 3 ? _size - 3 : _high_score;
+    file << _high_score << std::endl;
+}
+
+/**
+ * @brief Adds the scores.
+ * @details Adds the scores to the screen.
+ * @return void
+ */
+void arcade::game::SnakeGame::add_scores(void)
+{
+    std::string high;
+    std::string score = "Score: " + std::to_string(_size - 3);
+    removeEntityAt(types::Position{0, 0});
+    addEntity(types::EMPTY, types::TEXT, types::Position{0, 0}, ' ', getRGBA(255, 255, 255, 255).color, score);
+
+
+    if (_high_score <= _max_size) {
+        high = "High Score: " + std::to_string(_high_score);
+    } else {
+        high = "High Score: cheater";
+    }
+    removeEntityAt(types::Position{30 - static_cast<int>(high.size()), 0});
+    _high_score = _high_score < _size - 3 ? _size - 3 : _high_score;
+    if (_high_score <= _max_size) {
+        high = "High Score: " + std::to_string(_high_score);
+    } else {
+        high = "High Score: cheater";
+    }
+    addEntity(types::EMPTY, types::TEXT, types::Position{30 - static_cast<int>(high.size()), 0}, ' ', getRGBA(255, 255, 255, 255).color, high);
+}
+
+/**
  * @brief Move the snake.
  * @details This functions moves the snake and removes the useless entities.
  * It sets _gameOver to true if needed.
@@ -202,11 +283,7 @@ void arcade::game::SnakeGame::move(int offset_x, int offset_y)
     types::Position snake_front = _snake.front();
     types::Position front = types::Position{snake_front.x + offset_x, snake_front.y + offset_y};
     types::Entity *frontEntity = getEntityAt(front);
-
-    std::string str = "Score: " + std::to_string(_size - 3);
-
-    removeEntityAt(types::Position{0, 0});
-    addEntity(types::EMPTY, types::TEXT, types::Position{0, 0}, ' ', getRGBA(0, 255, 255, 255).color, str);
+    add_scores();
 
     _last_move = _direction;
     if (frontEntity == nullptr) {
@@ -220,12 +297,15 @@ void arcade::game::SnakeGame::move(int offset_x, int offset_y)
         addEntity(types::PLAYER, types::RECTANGLE, front, 'x',
             getRGBA(0, 255, 0, 255).color, "");
         _size++;
-        if (_size == _max_size)
+        if (_size == _max_size) {
+            _saveScore();
             _gameOver = true;
+        }
         removeEntityAt(_apple);
         genApple();
         addEntity(types::FOOD, types::CIRCLE, _apple, 'o', getRGBA(255, 0, 0, 255).color, "");
     } else {
+        _saveScore();
         _gameOver = true;
     }
 }

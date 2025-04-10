@@ -96,15 +96,31 @@ B-OOP-400-STG-4-1-arcade-mathieu.barleon/
 │   └── Types.hpp
 ├── lib/
 │   └── .gitkeep
+├── Score/
+│   └── .gitkeep
 ├── src/
 │   ├── Core/
 │   │   ├── Core.cpp
 │   │   └── Core.hpp
 │   ├── Games/
+│   │   ├── Menu/
+│   │   │   ├── Makefile
+│   │   │   ├── Menu.cpp
+│   │   │   └── Menu.hpp
 │   │   ├── Pacman/
 │   │   │   ├── Assets/
-│   │   │   │   └── Pac/
-│   │   │   │       └── pac.hpp
+│   │   │   │   ├── map/
+│   │   │   │   │   ├── green_bottom.hpp
+│   │   │   │   │   ├── orange_bottom.hpp
+│   │   │   │   │   ├── pinh_bottom.hpp
+│   │   │   │   │   ├── red_bottom.hpp
+│   │   │   │   │   └── vulnerable_bottom.hpp
+│   │   │   │   ├── map/
+│   │   │   │   │   ├── gum.hpp
+│   │   │   │   │   ├── map.hpp
+│   │   │   │   │   └── pacgum.hpp
+│   │   │   │   └── pac/
+│   │   │   │       └── pac_bottom_4.hpp
 │   │   │   ├── Makefile
 │   │   │   ├── PacmanGame.cpp
 │   │   │   └── PacmanGame.hpp

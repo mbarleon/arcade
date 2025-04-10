@@ -54,3 +54,4 @@ doc/html/*
 doc/latex
 doc/latex/*
 venv/
+*.arcade

@@ -13,6 +13,7 @@
     #include <list>
     #include <ctime>
     #include <cstdlib>
+    #include <fstream>
     #include "AGame.hpp"
 
 /**
@@ -35,6 +36,9 @@ namespace arcade::game {
             void update(const std::pair<types::Position, types::InputEvent> event) override;
         private:
             void genApple(void);
+            void _getScore(void);
+            void add_scores(void);
+            void _saveScore(void);
             void addBaseEntities(void);
             void move(int offset_x, int offset_y);
             void updateDirection(const types::InputEvent event);
@@ -42,6 +46,7 @@ namespace arcade::game {
             int _timer = 1;
             std::size_t _size = 3;
             types::Position _apple;
+            std::size_t _high_score = 0;
             std::list<types::Position> _snake;
             types::Direction _last_move = types::RIGHT;
             types::Direction _direction = types::RIGHT;
