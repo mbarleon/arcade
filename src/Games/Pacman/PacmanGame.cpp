@@ -6,7 +6,15 @@
 */
 
 #include "PacmanGame.hpp"
-#include "Assets/pac/pac.hpp"
+#include "Assets/ghosts/green_bottom.hpp"
+#include "Assets/ghosts/orange_bottom.hpp"
+#include "Assets/ghosts/pink_bottom.hpp"
+#include "Assets/ghosts/red_bottom.hpp"
+#include "Assets/ghosts/vulnerable_bottom.hpp"
+#include "Assets/map/gum.hpp"
+#include "Assets/map/pacgum.hpp"
+#include "Assets/map/map.hpp"
+#include "Assets/pac/pac_bottom_4.hpp"
 
 extern "C" {
     arcade::game::IGame *create(void)
@@ -32,27 +40,41 @@ extern "C" {
 
 arcade::game::PacmanGame::PacmanGame()
 {
-    for (int y = 0; y < MAP_HEIGHT; ++y)
-        memset(_entities[y], 0, MAP_WIDTH);
+    for (int y = 0; y < MAP_SIDE; ++y)
+        memset(_entities[y], 0, MAP_SIDE);
 
-    _entities[17][14] = 'P';
-    _entities[14][11] = 'A';
-    _entities[14][13] = 'B';
-    _entities[14][15] = 'C';
-    _entities[13][13] = 'D';
-    // addEntity(getEntityType('P'), getEntityDraw('P'),
-    // (arcade::types::Position){17, 14}, 'P', getEntityColor('P').color, "",
-    // {.key = "Pacman", .assets = pac_png, .length = pac_png_len});
+    addEntity(types::EMPTY, types::SPRITE, getPosition(0, 0), 'X', 0, "",
+    {.key = "Background", .assets = map_png, .length = map_png_len});
 
-    for (int y = 0; y < MAP_HEIGHT; ++y)
-        for (int x = 0; x < MAP_WIDTH; ++x) {
+    for (int y = 0; y < MAP_SIDE; ++y)
+        for (int x = 0; x < MAP_SIDE; ++x) {
             types::EntityDraw entityDraw = getEntityDraw(_pacmap[y][x]);
 
             if (entityDraw != types::NONE)
                 addEntity(getEntityType(_pacmap[y][x]), entityDraw,
-                (arcade::types::Position){x, y}, _pacmap[y][x],
-                getEntityColor(_pacmap[y][x]).color, "");
+                getPosition(y, x), _pacmap[y][x],
+                0, "", getEntitySprite(_pacmap[y][x]));
         }
+
+    _entities[16][13] = 'O';
+    addEntity(types::PLAYER, types::SPRITE, getPosition(16, 13), 'O', 0, "",
+    {.key = "Pacman", .assets = pac_bottom_4_png, .length = pac_bottom_4_png_len});
+
+    _entities[13][13] = 'B';
+    addEntity(types::ENEMY, types::SPRITE, getPosition(13, 13), 'B', 0, "",
+    {.key = "Blinky", .assets = red_bottom_png, .length = red_bottom_png_len});
+
+    _entities[14][12] = 'P';
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 12), 'P', 0, "",
+    {.key = "Pinky", .assets = pink_bottom_png, .length = pink_bottom_png_len});
+
+    _entities[14][13] = 'I';
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 13), 'I', 0, "",
+    {.key = "Inky", .assets = green_bottom_png, .length = green_bottom_png_len});
+
+    _entities[14][14] = 'C';
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 14), 'C', 0, "",
+    {.key = "Clyde", .assets = orange_bottom_png, .length = orange_bottom_png_len});
 }
 
 arcade::game::PacmanGame::~PacmanGame()
@@ -68,16 +90,14 @@ void arcade::game::PacmanGame::update(const std::pair<types::Position, types::In
 arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)
 {
     switch (c) {
-        case '0':
+        case 'X':
             return types::WALL;
         case '.':
-            return types::COLLECTIBLE;
+            return types::FOOD;
         case 'G':
             return types::FOOD;
         case '_':
             return types::OBSTACLE;
-        case 'P':
-            return types::PLAYER;
         default:
             return types::EMPTY;
     }
@@ -86,35 +106,32 @@ arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)
 arcade::types::EntityDraw arcade::game::PacmanGame::getEntityDraw(char c)
 {
     switch (c) {
-        case '0':
-            return types::RECTANGLE;
         case '.':
-            return types::CIRCLE;
+            return types::SPRITE;
         case 'G':
-            return types::CIRCLE;
-        case '_':
-            return types::RECTANGLE;
-        case 'P':
             return types::SPRITE;
         default:
             return types::NONE;
     }
 }
 
-arcade::types::color_t arcade::game::PacmanGame::getEntityColor(char c)
+arcade::types::Sprite arcade::game::PacmanGame::getEntitySprite(char c)
 {
     switch (c) {
-        case '0':
-            return getRGBA(62, 78, 249, 255);
         case '.':
-            return getRGBA(255, 255, 0, 255);
+            return {.key = "Gum", .assets = gum_png, .length = gum_png_len};
         case 'G':
-            return getRGBA(255, 255, 0, 255);
-        case '_':
-            return getRGBA(62, 249, 233, 255);
-        case 'P':
-            return getRGBA(255, 255, 0, 255);
+            return {.key = "Gum2", .assets = pacgum_png, .length = pacgum_png_len};
         default:
-            return getRGBA(0, 0, 0, 255);
+            return {};
     }
+}
+
+arcade::types::Position arcade::game::PacmanGame::getPosition(int y, int x)
+{
+    types::Position pos;
+
+    pos.x = x;
+    pos.y = y + MAP_MARGIN_TOP;
+    return pos;
 }

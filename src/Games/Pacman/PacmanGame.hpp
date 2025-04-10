@@ -7,8 +7,8 @@
 
 #ifndef PACMANGAME_HPP_
     #define PACMANGAME_HPP_
-    #define MAP_HEIGHT 31
-    #define MAP_WIDTH 28
+    #define MAP_SIDE 30
+    #define MAP_MARGIN_TOP 6
     #include "../AGame.hpp"
     #include <cstring>
 
@@ -21,43 +21,43 @@ namespace arcade::game {
             void update(const std::pair<types::Position, types::InputEvent> event) override;
 
         private:
-            arcade::types::EntityType getEntityType(char c);
-            arcade::types::EntityDraw getEntityDraw(char c);
-            arcade::types::color_t getEntityColor(char c);
+            types::EntityType getEntityType(char c);
+            types::EntityDraw getEntityDraw(char c);
+            types::Sprite getEntitySprite(char c);
+            types::Position getPosition(int y, int x);
 
-            char _entities[MAP_HEIGHT][MAP_WIDTH];
+            char _entities[MAP_SIDE][MAP_SIDE];
             static constexpr const char *_pacmap[] = {
-                "0000000000000000000000000000",
-                "0............00............0",
-                "0.0000.00000.00.00000.0000.0",
-                "0G0000.00000.00.00000.0000G0",
-                "0.0000.00000.00.00000.0000.0",
-                "0..........................0",
-                "0.0000.00.00000000.00.0000.0",
-                "0.0000.00.00000000.00.0000.0",
-                "0......00....00....00......0",
-                "000000.00000 00 00000.000000",
-                "     0.00000 00 00000.0     ",
-                "     0.00          00.0     ",
-                "     0.00 000__000 00.0     ",
-                "000000.00 0      0 00.000000",
-                "      .   0      0   .      ",
-                "000000.00 0      0 00.000000",
-                "     0.00 00000000 00.0     ",
-                "     0.00          00.0     ",
-                "     0.00 00000000 00.0     ",
-                "000000.00 00000000 00.000000",
-                "0............00............0",
-                "0.0000.00000.00.00000.0000.0",
-                "0.0000.00000.00.00000.0000.0",
-                "0G..00................00..G0",
-                "000.00.00.00000000.00.00.000",
-                "000.00.00.00000000.00.00.000",
-                "0......00....00....00......0",
-                "0.0000000000.00.0000000000.0",
-                "0.0000000000.00.0000000000.0",
-                "0..........................0",
-                "0000000000000000000000000000"
+                "XXXXXXXXXXXXXX XXXXXXXXXXXXXXX",
+                "X............X X.............X",
+                "X.XXXX.XXXXX.X X.XXXXXX.XXXX.X",
+                "XGX  X.X   X.X X.X    X.X  XGX",
+                "X.XXXX.XXXXX.XXX.XXXXXX.XXXX.X",
+                "X............................X",
+                "X.XXXX.XX.XXXXXXXXXX.XX.XXXX.X",
+                "X.XXXX.XX.XXXX XXXXX.XX.XXXX.X",
+                "X......XX....X X.....XX......X",
+                "XXXXXX.XXXXX.X X.XXXXXX.XXXXXX",
+                "     X.XXXXX XXX XXXXXX.X     ",
+                "     X.XX         ...XX.X     ",
+                "     X.XX  XX_XX XX..XX.X     ",
+                "XXXXXX.XX  X   X XX..XX.XXXXXX",
+                " .......   X   X XX.......... ",
+                "XXXXXX.XX  XXXXX XX..XX.XXXXXX",
+                "     X.XX        XX..XX.X     ",
+                "     X.XX   XXX  XX..XX.X     ",
+                "     X.XX XXXXXXXXX..XX.X     ",
+                "XXXXXX.XX.XXXX XXXX..XX.XXXXXX",
+                "X............X X.............X",
+                "X.XXXX.XXXXX.X X.XXXXX..XXXX.X",
+                "X.XXXX.XXXXX.XXX.XXXXX..XXXX.X",
+                "XG..XX..................XX..GX",
+                "XXX.XX.XX.XXXXXXXXX.XX..XX.XXX",
+                "XXX.XX.XX.XXXX XXXX.XX..XX.XXX",
+                "X......XX....X X....XX.......X",
+                "X.XXXXXXXXXX.XXX.XXXXXXXXXXX.X",
+                "X............................X",
+                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
             };
     };
 };
