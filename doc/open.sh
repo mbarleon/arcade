@@ -7,7 +7,7 @@
 
 #!/bin/bash
 
-if [ $(uname -a | cut -d' ' -f1) == 'Darwin' ]; then
+if [ $(uname -s) == 'Darwin' ]; then
     open ./doc/html/index.html
 else
     xdg-open ./doc/html/index.html
