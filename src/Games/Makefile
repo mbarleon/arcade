@@ -7,6 +7,7 @@
 
 LIBS	=	Pacman	\
 			Snake	\
+			Menu	\
 
 UTILS	=	../Utils
 
