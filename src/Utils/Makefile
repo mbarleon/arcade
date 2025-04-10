@@ -20,6 +20,12 @@ NAME			=	libarcade_utils.a
 CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC \
 					-iquote ../../include/ -iquote .
 
+UNAME_S			:=	$(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+	CXXFLAGS	+= -fno-gnu-unique
+endif
+
 DEBUG_FALGS		=	-g
 
 ARFLAGS			=	-rc

@@ -18,7 +18,14 @@ GAME_FOLDER		=	src/Games
 
 GRAPH_FOLDER	=	src/Graphicals
 
-CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC -iquote ./include/
+CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC \
+					-iquote ./include/
+					
+UNAME_S			:=	$(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+	CXXFLAGS	+= -fno-gnu-unique
+endif
 
 UTILS			=	src/Utils
 

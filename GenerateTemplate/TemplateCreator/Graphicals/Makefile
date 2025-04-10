@@ -19,6 +19,12 @@ NAME			=	$(TARGET_FOLDER)arcade___name__.so
 CXXFLAGS		=	-W -Wall -Wextra -std=c++20 -fPIC \
 					-iquote ../../../include/ -iquote ../
 
+UNAME_S			:=	$(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+	CXXFLAGS	+= -fno-gnu-unique
+endif
+
 UTILS			=	../../Utils
 
 LDFLAGS			=	-shared __ldflags__
