@@ -40,10 +40,15 @@ arcade::display::SDLDisplayModule::SDLDisplayModule()
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!_renderer)
         throw arcade::exception::Error("SDL Constructor : Line 21", "ERROR - RENDERER INITIALISATION FAILED");
+    if (TTF_Init() != 0)
+        throw arcade::exception::Error("SDL_TTF init failed", TTF_GetError());
+    this->_font = TTF_OpenFont("./SFPro.OTF", 24);
 }
 
 void arcade::display::SDLDisplayModule::draw(Entities entities)
 {
+    SDL_SetRenderDrawColor(this->_renderer, 0, 0, 0, 255);
+    SDL_RenderClear(this->_renderer);
     for ( auto &it : entities) {
         if (it.first == arcade::types::NONE)
             continue;
@@ -55,7 +60,7 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
                 color.components[1], color.components[2], color.components[3]);
 
             if (it.first == arcade::types::RECTANGLE) {
-                SDL_Rect rect = {ti.pos.x, ti.pos.y, static_cast<int>(RECTANGLE_SIZE), static_cast<int>(RECTANGLE_SIZE)};
+                SDL_Rect rect = { static_cast<int>(ti.pos.x * RECTANGLE_SIZE), static_cast<int>(ti.pos.y * RECTANGLE_SIZE), static_cast<int>(RECTANGLE_SIZE), static_cast<int>(RECTANGLE_SIZE)};
                 SDL_RenderFillRect(_renderer, &rect);
                 continue;
             }
@@ -68,8 +73,25 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
             if (it.first == arcade::types::SPRITE) {
                 continue;
             }
+
+            if (it.first == arcade::types::TEXT) {
+                SDL_Color sdlColor = {
+                    color.components[0],
+                    color.components[1],
+                    color.components[2],
+                    color.components[3]
+                };
+                SDL_Surface *surface = TTF_RenderText_Blended(this->_font, ti.str.c_str(), sdlColor);
+                SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
+                SDL_FreeSurface(surface);
+                SDL_Rect rect = { static_cast<int>(ti.pos.x * RECTANGLE_SIZE), static_cast<int>(ti.pos.y * RECTANGLE_SIZE), 0, 0 };
+                SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h);
+                SDL_RenderCopy(this->_renderer, texture, nullptr, &rect);
+                SDL_DestroyTexture(texture);
+            }
         }
     }
+    SDL_RenderPresent(this->_renderer);
 }
 
 void arcade::display::SDLDisplayModule::drawCircle(int baseX, int baseY)
@@ -120,6 +142,7 @@ arcade::display::SDLDisplayModule::~SDLDisplayModule()
         SDL_DestroyRenderer(_renderer);
     if (_window)
         SDL_DestroyWindow(_window);
+    TTF_Quit();
     SDL_Quit();
 }
 

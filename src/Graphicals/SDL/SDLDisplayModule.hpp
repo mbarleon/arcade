@@ -10,6 +10,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_rwops.h>
 #include <utility>
 #include "ADisplayModule.hpp"
 #include "../../Utils/Error.hpp"
@@ -27,6 +29,7 @@ namespace arcade::display {
             void drawCircle(int baseX, int baseY);
             types::InputEvent mapSDLKeyToInputEvent(SDL_Keycode key);
 
+            TTF_Font *_font;
             SDL_Window* _window;
             SDL_Renderer* _renderer;
             SDL_Event _event;
