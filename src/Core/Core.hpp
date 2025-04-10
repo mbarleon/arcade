@@ -67,7 +67,7 @@ namespace arcade::core {
             std::string getPath(std::filesystem::path);
             std::string getLibName(std::string display);
             void runSingleGame(std::string &game, std::string &display);
-            int handleInputs(const std::string &game, const std::pair<types::Position, types::InputEvent> &event);
+            int handleInputs(const std::string &game, std::string &display, const std::pair<types::Position, types::InputEvent> &event);
 
             bool _quit = false;
 

@@ -124,12 +124,13 @@ const char *arcade::core::Core::nextLib(void)
  * @details Allows the user to change library, quit or restart game.
  * @return An int that tells the caller loop if it should break or not.
  */
-int arcade::core::Core::handleInputs(const std::string &game,
+int arcade::core::Core::handleInputs(const std::string &game, std::string &display,
     const std::pair<types::Position, types::InputEvent> &event)
 {
     switch (event.second) {
         case types::InputEvent::AKEY_F8:
-            loadDisplay(nextLib());
+            display = nextLib();
+            loadDisplay(display.c_str());
             return 0;
         case types::InputEvent::AKEY_ESCAPE:
             if (strcmp(_gameName, "MENU") == 0)
@@ -175,7 +176,7 @@ void arcade::core::Core::runSingleGame(std::string &game, std::string &display)
     while (!_game->isGameOver()) {
         auto event = _display->event();
 
-        if (handleInputs(game, event) == 1)
+        if (handleInputs(game, display, event) == 1)
             break;
 
         _game->update(event);
