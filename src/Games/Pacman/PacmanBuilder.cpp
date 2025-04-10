@@ -43,6 +43,9 @@ arcade::game::PacmanGame::PacmanGame() : _direction(types::LEFT),
 {
     initGameMap();
     initGameEntities();
+
+    addEntity(types::EMPTY, types::TEXT, (types::Position){2, 2}, ' ',
+        getRGBA(255, 255, 255, 255).color, "score : 0");
 }
 
 arcade::game::PacmanGame::~PacmanGame()
@@ -53,13 +56,13 @@ arcade::game::PacmanGame::~PacmanGame()
 arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)
 {
     switch (c) {
-        case 'X':
+        case WALL:
             return types::WALL;
-        case '.':
+        case GUM:
             return types::FOOD;
-        case 'G':
+        case GUM2:
             return types::FOOD;
-        case '_':
+        case DOOR:
             return types::OBSTACLE;
         default:
             return types::EMPTY;
@@ -69,9 +72,9 @@ arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)
 arcade::types::EntityDraw arcade::game::PacmanGame::getEntityDraw(char c)
 {
     switch (c) {
-        case '.':
+        case GUM:
             return types::SPRITE;
-        case 'G':
+        case GUM2:
             return types::SPRITE;
         default:
             return types::NONE;
@@ -81,9 +84,9 @@ arcade::types::EntityDraw arcade::game::PacmanGame::getEntityDraw(char c)
 arcade::types::Sprite arcade::game::PacmanGame::getEntitySprite(char c)
 {
     switch (c) {
-        case '.':
+        case GUM:
             return {.key = "Gum", .assets = gum_png, .length = gum_png_len};
-        case 'G':
+        case GUM2:
             return {.key = "Gum2", .assets = pacgum_png, .length = pacgum_png_len};
         default:
             return {};
@@ -104,9 +107,9 @@ void arcade::game::PacmanGame::removeGameEntities()
     std::vector<types::Position> toDelete;
 
     for (auto &it : _entities[types::SPRITE])
-        if (it.display_char == 'B' || it.display_char == 'P' ||
-        it.display_char == 'I' || it.display_char == 'C' ||
-        it.display_char == 'O')
+        if (it.display_char == BLINKY || it.display_char == PINKY ||
+        it.display_char == INKY || it.display_char == CLYDE ||
+        it.display_char == PAC)
             toDelete.push_back(it.pos);
     for (auto &pos : toDelete)
         removeEntityAt(pos);
@@ -114,26 +117,26 @@ void arcade::game::PacmanGame::removeGameEntities()
 
 void arcade::game::PacmanGame::initGameEntities()
 {
-    addEntity(types::PLAYER, types::SPRITE, getPosition(13, 16), 'O', 0, "",
+    addEntity(types::PLAYER, types::SPRITE, getPosition(16, 13), PAC, 0, "",
     {.key = "Pacman", .assets = pac_bottom_4_png, .length = pac_bottom_4_png_len});
-    _pacPos = {16, 13};
+    _pacPos = {13, 16};
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(13, 13), 'B', 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(13, 13), BLINKY, 0, "",
     {.key = "Blinky", .assets = red_bottom_png, .length = red_bottom_png_len});
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 12), 'P', 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 12), PINKY, 0, "",
     {.key = "Pinky", .assets = pink_bottom_png, .length = pink_bottom_png_len});
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 13), 'I', 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 13), INKY, 0, "",
     {.key = "Inky", .assets = green_bottom_png, .length = green_bottom_png_len});
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 14), 'C', 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 14), CLYDE, 0, "",
     {.key = "Clyde", .assets = orange_bottom_png, .length = orange_bottom_png_len});
 }
 
 void arcade::game::PacmanGame::initGameMap()
 {
-    addEntity(types::EMPTY, types::SPRITE, getPosition(0, 0), 'X', 0, "",
+    addEntity(types::EMPTY, types::SPRITE, getPosition(0, 0), WALL, 0, "",
     {.key = "Background", .assets = map_png, .length = map_png_len});
 
     for (int y = 0; y < MAP_SIDE; ++y)

@@ -15,6 +15,24 @@
 namespace arcade::game {
     class PacmanGame : public AGame {
         public:
+            enum GameEntity {
+                PAC = 'O',
+                BLINKY = 'B',
+                INKY = 'I',
+                PINKY = 'P',
+                CLYDE = 'C',
+                GUM = '.',
+                GUM2 = 'G',
+                WALL = 'X',
+                DOOR = '_',
+                APPLE = 'a',
+                BANANA = 'b',
+                CHERRIES = 'c',
+                PINEAPPLE = 'p',
+                POTION = 'u',
+                KEY = 'k'
+            };
+
             using GameEvent = const std::pair<types::Position, types::InputEvent>;
 
             PacmanGame();
@@ -27,6 +45,8 @@ namespace arcade::game {
             types::EntityDraw getEntityDraw(char c);
             types::Sprite getEntitySprite(char c);
             types::Position getPosition(int y, int x);
+            types::Position getNextCasePos();
+            int getFoodValue(char food);
 
             void initGameEntities();
             void initGameMap();
@@ -34,13 +54,15 @@ namespace arcade::game {
             void removeGameEntities();
             void updateWantedDirection();
             void updateDirection(types::InputEvent event);
-            types::Position getNextCasePos();
+            void refreshScore();
 
             types::Direction _direction;
             types::Direction _wantedDirection;
             types::Position _pacPos;
             int _extraLifes;
+            int _ghostKillRow;
             unsigned int _timer;
+
             static constexpr const char *_pacMap[] = {
                 "XXXXXXXXXXXXXX XXXXXXXXXXXXXXX",
                 "X............X X.............X",
