@@ -25,10 +25,8 @@ void arcade::game::PacmanGame::update(GameEvent event)
         target->type == types::ENEMY || target->type == types::EMPTY))
             return;
         if (target->type == types::ENEMY) {
-            if (_extraLifes == 0) {
-                saveHighScore();
+            if (_extraLifes == 0)
                 setGameOver(true);
-            }
             --_extraLifes;
             removeGameEntities();
             initGameEntities();

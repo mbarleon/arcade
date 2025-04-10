@@ -13,6 +13,10 @@ void arcade::game::PacmanGame::movePlayer(int y, int x)
     types::Entity *pac = getEntityAt(realPacPos);
 
     if (pac) {
+        if (x == -1)
+            x = 29;
+        else if (x == 30)
+            x = 0;
         pac->pos.x = x;
         pac->pos.y = y + MAP_MARGIN_TOP;
         _pacPos = {x, y};
