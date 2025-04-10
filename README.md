@@ -4,6 +4,12 @@
 
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-blue)
 
+## Group leaders
+
+The lead developper of this program is Mathieu BARLEON (@mbarleon). You can contact him at mathieu.barleon@epitech.eu
+
+This arcade is compatible with the one developped by Léo QUINZLER (@Leorevoir). You can contact him at leo.quinzler@epitech.eu
+
 ## 📦 Features
 
 - Built with custom modular libraries
