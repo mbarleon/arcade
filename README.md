@@ -4,14 +4,10 @@
 
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-blue)
 
----
-
 ## 📦 Features
 
 - Built with custom modular libraries
 - Cross-platform support (Linux/macOS)
-
----
 
 ## 🚀 Getting Started
 

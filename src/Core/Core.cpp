@@ -74,7 +74,6 @@ arcade::core::Core::Core()
  * before loading the new one.
  * @return void
  */
-
 void arcade::core::Core::loadDisplay(const char *display)
 {
     if (_display != nullptr) {
@@ -92,7 +91,6 @@ void arcade::core::Core::loadDisplay(const char *display)
  * @details If a game is already loaded, it is first unloaded before loading the new one.
  * @return void
  */
-
 void arcade::core::Core::loadGame(const char *game)
 {
     if (_game != nullptr) {
@@ -145,6 +143,11 @@ int arcade::core::Core::handleInputs(const std::string &game,
     }
 }
 
+/**
+ * @brief Getting the name of a library.
+ * @details Using a library path and getting its name.
+ * @return A string containing the name of the library if it exists
+ */
 std::string arcade::core::Core::getLibName(std::string display)
 {
     for (auto it = _displays.begin(); it != _displays.end(); it++) {
@@ -214,11 +217,21 @@ void arcade::core::Core::run(const char *display)
     }
 }
 
+/**
+ * @brief Getter for _games.
+ * @details Getter for _games.
+ * @return Undordered map that contains the game names, and the game paths.
+ */
 std::unordered_map<std::string, std::string> arcade::core::Core::getGames(void) const
 {
     return _games;
 }
 
+/**
+ * @brief Getter for _displays.
+ * @details Getter for _displays.
+ * @return Undordered map that contains the display modules names, and the display modules paths.
+ */
 std::unordered_map<std::string, std::string> arcade::core::Core::getDisplays(void) const
 {
     return _displays;

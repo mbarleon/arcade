@@ -5,6 +5,17 @@
 ** NCursesDisplayModule
 */
 
+/**
+ * @file NCursesDisplayModule.cpp
+ * @brief NCurses Display Module.
+ * @author mbarleon
+ * @version 1.0
+ * @date 2025-04-09
+ *
+ * @details
+ * This file contains the ncurses display module.
+ */
+
 #include "NCursesDisplayModule.hpp"
 
 extern "C" {
@@ -29,6 +40,11 @@ extern "C" {
     }
 }
 
+/**
+ * @brief Transforming the ncurses events into arcade events.
+ * @details This function transforms the ncurses events into arcade events.
+ * @return An InputEvent containing the current event
+ */
 arcade::types::InputEvent arcade::display::NCursesDisplayModule::convertKeyPress(int key)
 {
     switch (key) {
@@ -113,6 +129,11 @@ arcade::types::InputEvent arcade::display::NCursesDisplayModule::convertKeyPress
     }
 }
 
+/**
+ * @brief Constructor for the NCursesDisplayModule class.
+ * @details This function initialises the screen for the ncurses.
+ * @return void
+ */
 arcade::display::NCursesDisplayModule::NCursesDisplayModule()
 {
     initscr();
@@ -123,11 +144,22 @@ arcade::display::NCursesDisplayModule::NCursesDisplayModule()
     curs_set(0);
 }
 
+/**
+ * @brief Destructor for the NCursesDisplayModule class.
+ * @details This function ends the screen for the ncurses.
+ * @return void
+ */
 arcade::display::NCursesDisplayModule::~NCursesDisplayModule()
 {
     endwin();
 }
 
+/**
+ * @brief Drawing the entities.
+ * @details This function draws the entities.
+ * It uses display_char except for text where it uses str.
+ * @return void
+ */
 void arcade::display::NCursesDisplayModule::draw(Entities entities)
 {
     clear();
@@ -146,6 +178,11 @@ void arcade::display::NCursesDisplayModule::draw(Entities entities)
     refresh();
 }
 
+/**
+ * @brief Getting the ncurses event.
+ * @details This function gets and returns the current ncurses event.
+ * @return A pair containing the position of the mouse if the event is a mouse click, and the key that was pressed.
+ */
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::NCursesDisplayModule::event()
 {
     std::pair<arcade::types::Position, arcade::types::InputEvent> result;

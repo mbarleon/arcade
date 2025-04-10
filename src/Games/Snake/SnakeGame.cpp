@@ -43,6 +43,7 @@ extern "C" {
 /**
  * @brief Adds entities at game creation.
  * @details This function adds all the entities that are needed when the game starts.
+ * @return void
  */
 void arcade::game::SnakeGame::addBaseEntities(void)
 {
@@ -66,6 +67,7 @@ void arcade::game::SnakeGame::addBaseEntities(void)
  * @brief Constructor for the SnakeGame class.
  * @details This function creates all the entities needed at game start.
  * It also calls srand for all the random that will be done during the game.
+ * @return void
  */
 arcade::game::SnakeGame::SnakeGame()
 {
@@ -86,6 +88,7 @@ arcade::game::SnakeGame::SnakeGame()
 /**
  * @brief Destructor for the SnakeGame class.
  * @details This function is empty.
+ * @return void
  */
 arcade::game::SnakeGame::~SnakeGame()
 {
@@ -94,6 +97,7 @@ arcade::game::SnakeGame::~SnakeGame()
 /**
  * @brief Change the direction of the snake.
  * @details This functions changes the direction of the snake according to the current event and the last move.
+ * @return void
  */
 void arcade::game::SnakeGame::updateDirection(const types::InputEvent event)
 {
@@ -122,6 +126,7 @@ void arcade::game::SnakeGame::updateDirection(const types::InputEvent event)
 /**
  * @brief Update the game.
  * @details This functions calls updateDirection, computes the movment offsets and moves the snake every SNAKE_SLOWDOWN_FACTOR frames.
+ * @return void
  */
 void arcade::game::SnakeGame::update(const std::pair<types::Position, types::InputEvent> event)
 {
@@ -157,6 +162,7 @@ void arcade::game::SnakeGame::update(const std::pair<types::Position, types::Inp
 /**
  * @brief Generate an apple.
  * @details This functions generates an apple with random coordinates.
+ * @return void
  */
 void arcade::game::SnakeGame::genApple(void)
 {
@@ -189,6 +195,7 @@ void arcade::game::SnakeGame::genApple(void)
  * @brief Move the snake.
  * @details This functions moves the snake and removes the useless entities.
  * It sets _gameOver to true if needed.
+ * @return void
  */
 void arcade::game::SnakeGame::move(int offset_x, int offset_y)
 {
