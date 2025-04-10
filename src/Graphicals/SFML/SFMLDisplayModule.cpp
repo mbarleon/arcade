@@ -38,7 +38,6 @@ arcade::display::SFMLDisplayModule::SFMLDisplayModule()
     _pixel.setSize(pixelSize);
     _circle.setRadius(CIRCLE_RADIUS);
     _font.loadFromFile("SFPro.OTF");
-    _font.setSmooth(false);
 }
 
 arcade::display::SFMLDisplayModule::~SFMLDisplayModule()
