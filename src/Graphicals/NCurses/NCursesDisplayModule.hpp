@@ -21,6 +21,13 @@
  * The NCursesDisplayModule class contains all the methods to use ncruses in the arcade.
  */
 namespace arcade::display {
+    /**
+     * @class NCursesDisplayModule
+     * @brief Class responsible for containing all the methods to use ncruses in the arcade.
+     *
+     * @details
+     * The NCursesDisplayModule class contains all the methods to use ncruses in the arcade.
+     */
     class NCursesDisplayModule: public ADisplayModule {
         public:
             NCursesDisplayModule();
