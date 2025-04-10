@@ -35,11 +35,11 @@ make
 
 ./arcade [graphical_lib]
 
-# Example Usage
+## Example Usage
 
 ./arcade lib/arcade_ncurses.so
 
-# Create your own library
+## Create your own library
 
 To create your own library, run the following command with the appropriate flags (see --help for more informations).
 
@@ -51,7 +51,7 @@ After you have typed this command, simply complete the functions in the `.cpp` f
 
 Beware, the functions in the extern "C" part must remain unchanged.
 
-# Contact
+## Contact
 
 If you have any question, feel free to conctact the maintainers.
 
@@ -61,7 +61,7 @@ Jason KOENIG (@OkotEgarim): jason.koenig@epitech.eu
 
 Noé CARABIN (@CorpsB): noe.carabin@epitech.eu
 
-# Project Structure
+## Project Structure
 
 ```
 B-OOP-400-STG-4-1-arcade-mathieu.barleon/
