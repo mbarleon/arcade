@@ -11,6 +11,7 @@
     #define MAP_MARGIN_TOP 6
     #include "../AGame.hpp"
     #include <cstring>
+    #include <fstream>
 
 namespace arcade::game {
     class PacmanGame : public AGame {
@@ -50,6 +51,8 @@ namespace arcade::game {
 
             void initGameEntities();
             void initGameMap();
+            void loadHighScore();
+            void saveHighScore();
             void movePlayer(int y, int x);
             void removeGameEntities();
             void updateWantedDirection();
@@ -61,6 +64,7 @@ namespace arcade::game {
             types::Position _pacPos;
             int _extraLifes;
             int _ghostKillRow;
+            int _highScore;
             unsigned int _timer;
 
             static constexpr const char *_pacMap[] = {

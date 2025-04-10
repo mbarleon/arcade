@@ -7,51 +7,6 @@
 
 #include "PacmanGame.hpp"
 
-int arcade::game::PacmanGame::getFoodValue(char food)
-{
-    switch (food) {
-        case GUM:
-            return 10;
-        case GUM2:
-            return 50;
-        case APPLE:
-            return 200;
-        case BANANA:
-            return 500;
-        case CHERRIES:
-            return 800;
-        case PINEAPPLE:
-            return 1500;
-        case POTION:
-            return 3000;
-        case KEY:
-            return 5000;
-        default:
-            break;
-    }
-    if (food != PINKY && food != CLYDE &&
-    food != BLINKY && food != INKY)
-        return 0;
-    switch (_ghostKillRow) {
-        case 0:
-            return 200;
-        case 1:
-            return 400;
-        case 2:
-            return 800;
-        default:
-            return 1600;
-    }
-}
-
-void arcade::game::PacmanGame::refreshScore()
-{
-    types::Entity *score_txt = getEntityAt((types::Position){2, 2});
-
-    if (score_txt)
-        score_txt->str = "score : " + std::to_string(_score);
-}
-
 void arcade::game::PacmanGame::update(GameEvent event)
 {
     updateDirection(event.second);
@@ -70,8 +25,10 @@ void arcade::game::PacmanGame::update(GameEvent event)
         target->type == types::ENEMY || target->type == types::EMPTY))
             return;
         if (target->type == types::ENEMY) {
-            if (_extraLifes == 0)
+            if (_extraLifes == 0) {
+                saveHighScore();
                 setGameOver(true);
+            }
             --_extraLifes;
             removeGameEntities();
             initGameEntities();

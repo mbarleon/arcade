@@ -43,13 +43,17 @@ arcade::game::PacmanGame::PacmanGame() : _direction(types::LEFT),
 {
     initGameMap();
     initGameEntities();
+    loadHighScore();
 
     addEntity(types::EMPTY, types::TEXT, (types::Position){2, 2}, ' ',
         getRGBA(255, 255, 255, 255).color, "score : 0");
+    addEntity(types::EMPTY, types::TEXT, (types::Position){15, 2}, ' ',
+        getRGBA(255, 255, 255, 255).color, "high score : " + std::to_string(_highScore));
 }
 
 arcade::game::PacmanGame::~PacmanGame()
 {
+    saveHighScore();
     clearEntities();
 }
 
