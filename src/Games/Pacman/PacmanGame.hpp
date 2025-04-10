@@ -15,10 +15,12 @@
 namespace arcade::game {
     class PacmanGame : public AGame {
         public:
+            using GameEvent = const std::pair<types::Position, types::InputEvent>;
+
             PacmanGame();
             ~PacmanGame() override;
 
-            void update(const std::pair<types::Position, types::InputEvent> event) override;
+            void update(GameEvent event) override;
 
         private:
             types::EntityType getEntityType(char c);
@@ -26,8 +28,20 @@ namespace arcade::game {
             types::Sprite getEntitySprite(char c);
             types::Position getPosition(int y, int x);
 
-            char _entities[MAP_SIDE][MAP_SIDE];
-            static constexpr const char *_pacmap[] = {
+            void initPlayer(int y, int x);
+            void initGameEntities();
+            void initGameMap();
+            void removeGameEntities();
+            void updateWantedDirection();
+            void updateDirection(types::InputEvent event);
+            types::Position getNextCasePos();
+
+            types::Direction _direction;
+            types::Direction _wantedDirection;
+            types::Position _pacPos;
+            int _extraLifes;
+            unsigned int _timer;
+            static constexpr const char *_pacMap[] = {
                 "XXXXXXXXXXXXXX XXXXXXXXXXXXXXX",
                 "X............X X.............X",
                 "X.XXXX.XXXXX.X X.XXXXXX.XXXX.X",

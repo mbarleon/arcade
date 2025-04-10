@@ -8,6 +8,8 @@
 CXX				=	g++
 
 SRC				=	PacmanGame.cpp		\
+					PacmanBuilder.cpp	\
+					PacmanMove.cpp		\
 					../AGame.cpp		\
 
 OBJ				=	$(SRC:.cpp=.o)
