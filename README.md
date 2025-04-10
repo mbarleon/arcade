@@ -122,8 +122,10 @@ B-OOP-400-STG-4-1-arcade-mathieu.barleon/
 │   │   │   │   └── pac/
 │   │   │   │       └── pac_bottom_4.hpp
 │   │   │   ├── Makefile
+│   │   │   ├── PacmanBuilder.cpp
 │   │   │   ├── PacmanGame.cpp
-│   │   │   └── PacmanGame.hpp
+│   │   │   ├── PacmanGame.hpp
+│   │   │   └── PacmanMove.cpp
 │   │   ├── Snake/
 │   │   │   ├── Makefile
 │   │   │   ├── SnakeGame.cpp
