@@ -5,8 +5,8 @@
 ## template_creator
 ##
 
-from sys import argv
+from sys import argv, exit
 from TemplateCreator.Main import main
 
 if __name__ == "__main__":
-    main(argv[1:])
+    exit(main(argv[1:]))

@@ -12,13 +12,13 @@ from .ReadFlags import readFlags
 from .ParseArgs import parseArgs
 from .BuildFiles import buildFiles
 
-def getTarget(mode: Literal["game", "graphical", "menu"]):
+def getTarget(mode: Literal["game", "graphical", "menu"]) -> str:
     if (mode == "graphical"):
         return "Graphicals"
     else:
         return "Games"
 
-def getFiles(mode: Literal["game", "graphical", "menu"]):
+def getFiles(mode: Literal["game", "graphical", "menu"]) -> str:
     if (mode == "game"):
         return "Games"
     elif (mode == "graphical"):
@@ -26,7 +26,7 @@ def getFiles(mode: Literal["game", "graphical", "menu"]):
     else:
         return "Menu"
 
-def main(argv: list[str]):
+def main(argv: list[str]) -> int:
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
     os.chdir(current_dir)
@@ -42,7 +42,7 @@ def main(argv: list[str]):
             ldlibs = readFlags(ldlibs, "arcade_utils")
     except ValueError:
         print("Error in ldlibs or ldflags.", file=stderr)
-        exit(84)
+        return 84
 
     targetFolder = os.path.join(targetFolder, name.capitalize())
 
@@ -50,7 +50,8 @@ def main(argv: list[str]):
         buildFiles(targetFolder, files, name, force, ldflags, ldlibs)
     except FileExistsError:
         print(f"Error: folder {targetFolder} already exists and force was not specified.", file=stderr)
-        exit(84)
+        return 84
     except OSError as e:
         print("FATAL ERROR: ABORTING", e, file=stderr)
-        exit(84)
+        return 84
+    return 0

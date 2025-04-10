@@ -31,7 +31,7 @@ def applyReplacements(content: str, name: str, ldflags: list[str], ldlibs: list[
     )
     return new_content
 
-def processFile(targetFolder: str, files: str, file: str, name: str, ldflags: list[str], ldlibs: list[str]):
+def processFile(targetFolder: str, files: str, file: str, name: str, ldflags: list[str], ldlibs: list[str]) -> None:
     with open(join(files, file), "r") as f:
         content = f.read()
 
@@ -44,7 +44,7 @@ def processFile(targetFolder: str, files: str, file: str, name: str, ldflags: li
     with open(join(targetFolder, newFile), "w") as f:
         f.write(newContent)
 
-def buildFiles(targetFolder: str, files: str, name: str, force: bool, ldflags: list[str], ldlibs: list[str]):
+def buildFiles(targetFolder: str, files: str, name: str, force: bool, ldflags: list[str], ldlibs: list[str]) -> None:
     if exists(targetFolder):
         if (force == True):
             remove(targetFolder)
