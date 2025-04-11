@@ -16,7 +16,9 @@ void arcade::game::PacmanGame::populateTargetMapPos(int y, int x, int sum)
             x = 0;
     }
     if (y < 0 || x < 0 || y > 29 || x > 29 ||
-    _pacMap[y][x] == 'X')
+    _pacMap[y][x] == WALL || _pacMap[y][x] == CLYDE ||
+    _pacMap[y][x] == BLINKY || _pacMap[y][x] == INKY ||
+    _pacMap[y][x] == PINKY)
         return;
     if (_targetMap[y][x] == -1 || sum < _targetMap[y][x]) {
         _targetMap[y][x] = sum;
@@ -27,8 +29,8 @@ void arcade::game::PacmanGame::populateTargetMapPos(int y, int x, int sum)
     }
 }
 
-arcade::types::Direction arcade::game::PacmanGame::populateTargetMap(types::Position &mapGhostPos,
-    types::Position &mapTargetPos)
+arcade::types::Direction arcade::game::PacmanGame::populateTargetMap(types::Direction ghostDirection,
+    types::Position &mapGhostPos, types::Position &mapTargetPos)
 {
     int directions[4];
 
@@ -63,17 +65,20 @@ arcade::types::Direction arcade::game::PacmanGame::populateTargetMap(types::Posi
     if (directions[types::RIGHT] != -1 &&
     (directions[types::RIGHT] < directions[types::DOWN] || directions[types::DOWN] == -1) &&
     (directions[types::RIGHT] < directions[types::LEFT] || directions[types::LEFT] == -1) &&
-    (directions[types::RIGHT] < directions[types::UP] || directions[types::UP] == -1))
+    (directions[types::RIGHT] < directions[types::UP] || directions[types::UP] == -1) &&
+    ghostDirection != types::LEFT)
         return types::RIGHT;
     if (directions[types::DOWN] != -1 &&
     (directions[types::DOWN] < directions[types::RIGHT] || directions[types::RIGHT] == -1) &&
     (directions[types::DOWN] < directions[types::LEFT] || directions[types::LEFT] == -1) &&
-    (directions[types::DOWN] < directions[types::UP] || directions[types::UP] == -1))
+    (directions[types::DOWN] < directions[types::UP] || directions[types::UP] == -1) &&
+    ghostDirection != types::UP)
         return types::DOWN;
     if (directions[types::LEFT] != -1 &&
     (directions[types::LEFT] < directions[types::RIGHT] || directions[types::RIGHT] == -1) &&
     (directions[types::LEFT] < directions[types::DOWN] || directions[types::DOWN] == -1) &&
-    (directions[types::LEFT] < directions[types::UP] || directions[types::UP] == -1))
+    (directions[types::LEFT] < directions[types::UP] || directions[types::UP] == -1) &&
+    ghostDirection != types::RIGHT)
         return types::LEFT;
     return types::UP;
 }

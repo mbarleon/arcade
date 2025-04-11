@@ -48,8 +48,8 @@ namespace arcade::game {
             types::Position getPosition(int y, int x);
             types::Position getNextCasePos();
             int getFoodValue(char food);
-            types::Direction populateTargetMap(types::Position &mapGhostPos,
-                types::Position &mapTargetPos);
+            types::Direction populateTargetMap(types::Direction ghostDirection,
+                types::Position &mapGhostPos, types::Position &mapTargetPos);
             void populateTargetMapPos(int y, int x, int sum);
             void loadHighScore();
 
