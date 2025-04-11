@@ -164,8 +164,6 @@ void arcade::display::NCursesDisplayModule::draw(Entities entities)
 {
     clear();
     for (auto &it : entities) {
-        if (it.first == arcade::types::NONE)
-            continue;
         for (auto &ti : it.second) {
             int x = ti.pos.x;
             int y = ti.pos.y;
