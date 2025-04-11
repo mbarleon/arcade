@@ -27,7 +27,7 @@ extern "C" {
 
     arcade::types::LibType getType(void)
     {
-        return arcade::types::GAME;
+        return arcade::types::MENU;
     }
 
     const char *getName()

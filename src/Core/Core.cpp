@@ -82,6 +82,10 @@ void arcade::core::Core::loadDisplay(const char *display)
     }
 
     _displayHandle = utils::load_dll_so(display);
+    if (utils::getFunction<TYPE_CAST>("getType", _displayHandle)() != types::DISPLAY) {
+        utils::unload_dll_so(_displayHandle);
+        throw exception::Error("loadDisplay", "Not a display");
+    }
     _libName = utils::getFunction<STRING_CAST>("getName", _displayHandle)();
     _display.reset(utils::getFunction<DISPLAY_CREATE>("create", _displayHandle)());
 }
@@ -99,6 +103,11 @@ void arcade::core::Core::loadGame(const char *game)
     }
 
     _gameHandle = utils::load_dll_so(game);
+    auto type = utils::getFunction<TYPE_CAST>("getType", _gameHandle)();
+    if (type != types::GAME && type != types::MENU) {
+        utils::unload_dll_so(_gameHandle);
+        throw exception::Error("loadGame", "Not a game");
+    }
     _gameName = utils::getFunction<STRING_CAST>("getName", _gameHandle)();
     _game.reset(utils::getFunction<GAME_CREATE>("create", _gameHandle)());
 }
