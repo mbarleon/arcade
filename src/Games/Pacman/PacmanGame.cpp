@@ -37,7 +37,7 @@ void arcade::game::PacmanGame::update(GameEvent event)
             refreshScore();
         }
         removeEntityAt(targetScreenPos);
-    } else if (_pacMap[targetPos.y][targetPos.x] == 'X')
+    } else if (_pacMap[targetPos.y][targetPos.x] == WALL)
         return;
     movePlayer(targetPos.y, targetPos.x);
 }

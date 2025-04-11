@@ -153,10 +153,10 @@ void arcade::game::PacmanGame::initGameMap()
     for (int y = 0; y < MAP_SIDE; ++y)
         for (int x = 0; x < MAP_SIDE; ++x) {
             types::EntityDraw entityDraw = getEntityDraw(_pacMap[y][x]);
+            types::EntityType entityType = getEntityType(_pacMap[y][x]);
 
-            if (entityDraw != types::NONE)
-                addEntity(getEntityType(_pacMap[y][x]), entityDraw,
-                getPosition(y, x), _pacMap[y][x],
+            if (!(entityDraw == types::NONE && entityType == types::EMPTY))
+                addEntity(entityType, entityDraw, getPosition(y, x), _pacMap[y][x],
                 0, "", getEntitySprite(_pacMap[y][x]));
         }
 }
