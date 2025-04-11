@@ -240,7 +240,7 @@ void arcade::game::SnakeGame::_saveScore(void)
 
     if (!file || !file.is_open())
         return;
-    _high_score = _high_score < _size - 3 ? _size - 3 : _high_score;
+    _high_score = _high_score < _size - 3 || _high_score > _max_size ? _size - 3 : _high_score;
     file << _high_score << std::endl;
 }
 
