@@ -112,7 +112,7 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::S
         else if (_event.type == sf::Event::KeyPressed)
             return std::make_pair(types::Position{_mouse.x, _mouse.y}, (types::InputEvent)_event.key.code);
         else if (_event.type == sf::Event::MouseButtonPressed)
-            return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::ARIGHT_BUTTON);
+            return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::ALEFT_BUTTON);
         // else if (_event.type == sf::Event::Resized)
         //     _win.setView(sf::View(sf::FloatRect(0, 0, _event.size.width, _event.size.height)));
     }

@@ -195,7 +195,7 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::N
         if (getmouse(&event) == OK) {
             result.first.x = event.x;
             result.first.y = event.y;
-            result.second = arcade::types::ARIGHT_BUTTON;
+            result.second = arcade::types::ALEFT_BUTTON;
             return result;
         }
     } else if (ch != ERR) {

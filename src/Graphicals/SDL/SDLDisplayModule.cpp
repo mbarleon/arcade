@@ -183,7 +183,7 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::S
         if (_event.type == SDL_MOUSEBUTTONDOWN) {
             pos.x = _event.button.x;
             pos.y = _event.button.y;
-            result = {pos, arcade::types::ARIGHT_BUTTON};
+            result = {pos, arcade::types::ALEFT_BUTTON};
             continue;
         }
         if (_event.type == SDL_KEYDOWN)
