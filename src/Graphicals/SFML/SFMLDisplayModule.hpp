@@ -9,6 +9,7 @@
     #define SFMLDISPLAYMODULE_HPP_
     #include "../ADisplayModule.hpp"
     #include "SFMLCharTraitFix.hpp"
+    #include "../Assets/font.hpp"
     #include <SFML/Audio.hpp>
     #include <SFML/Graphics.hpp>
     #include <SFML/System.hpp>

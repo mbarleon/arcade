@@ -59,7 +59,12 @@ arcade::display::SDLDisplayModule::SDLDisplayModule()
         throw arcade::exception::Error("SDL Constructor : Line 21", "ERROR - RENDERER INITIALISATION FAILED");
     if (TTF_Init() != 0)
         throw arcade::exception::Error("SDL_TTF init failed", TTF_GetError());
-    this->_font = TTF_OpenFont("./SFPro.OTF", 24);
+    SDL_RWops *rw = SDL_RWFromConstMem(__default_font, __default_font_len);
+    if (rw == nullptr)
+        throw arcade::exception::Error("SDL FONT INIT : RW (l:64)", "ERROR - FONT INIT FAILED");
+    this->_font = TTF_OpenFontRW(rw, 1, TEXT_SIZE);
+    if (this->_font == nullptr)
+        throw arcade::exception::Error("SDL FONT INIT : FONT OPEN FAILED (l:67)", "ERROR - FONT INIT FAILED");
 }
 
 /**
@@ -203,6 +208,8 @@ arcade::display::SDLDisplayModule::~SDLDisplayModule()
         SDL_DestroyRenderer(_renderer);
     if (_window)
         SDL_DestroyWindow(_window);
+    if (_font)
+        TTF_CloseFont(_font);
     TTF_Quit();
     SDL_Quit();
 }

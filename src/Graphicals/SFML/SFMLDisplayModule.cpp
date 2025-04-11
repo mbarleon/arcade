@@ -37,7 +37,7 @@ arcade::display::SFMLDisplayModule::SFMLDisplayModule()
     sf::Listener::setGlobalVolume(50);
     _pixel.setSize(pixelSize);
     _circle.setRadius(CIRCLE_RADIUS);
-    _font.loadFromFile("SFPro.OTF");
+    _font.loadFromMemory(__default_font, __default_font_len);
 }
 
 arcade::display::SFMLDisplayModule::~SFMLDisplayModule()
