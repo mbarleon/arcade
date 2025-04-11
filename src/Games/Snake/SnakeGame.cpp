@@ -73,14 +73,13 @@ arcade::game::SnakeGame::SnakeGame()
 {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    int pos_x = static_cast<int>((MAP_HEIGHT + 1) / 2) + 2;
-    int pos_y = static_cast<int>((MAP_WIDTH + 1) / 2);
+    int pos_x = static_cast<int>((MAP_HEIGHT + 1) / 2);
+    int pos_y = static_cast<int>(MAP_WIDTH / 2) + 1;
 
     genApple();
 
-    _snake.push_front(types::Position{pos_x - 1, pos_y});
-    _snake.push_front(types::Position{pos_x, pos_y});
-    _snake.push_front(types::Position{pos_x + 1, pos_y});
+    for (int i = static_cast<int>(-_size / 2); i < static_cast<int>(_size / 2); ++i)
+        _snake.push_front(types::Position{pos_x + i, pos_y});
 
     addBaseEntities();
     _getScore();
@@ -240,7 +239,7 @@ void arcade::game::SnakeGame::_saveScore(void)
 
     if (!file || !file.is_open())
         return;
-    _high_score = _high_score < _size - 3 || _high_score > _max_size ? _size - 3 : _high_score;
+    _high_score = _high_score < _size - SNAKE_BASE_SIZE || _high_score > _max_size ? _size - SNAKE_BASE_SIZE : _high_score;
     file << _high_score << std::endl;
 }
 
@@ -252,7 +251,7 @@ void arcade::game::SnakeGame::_saveScore(void)
 void arcade::game::SnakeGame::add_scores(void)
 {
     std::string high;
-    std::string score = "Score: " + std::to_string(_size - 3);
+    std::string score = "Score: " + std::to_string(_size - SNAKE_BASE_SIZE);
     removeEntityAt(types::Position{0, 0});
     addEntity(types::EMPTY, types::TEXT, types::Position{0, 0}, ' ', getRGBA(255, 255, 255, 255).color, score);
 
@@ -263,7 +262,7 @@ void arcade::game::SnakeGame::add_scores(void)
         high = "High Score: cheater";
     }
     removeEntityAt(types::Position{30 - static_cast<int>(high.size()), 0});
-    _high_score = _high_score < _size - 3 ? _size - 3 : _high_score;
+    _high_score = _high_score < _size - SNAKE_BASE_SIZE ? _size - SNAKE_BASE_SIZE : _high_score;
     if (_high_score <= _max_size) {
         high = "High Score: " + std::to_string(_high_score);
     } else {

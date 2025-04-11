@@ -7,8 +7,9 @@
 
 #ifndef SNAKEGAME_HPP_
     #define SNAKEGAME_HPP_
-    #define MAP_WIDTH 29
+    #define MAP_WIDTH 30
     #define MAP_HEIGHT 29
+    #define SNAKE_BASE_SIZE 4
     #define SNAKE_SLOWDOWN_FACTOR 6
     #include <list>
     #include <ctime>
@@ -45,10 +46,10 @@ namespace arcade::game {
             void updateDirection(const types::InputEvent event);
 
             int _timer = 1;
-            std::size_t _size = 3;
             types::Position _apple;
             std::size_t _high_score = 0;
             std::list<types::Position> _snake;
+            std::size_t _size = SNAKE_BASE_SIZE;
             types::Direction _last_move = types::RIGHT;
             types::Direction _direction = types::RIGHT;
             std::size_t _max_size = (MAP_HEIGHT - 2) * (MAP_WIDTH - 2);
