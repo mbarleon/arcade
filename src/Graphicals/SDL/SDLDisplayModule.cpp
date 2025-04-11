@@ -7,6 +7,18 @@
 
 #include "SDLDisplayModule.hpp"
 
+/**
+ * @file SDLDisplayModule.cpp
+ * @brief This file contains all functions related to SDL.
+ * @author Noé CARABIN
+ * @version 1.0
+ * @date 2025-04-11
+ * @see SDLDisplayModule.hpp, IGameModule.hpp, Types.hpp
+ *
+ * @details
+ * This file includes all functions related to SDL. It initializes the window, the renderer, etc.,
+ * and provides the functions used to display entities.
+ */
 extern "C" {
     arcade::display::IDisplayModule *create(void)
     {
@@ -29,6 +41,11 @@ extern "C" {
     }
 }
 
+/**
+ * @brief Constructor of the SDLDisplayModule class.
+ * @details Constructs and initializes all the necessary parameters for the creation and use of a graphical library.
+ * @throws arcade::exception::Error If the initialization of SDL, the creation of the window, the renderer, or the font fails.
+ */
 arcade::display::SDLDisplayModule::SDLDisplayModule()
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -45,6 +62,14 @@ arcade::display::SDLDisplayModule::SDLDisplayModule()
     this->_font = TTF_OpenFont("./SFPro.OTF", 24);
 }
 
+/**
+ * @brief Display function.
+ * @details This function retrieves the complete list of elements and displays them
+ * according to their type (rectangles, circles, texts, and sprites).
+ * @param entities The list of all entities to load.
+ * @see Entities structure in arcade::types
+ * @throws arcade::exception::Error Only if loading the sprite textures fails.
+ */
 void arcade::display::SDLDisplayModule::draw(Entities entities)
 {
     SDL_SetRenderDrawColor(this->_renderer, 0, 0, 0, 255);
@@ -73,14 +98,14 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
             if (it.first == arcade::types::SPRITE) {
                 SDL_RWops *rw = SDL_RWFromConstMem(ti.sprite.assets, static_cast<int>(ti.sprite.length));
                 if (!rw)
-                    throw std::runtime_error("SDL_RWFromConstMem failed");
+                    throw exception::Error("SDL DRAW (l:88)", "SDL_RWFromConstMem failed");
                 SDL_Surface *surface = IMG_Load_RW(rw, 1);
                 if (!surface)
-                    throw std::runtime_error(std::string("IMG_Load_RW failed: ") + IMG_GetError());
+                    throw exception::Error("SDL DRAW (l:91)", std::string("IMG_Load_RW failed: ") + IMG_GetError());
                 SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
                 SDL_FreeSurface(surface);
                 if (!texture)
-                    throw std::runtime_error("SDL_CreateTextureFromSurface failed");
+                    throw arcade::exception::Error("SDL DRAW (l:95)", "SDL_CreateTextureFromSurface failed");
                 SDL_Rect dest = {
                     static_cast<int>(ti.pos.x * RECTANGLE_SIZE),
                     static_cast<int>(ti.pos.y * RECTANGLE_SIZE),
@@ -112,6 +137,13 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
     SDL_RenderPresent(this->_renderer);
 }
 
+/**
+ * @brief Special function for handling circles in SDL.
+ * @details SDL does not natively support circle rendering,
+ * but this function allows circles to be drawn at the specified positions.
+ * @param baseX The X coordinate of the circle's center (in grid units).
+ * @param baseY The Y coordinate of the circle's center (in grid units).
+ */
 void arcade::display::SDLDisplayModule::drawCircle(int baseX, int baseY)
 {
     const int centerX = baseX * RECTANGLE_SIZE + CIRCLE_RADIUS;
@@ -123,6 +155,12 @@ void arcade::display::SDLDisplayModule::drawCircle(int baseX, int baseY)
     }
 }
 
+/**
+ * @brief Returns the events.
+ * @details This function captures events using SDL and returns them as a defined structure,
+ * allowing games to react based on player actions.
+ * @see Event structure in arcade::types
+ */
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::SDLDisplayModule::event()
 {
     std::pair<arcade::types::Position, arcade::types::InputEvent> result;
@@ -154,6 +192,11 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::S
     return result;
 }
 
+/**
+ * @brief Destructeur de la classe SDL.
+ * @details Cette focntion détruit les choses qui ont été initialisées par la SDL tel que la fenêtre, le renderer,
+ * la font et la SDL en elle même.
+ */
 arcade::display::SDLDisplayModule::~SDLDisplayModule()
 {
     if (_renderer)
@@ -164,6 +207,12 @@ arcade::display::SDLDisplayModule::~SDLDisplayModule()
     SDL_Quit();
 }
 
+/**
+ * @brief Returns the events.
+ * @details This function takes the code of a pressed key and maps it to the internal event structures,
+ * which are based on those from SFML.
+ * @see Event structure in arcade::types
+ */
 arcade::types::InputEvent arcade::display::SDLDisplayModule::mapSDLKeyToInputEvent(SDL_Keycode key)
 {
     switch (key) {

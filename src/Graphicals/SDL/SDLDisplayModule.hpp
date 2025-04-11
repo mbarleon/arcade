@@ -6,7 +6,7 @@
 */
 
 #ifndef SDLDISPLAYMODULE_HPP_
-#define SDLDISPLAYMODULE_HPP_
+    #define SDLDISPLAYMODULE_HPP_
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -16,6 +16,18 @@
 #include "ADisplayModule.hpp"
 #include "../../Utils/Error.hpp"
 
+/**
+ * @file SDLDisplayModule.hpp
+ * @brief Header file for SDL display module.
+ * @author Noé CARABIN
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * This file declares all the methods and attributes related to SDL rendering.
+ * It defines the SDLDisplayModule class, which handles window creation, rendering,
+ * and entity display operations using SDL2.
+ */
 namespace arcade::display {
     class SDLDisplayModule : public ADisplayModule {
         public:
