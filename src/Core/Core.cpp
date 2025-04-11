@@ -58,7 +58,7 @@ arcade::core::Core::Core()
             utils::unload_dll_so(handle);
 
             auto path = getPath(dir_entry.path());
-            if (type == types::LibType::GAME)
+            if (type == types::LibType::GAME || type == types::LibType::MENU)
                 _games.insert({name, path});
             if (type == types::LibType::DISPLAY)
                 _displays.insert({name, path});
