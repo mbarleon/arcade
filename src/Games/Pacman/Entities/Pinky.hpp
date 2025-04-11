@@ -1,0 +1,22 @@
+/*
+** EPITECH PROJECT, 2025
+** B-OOP-400-STG-4-1-arcade-mathieu.barleon
+** File description:
+** Pinky
+*/
+
+#ifndef PINKY_HPP_
+    #define PINKY_HPP_
+    #include "Ghost.hpp"
+
+namespace arcade::game::pacman {
+    class Pinky : public Ghost {
+        public:
+            Pinky();
+            ~Pinky();
+
+        private:
+    };
+};
+
+#endif
