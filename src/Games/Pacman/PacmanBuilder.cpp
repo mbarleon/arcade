@@ -136,6 +136,17 @@ void arcade::game::PacmanGame::initGameEntities()
 
     addEntity(types::ENEMY, types::SPRITE, getPosition(14, 14), CLYDE, 0, "",
     {.key = "Clyde", .assets = orange_bottom_png, .length = orange_bottom_png_len});
+
+    types::Position ghost = {12, 14};
+    types::Position target = {13, 11};
+    printf("%d\n", populateTargetMap(ghost, target));
+}
+
+void arcade::game::PacmanGame::initGameTargetMap()
+{
+    for (int y = 0; y < MAP_SIDE; ++y)
+        for (int x = 0; x < MAP_SIDE; ++x)
+            _targetMap[y][x] = -1;
 }
 
 void arcade::game::PacmanGame::initGameMap()

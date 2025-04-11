@@ -48,19 +48,23 @@ void arcade::game::PacmanGame::updateWantedDirection()
 {
     switch (_wantedDirection) {
         case types::UP:
-            if (_pacMap[_pacPos.y - 1][_pacPos.x] != 'X')
+            if (_pacMap[_pacPos.y - 1][_pacPos.x] != WALL &&
+            _pacMap[_pacPos.y - 1][_pacPos.x] != DOOR)
                 _direction = _wantedDirection;
             return;
         case types::LEFT:
-            if (_pacMap[_pacPos.y][_pacPos.x - 1] != 'X')
+            if (_pacMap[_pacPos.y][_pacPos.x - 1] != WALL &&
+            _pacMap[_pacPos.y][_pacPos.x - 1] != DOOR)
                 _direction = _wantedDirection;
             return;
         case types::RIGHT:
-            if (_pacMap[_pacPos.y][_pacPos.x + 1] != 'X')
+            if (_pacMap[_pacPos.y][_pacPos.x + 1] != WALL &&
+            _pacMap[_pacPos.y][_pacPos.x + 1] != DOOR)
                 _direction = _wantedDirection;
             return;
         default:
-            if (_pacMap[_pacPos.y + 1][_pacPos.x] != 'X')
+            if (_pacMap[_pacPos.y + 1][_pacPos.x] != WALL &&
+            _pacMap[_pacPos.y + 1][_pacPos.x] != DOOR)
                 _direction = _wantedDirection;
             return;
     }
@@ -70,28 +74,32 @@ void arcade::game::PacmanGame::updateDirection(types::InputEvent event)
 {
     switch (event) {
         case types::AKEY_UP:
-            if (_pacMap[_pacPos.y - 1][_pacPos.x] != 'X') {
+            if (_pacMap[_pacPos.y - 1][_pacPos.x] != WALL &&
+            _pacMap[_pacPos.y - 1][_pacPos.x] != DOOR) {
                 _direction = types::UP;
                 _wantedDirection = _direction;
             } else
                 _wantedDirection = types::UP;
             return;
         case types::AKEY_LEFT:
-            if (_pacMap[_pacPos.y][_pacPos.x - 1] != 'X') {
+            if (_pacMap[_pacPos.y][_pacPos.x - 1] != WALL &&
+            _pacMap[_pacPos.y][_pacPos.x - 1] != DOOR) {
                 _direction = types::LEFT;
                 _wantedDirection = _direction;
             } else
                 _wantedDirection = types::LEFT;
             return;
         case types::AKEY_RIGHT:
-            if (_pacMap[_pacPos.y][_pacPos.x + 1] != 'X') {
+            if (_pacMap[_pacPos.y][_pacPos.x + 1] != WALL &&
+            _pacMap[_pacPos.y][_pacPos.x + 1] != DOOR) {
                 _direction = types::RIGHT;
                 _wantedDirection = _direction;
             } else
                 _wantedDirection = types::RIGHT;
             return;
         case types::AKEY_DOWN:
-            if (_pacMap[_pacPos.y + 1][_pacPos.x] != 'X') {
+            if (_pacMap[_pacPos.y + 1][_pacPos.x] != WALL &&
+            _pacMap[_pacPos.y + 1][_pacPos.x] != DOOR) {
                 _direction = types::DOWN;
                 _wantedDirection = _direction;
             } else

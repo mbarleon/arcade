@@ -48,13 +48,18 @@ namespace arcade::game {
             types::Position getPosition(int y, int x);
             types::Position getNextCasePos();
             int getFoodValue(char food);
+            types::Direction populateTargetMap(types::Position &mapGhostPos,
+                types::Position &mapTargetPos);
+            void populateTargetMapPos(int y, int x, int sum);
+            void loadHighScore();
 
             void initGameEntities();
             void initGameMap();
-            void loadHighScore();
+            void initGameTargetMap();
             void saveHighScore();
-            void movePlayer(int y, int x);
             void removeGameEntities();
+
+            void movePlayer(int y, int x);
             void updateWantedDirection();
             void updateDirection(types::InputEvent event);
             void refreshScore();
@@ -62,11 +67,14 @@ namespace arcade::game {
             types::Direction _direction;
             types::Direction _wantedDirection;
             types::Position _pacPos;
+            types::Position _ghostsTargetPos[4];
+
             int _extraLifes;
             int _ghostKillRow;
             int _highScore;
             unsigned int _timer;
 
+            int _targetMap[MAP_SIDE][MAP_SIDE];
             static constexpr const char *_pacMap[] = {
                 "XXXXXXXXXXXXXX XXXXXXXXXXXXXXX",
                 "X............X X.............X",
@@ -102,4 +110,4 @@ namespace arcade::game {
     };
 };
 
-#endif /* !PACMANGAME_HPP_ */
+#endif

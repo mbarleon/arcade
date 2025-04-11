@@ -11,6 +11,7 @@ SRC				=	PacmanGame.cpp		\
 					PacmanBuilder.cpp	\
 					PacmanMove.cpp		\
 					PacmanScore.cpp		\
+					PacmanAI.cpp		\
 					../AGame.cpp		\
 
 OBJ				=	$(SRC:.cpp=.o)
