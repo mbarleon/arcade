@@ -11,6 +11,7 @@
 #include <chrono>
 #include <thread>
 #include <string>
+#include <memory>
 #include <cstring>
 #include <filesystem>
 #include <unordered_map>
@@ -71,8 +72,8 @@ namespace arcade::core {
 
             bool _quit = false;
 
-            game::IGame *_game = nullptr;
-            display::IDisplayModule *_display = nullptr;
+            std::unique_ptr<game::IGame>_game = nullptr;
+            std::unique_ptr<display::IDisplayModule>_display = nullptr;
 
             void *_gameHandle = nullptr;
             void *_displayHandle = nullptr;
