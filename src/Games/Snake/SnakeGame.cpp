@@ -199,33 +199,11 @@ void arcade::game::SnakeGame::genApple(void)
 void arcade::game::SnakeGame::_getScore(void)
 {
     std::string line;
-    std::ifstream file("Score/SnakeGame.arcade");
+    std::ifstream file("Score/snake.dat", std::ios::binary);
 
     if (!file || !file.is_open())
         return;
-    std::getline(file, line);
-
-    for (char& ch : line) {
-        if (ch == '\n') {
-            ch = '\0';
-        }
-    }
-    try {
-        std::size_t idx;
-        unsigned long long val = std::stoull(line, &idx);
-        if (idx != line.size())
-            return;
-        if (val > std::numeric_limits<std::size_t>::max())
-            return;
-        _high_score = static_cast<std::size_t>(val);
-    } catch (const std::invalid_argument& e) {
-        file.close();
-        return;
-    } catch (const std::out_of_range& e) {
-        file.close();
-        return;
-    }
-    file.close();
+    file.read(reinterpret_cast<char *>(&_high_score), sizeof(_high_score));
 }
 
 /**
@@ -235,12 +213,12 @@ void arcade::game::SnakeGame::_getScore(void)
  */
 void arcade::game::SnakeGame::_saveScore(void)
 {
-    std::ofstream file("Score/SnakeGame.arcade");
+    std::ofstream file("Score/snake.dat", std::ios::binary);
 
     if (!file || !file.is_open())
         return;
     _high_score = _high_score < _size - SNAKE_BASE_SIZE || _high_score > _max_size ? _size - SNAKE_BASE_SIZE : _high_score;
-    file << _high_score << std::endl;
+    file.write(reinterpret_cast<const char *>(&_high_score), sizeof(_high_score));
 }
 
 /**

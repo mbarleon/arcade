@@ -55,3 +55,4 @@ doc/latex
 doc/latex/*
 venv/
 *.arcade
+*.dat
