@@ -56,11 +56,53 @@ void arcade::game::pacman::Ghost::resetTargetMap()
 
 arcade::types::Direction arcade::game::pacman::Ghost::getRandomDirection()
 {
-    int nextDirection = rand() % 3; // parmi les pos disponibles (ajouter support murs)
+    bool directions[4] = {true, true, true, true};
+    int possibleDirections = 0;
+    int nextDirection;
 
-    if (nextDirection == _direction)
-        return static_cast<types::Direction>(nextDirection + 1);
-    return static_cast<types::Direction>(nextDirection);
+    if ((_position.y == 11 || _position.y == 23) &&
+    (_position.x >= 12 && _position.x <= 17)) {
+        if (_direction == types::LEFT)
+            return types::LEFT;
+        if (_direction == types::RIGHT)
+            return types::RIGHT;
+    }
+    switch (_direction) {
+        case types::DOWN:
+            directions[types::UP] = false;
+            break;
+        case types::LEFT:
+            directions[types::RIGHT] = false;
+            break;
+        case types::RIGHT:
+            directions[types::LEFT] = false;
+            break;
+        default:
+            directions[types::DOWN] = false;
+            break;
+    }
+    if (pacMap[_position.y - 1][_position.x] == WALL ||
+    pacMap[_position.y - 1][_position.x] == DOOR)
+        directions[types::UP] = false;
+    if (_position.y != 14 && _position.x != 0 &&
+    (pacMap[_position.y][_position.x - 1] == WALL ||
+    pacMap[_position.y][_position.x - 1] == DOOR))
+        directions[types::LEFT] = false;
+    if (_position.y != 14 && _position.x != 27 &&
+    (pacMap[_position.y][_position.x + 1] == WALL ||
+    pacMap[_position.y][_position.x + 1] == DOOR))
+        directions[types::RIGHT] = false;
+    if (pacMap[_position.y + 1][_position.x] == WALL ||
+    pacMap[_position.y + 1][_position.x] == DOOR)
+        directions[types::DOWN] = false;
+    for (int i = 0; i < 4; ++i)
+        if (directions[i])
+            ++possibleDirections;
+    nextDirection = rand() % possibleDirections;
+    for (; nextDirection < 4; ++nextDirection)
+        if (directions[nextDirection])
+            return static_cast<types::Direction>(nextDirection);
+    return types::UP;
 }
 
 void arcade::game::pacman::Ghost::populateTargetMapSlot(int y, int x, int sum)
