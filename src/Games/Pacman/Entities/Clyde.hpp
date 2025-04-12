@@ -12,8 +12,9 @@
 namespace arcade::game::pacman {
     class Clyde : public Ghost {
         public:
-            Clyde();
-            ~Clyde();
+            Clyde() = default;
+
+            void update(types::Entity *ghost) override;
 
         private:
     };

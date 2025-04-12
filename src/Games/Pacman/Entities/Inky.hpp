@@ -12,8 +12,9 @@
 namespace arcade::game::pacman {
     class Inky : public Ghost {
         public:
-            Inky();
-            ~Inky();
+            Inky() = default;
+
+            void update(types::Entity *ghost) override;
 
         private:
     };

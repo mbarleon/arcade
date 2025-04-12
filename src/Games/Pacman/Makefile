@@ -8,9 +8,13 @@
 CXX				=	g++
 
 SRC				=	PacmanGame.cpp		\
-					PacmanFactory.cpp		\
-					Entities/Ghost.cpp			\
+					PacmanFactory.cpp	\
+					Entities/Ghost.cpp	\
 					Entities/Player.cpp	\
+					Entities/Blinky.cpp	\
+					Entities/Pinky.cpp	\
+					Entities/Inky.cpp	\
+					Entities/Clyde.cpp	\
 					../AGame.cpp		\
 
 OBJ				=	$(SRC:.cpp=.o)

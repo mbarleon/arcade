@@ -33,8 +33,8 @@ namespace arcade::game::pacman {
     enum GhostMode {
         SCATTER,
         CHASE,
-        FREIGHT,
-        SPAWN
+        FRIGHTENED,
+        EATEN
     };
 
     static constexpr const char *pacMap[] = {

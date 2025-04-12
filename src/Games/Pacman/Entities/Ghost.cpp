@@ -7,7 +7,8 @@
 
 #include "Ghost.hpp"
 
-arcade::game::pacman::Ghost::Ghost() : _direction(types::UP), _position({0, 0})
+arcade::game::pacman::Ghost::Ghost() : _direction(types::UP),
+    _position({0, 0}), _mode(SCATTER)
 {
 }
 
@@ -21,11 +22,45 @@ void arcade::game::pacman::Ghost::setPosition(int y, int x)
     _position.y = y;
 }
 
+void arcade::game::pacman::Ghost::reverseDirection()
+{
+    switch (_direction) {
+        case types::UP:
+            _direction = types::DOWN;
+            break;
+        case types::LEFT:
+            _direction = types::RIGHT;
+            break;
+        case types::RIGHT:
+            _direction = types::LEFT;
+            break;
+        default:
+            _direction = types::UP;
+            break;
+    }
+}
+
+void arcade::game::pacman::Ghost::setMode(GhostMode mode)
+{
+    if (_mode == FRIGHTENED)
+        reverseDirection();
+    _mode = mode;
+}
+
 void arcade::game::pacman::Ghost::resetTargetMap()
 {
     for (int y = 0; y < MAP_SIDE; ++y)
         for (int x = 0; x < MAP_SIDE; ++x)
             _targetMap[y][x] = -1;
+}
+
+arcade::types::Direction arcade::game::pacman::Ghost::getRandomDirection()
+{
+    int nextDirection = rand() % 3; // parmi les pos disponibles (ajouter support murs)
+
+    if (nextDirection == _direction)
+        return static_cast<types::Direction>(nextDirection + 1);
+    return static_cast<types::Direction>(nextDirection);
 }
 
 void arcade::game::pacman::Ghost::populateTargetMapSlot(int y, int x, int sum)
@@ -50,7 +85,7 @@ void arcade::game::pacman::Ghost::populateTargetMapSlot(int y, int x, int sum)
     }
 }
 
-arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirection(int y, int x)
+arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirectionCorrected(int y, int x)
 {
     int directions[4];
 
@@ -101,4 +136,66 @@ arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirection(int y, 
     _direction != types::RIGHT)
         return types::LEFT;
     return types::UP;
+}
+
+arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirection(int y, int x)
+{
+    if (x < 0)
+        x = 0;
+    if (x > 29)
+        x = 29;
+    if (y < 0)
+        y = 0;
+    if (y > 29)
+        y = 29;
+    if ((_position.x >= 12 && _position.x <= 14) &&
+    (_position.y >= 12 && _position.y <= 14)) {
+        y = 11;
+        x = 13;
+    }
+    if ((_position.y == 11 || _position.y == 23) &&
+    (_position.x >= 12 && _position.x <= 17)) {
+        if (_direction == types::LEFT)
+            return types::LEFT;
+        if (_direction == types::RIGHT)
+            return types::RIGHT;
+    }
+    return getTargetDirectionCorrected(y, x);
+}
+
+void arcade::game::pacman::Ghost::move(types::Direction target, types::Entity *ghost)
+{
+    types::Position nextPos;
+
+    switch (target) {
+        case types::UP:
+            nextPos = {_position.x, _position.y - 1};
+            break;
+        case types::LEFT:
+            nextPos = {_position.x - 1, _position.y};
+            break;
+        case types::RIGHT:
+            nextPos = {_position.x + 1, _position.y};
+            break;
+        default:
+            nextPos = {_position.x, _position.y + 1};
+            break;
+    }
+    if (nextPos.x == -1)
+        nextPos.x = 29;
+    else if (nextPos.x == 30)
+        nextPos.x = 0;
+    ghost->pos.x = nextPos.x;
+    ghost->pos.y = nextPos.y + MAP_MARGIN_TOP;
+    _position = {nextPos.x, nextPos.y};
+}
+
+void arcade::game::pacman::Ghost::moveFrightened(types::Entity *ghost)
+{
+    move(getRandomDirection(), ghost);
+}
+
+void arcade::game::pacman::Ghost::moveEaten(types::Entity *ghost)
+{
+    move(getTargetDirection(13, 13), ghost);
 }

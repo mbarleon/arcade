@@ -12,8 +12,9 @@
 namespace arcade::game::pacman {
     class Pinky : public Ghost {
         public:
-            Pinky();
-            ~Pinky();
+            Pinky() = default;
+
+            void update(types::Entity *ghost) override;
 
         private:
     };
