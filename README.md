@@ -66,28 +66,28 @@ Noé CARABIN (@CorpsB): noe.carabin@epitech.eu
 ## Project Structure
 
 ```
-B-OOP-400-STG-4-1-arcade-mathieu.barleon/
+../B-OOP-400-STG-4-1-arcade-mathieu.barleon//
 ├── doc/
 │   ├── Doxygen
-│   ├── generate.sh
-│   └── open.sh
+│   ├── generate.sh*
+│   └── open.sh*
 ├── GenerateTemplate/
 │   ├── TemplateCreator/
-│   │   ├── Games/
-│   │   │   ├── __Name__Game.cpp
-│   │   │   ├── __Name__Game.hpp
-│   │   │   └── Makefile
-│   │   ├── Graphicals/
-│   │   │   ├── __Name__DisplayModule.cpp
-│   │   │   ├── __Name__DisplayModule.hpp
-│   │   │   └── Makefile
-│   │   ├── Menu/
-│   │   │   ├── __Name__Game.cpp
-│   │   │   ├── __Name__Game.hpp
-│   │   │   └── Makefile
-│   │   ├── __init__.py
 │   │   ├── BuildFiles.py
+│   │   ├── Games/
+│   │   │   ├── Makefile*
+│   │   │   ├── __Name__Game.cpp
+│   │   │   └── __Name__Game.hpp
+│   │   ├── Graphicals/
+│   │   │   ├── Makefile*
+│   │   │   ├── __Name__DisplayModule.cpp
+│   │   │   └── __Name__DisplayModule.hpp
+│   │   ├── __init__.py
 │   │   ├── Main.py
+│   │   ├── Menu/
+│   │   │   ├── Makefile*
+│   │   │   ├── __Name__Game.cpp
+│   │   │   └── __Name__Game.hpp
 │   │   ├── ParseArgs.py
 │   │   └── ReadFlags.py
 │   └── templateCreator.py
@@ -95,75 +95,89 @@ B-OOP-400-STG-4-1-arcade-mathieu.barleon/
 │   ├── Macro.hpp
 │   └── Types.hpp
 ├── lib/
-│   └── .gitkeep
-├── Score/
-│   └── .gitkeep
-├── src/
-│   ├── Core/
-│   │   ├── Core.cpp
-│   │   └── Core.hpp
-│   ├── Games/
-│   │   ├── Menu/
-│   │   │   ├── Makefile
-│   │   │   ├── Menu.cpp
-│   │   │   └── Menu.hpp
-│   │   ├── Pacman/
-│   │   │   ├── Assets/
-│   │   │   │   ├── map/
-│   │   │   │   │   ├── green_bottom.hpp
-│   │   │   │   │   ├── orange_bottom.hpp
-│   │   │   │   │   ├── pinh_bottom.hpp
-│   │   │   │   │   ├── red_bottom.hpp
-│   │   │   │   │   └── vulnerable_bottom.hpp
-│   │   │   │   ├── map/
-│   │   │   │   │   ├── gum.hpp
-│   │   │   │   │   ├── map.hpp
-│   │   │   │   │   └── pacgum.hpp
-│   │   │   │   └── pac/
-│   │   │   │       └── pac_bottom_4.hpp
-│   │   │   ├── Makefile
-│   │   │   ├── PacmanBuilder.cpp
-│   │   │   ├── PacmanGame.cpp
-│   │   │   ├── PacmanGame.hpp
-│   │   │   └── PacmanMove.cpp
-│   │   ├── Snake/
-│   │   │   ├── Makefile
-│   │   │   ├── SnakeGame.cpp
-│   │   │   └── SnakeGame.hpp
-│   │   ├── AGame.cpp
-│   │   ├── AGame.hpp
-│   │   ├── IGame.hpp
-│   │   └── Makefile
-│   ├── Graphicals/
-│   │   ├── NCurses/
-│   │   │   ├── Makefile
-│   │   │   ├── NCursesDisplayModule.cpp
-│   │   │   └── NCursesDisplayModule.hpp
-│   │   ├── SDL/
-│   │   │   ├── Makefile
-│   │   │   ├── SDLDisplayModule.cpp
-│   │   │   └── SDLDisplayModule.hpp
-│   │   ├── SFML/
-│   │   │   ├── Makefile
-│   │   │   ├── SFMLCharTraitFix.cpp
-│   │   │   ├── SFMLDisplayModule.cpp
-│   │   │   └── SFMLDisplayModule.hpp
-│   │   ├── ADisplayModule.cpp
-│   │   ├── ADisplayModule.hpp
-│   │   ├── IDisplayModule.hpp
-│   │   └── Makefile
-│   ├── Main/
-│   │   └── main.cpp
-│   └── Utils/
-│       ├── Error.cpp
-│       ├── Error.hpp
-│       ├── GetLib.cpp
-│       ├── GetLib.hpp
-│       ├── Logger.cpp
-│       ├── Logger.hpp
-│       └── Makefile
-├── .gitignore
-├── Makefile
+├── Makefile*
 ├── README.md
-└── SFPro.OTF
+├── Score/
+└── src/
+    ├── Core/
+    │   ├── Core.cpp
+    │   └── Core.hpp
+    ├── Games/
+    │   ├── AGame.cpp
+    │   ├── AGame.hpp
+    │   ├── IGame.hpp
+    │   ├── Makefile*
+    │   ├── Menu/
+    │   │   ├── Assets/
+    │   │   │   ├── image2.hpp
+    │   │   │   └── image.hpp
+    │   │   ├── Makefile
+    │   │   ├── Menu.cpp
+    │   │   └── Menu.hpp
+    │   ├── Pacman/
+    │   │   ├── Assets/
+    │   │   │   ├── ghosts/
+    │   │   │   │   ├── green_bottom.hpp
+    │   │   │   │   ├── orange_bottom.hpp
+    │   │   │   │   ├── pink_bottom.hpp
+    │   │   │   │   ├── red_bottom.hpp
+    │   │   │   │   └── vulnerable_bottom.hpp
+    │   │   │   ├── map/
+    │   │   │   │   ├── gum.hpp
+    │   │   │   │   ├── map.hpp
+    │   │   │   │   └── pacgum.hpp
+    │   │   │   └── pac/
+    │   │   │       └── pac_bottom_4.hpp
+    │   │   ├── Entities/
+    │   │   │   ├── Blinky.cpp
+    │   │   │   ├── Blinky.hpp
+    │   │   │   ├── Clyde.cpp
+    │   │   │   ├── Clyde.hpp
+    │   │   │   ├── Ghost.cpp
+    │   │   │   ├── Ghost.hpp
+    │   │   │   ├── Inky.cpp
+    │   │   │   ├── Inky.hpp
+    │   │   │   ├── Pinky.cpp
+    │   │   │   ├── Pinky.hpp
+    │   │   │   ├── Player.cpp
+    │   │   │   └── Player.hpp
+    │   │   ├── includes.hpp
+    │   │   ├── Makefile*
+    │   │   ├── PacmanFactory.cpp
+    │   │   ├── PacmanGame.cpp
+    │   │   └── PacmanGame.hpp
+    │   └── Snake/
+    │       ├── Makefile*
+    │       ├── SnakeGame.cpp
+    │       └── SnakeGame.hpp
+    ├── Graphicals/
+    │   ├── ADisplayModule.cpp
+    │   ├── ADisplayModule.hpp
+    │   ├── Assets/
+    │   │   └── font.hpp
+    │   ├── IDisplayModule.hpp
+    │   ├── Makefile*
+    │   ├── NCurses/
+    │   │   ├── Makefile*
+    │   │   ├── NCursesDisplayModule.cpp
+    │   │   └── NCursesDisplayModule.hpp
+    │   ├── SDL/
+    │   │   ├── Makefile*
+    │   │   ├── SDLDisplayModule.cpp
+    │   │   └── SDLDisplayModule.hpp
+    │   └── SFML/
+    │       ├── Makefile*
+    │       ├── SFMLCharTraitFix.hpp
+    │       ├── SFMLDisplayModule.cpp
+    │       └── SFMLDisplayModule.hpp
+    ├── Main/
+    │   └── main.cpp
+    └── Utils/
+        ├── Error.cpp
+        ├── Error.hpp
+        ├── GetLib.cpp
+        ├── GetLib.hpp
+        ├── Logger.cpp
+        ├── Logger.hpp
+        └── Makefile*
 ```
