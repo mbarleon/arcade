@@ -20,7 +20,7 @@
 /**
  * @file SDLDisplayModule.hpp
  * @brief Header file for SDL display module.
- * @author Noé CARABIN
+ * @author Noé CARABIN (CorpsB)
  * @version 1.0
  * @date 2025-03-26
  *
@@ -30,6 +30,17 @@
  * and entity display operations using SDL2.
  */
 namespace arcade::display {
+    /**
+     * @class SDLDisplayModule
+     * @brief SDL-based implementation of the ADisplayModule interface.
+     * @details This class handles rendering and event processing using the SDL2 library.
+     * It is responsible for drawing visual elements such as shapes, sprites, and text,
+     * and for capturing input events to be passed back to the core logic.
+     * The class uses SDL_Window and SDL_Renderer to manage the window and render context,
+     * and also supports TTF font rendering via SDL_ttf.
+     *
+     * @see ADisplayModule
+     */
     class SDLDisplayModule : public ADisplayModule {
         public:
             SDLDisplayModule();

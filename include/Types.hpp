@@ -345,6 +345,17 @@ struct Position {
  */
 namespace std {
     template<>
+/**
+ * @brief Hash specialization for arcade::types::Position.
+ * @details Enables the use of Position objects as keys in hash-based containers
+ * like std::unordered_map and std::unordered_set.
+ *
+ * The hash function combines the hashes of the x and y coordinates using the
+ * Boost-style hash combining method to reduce collisions.
+ *
+ * @see arcade::types::Position
+ */
+
     struct hash<arcade::types::Position> {
         size_t operator()(const arcade::types::Position &pos) const
         {

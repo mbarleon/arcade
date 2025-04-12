@@ -30,6 +30,22 @@
  */
 namespace arcade::game {
 
+/**
+ * @class SnakeGame
+ * @brief Implementation of the classic Snake game for the Arcade project.
+ * @details This class inherits from AGame and implements all the logic needed to run
+ * the Snake game, including movement, collision detection, apple generation, score tracking,
+ * and snake growth over time.
+ * It manages the snake's state using a list of positions, and interacts with the Arcade
+ * rendering system through the base AGame interface.
+ * Key features:
+ * - Dynamic snake movement and direction updates.
+ * - Apple generation and consumption logic.
+ * - Score management and persistence.
+ *
+ * @see AGame
+ */
+
     class SnakeGame : public AGame {
         public:
             SnakeGame();

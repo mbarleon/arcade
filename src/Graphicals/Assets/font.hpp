@@ -1,4 +1,23 @@
-unsigned char __default_font[] = {
+/**
+ * @file font.hpp
+ * @brief Contains the binary representation of the default font used in the Arcade project.
+ * @author Noé Carabin (CorpsB)
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * This file embeds a default font directly into the binary, stored as an array of unsigned chars.
+ * It allows rendering text without depending on external font files at runtime.
+ * The font is stored in:
+ * - `__default_font`: the binary data.
+ * - `__default_font_len`: the size of the font data in bytes.
+ * This setup ensures portability across systems and simplifies asset management.
+ *
+ * @note The binary was likely generated using a tool such as `xxd -i` or a custom converter.
+ */
+
+
+static constexpr unsigned char __default_font[] = { /// Binary representation of the embedded default font.
   0x4f, 0x54, 0x54, 0x4f, 0x00, 0x0e, 0x00, 0x80, 0x00, 0x03, 0x00, 0xd8,
   0x43, 0x46, 0x46, 0x20, 0xe5, 0x64, 0x1d, 0xb3, 0x00, 0x00, 0xcf, 0xe8,
   0x00, 0x02, 0x05, 0x73, 0x47, 0x50, 0x4f, 0x53, 0x7e, 0x96, 0x4f, 0x9a,
@@ -27960,4 +27979,5 @@ unsigned char __default_font[] = {
   0x00, 0xbe, 0x07, 0x9f, 0x07, 0x9f, 0x00, 0xb2, 0x07, 0xa0, 0x07, 0xa0,
   0x00, 0xb3, 0x00, 0x00
 };
+/// Size of the default font binary data in bytes.
 unsigned int __default_font_len = 335512;

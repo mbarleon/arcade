@@ -28,7 +28,7 @@
 namespace arcade::game {
     /**
      * @class IGame
-     * @brief Classe interface de jeu.
+     * @brief Game interface class.
      *
      * @details
      * This class defines the interface that all game classes must implement

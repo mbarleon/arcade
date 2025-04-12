@@ -9,7 +9,38 @@
     #define AGAME_HPP_
     #include "IGame.hpp"
 
+/**
+ * @file AGame.hpp
+ * @brief Declares the abstract base class for Arcade games.
+ * @author Jason Koenig and Carabin Noé (CorpsB)
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * This header defines the AGame class, which serves as a common base for all game implementations
+ * in the Arcade project. It provides standard logic for entity management, score tracking, and
+ * game-over state handling, while delegating the core gameplay logic to derived classes.
+ * All games in the project should inherit from AGame and implement game-specific behavior.
+ *
+ * @see arcade::game::AGame, arcade::game::IGame
+ */
+
 namespace arcade::game {
+    /**
+     * @class AGame
+     * @brief Abstract base class for games in the Arcade project.
+     * @details Provides a default implementation for entity storage, game state management,
+     * and interaction with the rendering engine. Derived game classes can reuse these features
+     * and implement specific gameplay logic via the `update()` method.
+     * Key features:
+     * - Stores entities to be displayed on screen.
+     * - Handles game-over logic.
+     * - Manages the score.
+     * This class implements the IGame interface and is intended to reduce duplication
+     * across all game modules.
+     *
+     * @see IGame
+     */
     class AGame : public IGame {
         public:
             AGame();
