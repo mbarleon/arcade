@@ -39,7 +39,7 @@ extern "C" {
     }
 }
 
-arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _timer(0)
+arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0)
 {
     initGameMap();
     initGameEntities();
@@ -60,8 +60,10 @@ int arcade::game::PacmanGame::getFoodValue(char food)
 {
     switch (food) {
         case pacman::GUM:
+            ++_dotCpt;
             return 10;
         case pacman::GUM2:
+            ++_dotCpt;
             return 50;
         case pacman::APPLE:
             return 200;
@@ -81,7 +83,7 @@ int arcade::game::PacmanGame::getFoodValue(char food)
     if (food != pacman::PINKY && food != pacman::CLYDE &&
     food != pacman::BLINKY && food != pacman::INKY)
         return 0;
-    switch (player.getKillRow()) {
+    switch (_player.getKillRow()) {
         case 0:
             return 200;
         case 1:
@@ -121,6 +123,14 @@ arcade::types::EntityDraw arcade::game::PacmanGame::getEntityDraw(char c)
     }
 }
 
+arcade::types::color_t arcade::game::PacmanGame::getEntityColor(char c)
+{
+    switch (c) {
+        default:
+            return getRGBA(255, 255, 255, 255);
+    }
+}
+
 arcade::types::Sprite arcade::game::PacmanGame::getEntitySprite(char c)
 {
     switch (c) {
@@ -142,6 +152,18 @@ arcade::types::Position arcade::game::PacmanGame::getPosition(int y, int x)
     return pos;
 }
 
+arcade::types::Entity *arcade::game::PacmanGame::getEntityAtByChar(char c)
+{
+    for (auto &pair : _entities) {
+        auto &entitiesVec = pair.second;
+
+        for (auto it = entitiesVec.begin(); it != entitiesVec.end(); it++)
+            if ((*it).display_char == c)
+                return &(*it);
+    }
+    return nullptr;
+}
+
 void arcade::game::PacmanGame::removeGameEntities()
 {
     std::vector<types::Position> toDelete;
@@ -157,26 +179,36 @@ void arcade::game::PacmanGame::removeGameEntities()
 
 void arcade::game::PacmanGame::initGameEntities()
 {
-    addEntity(types::PLAYER, types::SPRITE, getPosition(16, 13), pacman::PAC, 0, "",
+    addEntity(types::PLAYER, types::SPRITE, getPosition(16, 13), pacman::PAC,
+    getEntityColor(pacman::PAC).color, "",
     {.key = "Pacman", .assets = pac_bottom_4_png, .length = pac_bottom_4_png_len});
-    player.setPosition(16, 13);
+    _player.setPosition(16, 13);
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(13, 13), pacman::BLINKY, 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(12, 13), pacman::BLINKY,
+    getEntityColor(pacman::BLINKY).color, "",
     {.key = "Blinky", .assets = red_bottom_png, .length = red_bottom_png_len});
+    _blinky.setPosition(12, 13);
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 12), pacman::PINKY, 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 12), pacman::PINKY,
+    getEntityColor(pacman::PINKY).color, "",
     {.key = "Pinky", .assets = pink_bottom_png, .length = pink_bottom_png_len});
+    _pinky.setPosition(14, 12);
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 13), pacman::INKY, 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 13), pacman::INKY,
+    getEntityColor(pacman::INKY).color, "",
     {.key = "Inky", .assets = green_bottom_png, .length = green_bottom_png_len});
+    _inky.setPosition(14, 13);
 
-    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 14), pacman::CLYDE, 0, "",
+    addEntity(types::ENEMY, types::SPRITE, getPosition(14, 14), pacman::CLYDE,
+    getEntityColor(pacman::CLYDE).color, "",
     {.key = "Clyde", .assets = orange_bottom_png, .length = orange_bottom_png_len});
+    _clyde.setPosition(14, 14);
 }
 
 void arcade::game::PacmanGame::initGameMap()
 {
-    addEntity(types::EMPTY, types::SPRITE, getPosition(0, 0), pacman::WALL, 0, "",
+    addEntity(types::EMPTY, types::SPRITE, getPosition(0, 0),
+    pacman::WALL, getEntityColor(pacman::WALL).color, "",
     {.key = "Background", .assets = map_png, .length = map_png_len});
 
     for (int y = 0; y < MAP_SIDE; ++y)
@@ -186,7 +218,7 @@ void arcade::game::PacmanGame::initGameMap()
 
             if (!(entityDraw == types::NONE && entityType == types::EMPTY))
                 addEntity(entityType, entityDraw, getPosition(y, x),
-                pacman::pacMap[y][x], 0, "",
+                pacman::pacMap[y][x], getEntityColor(pacman::pacMap[y][x]).color, "",
                 getEntitySprite(pacman::pacMap[y][x]));
         }
 }

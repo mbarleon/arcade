@@ -7,9 +7,8 @@
 
 #include "Inky.hpp"
 
-void arcade::game::pacman::Inky::chaseMove(types::Entity *ghost,
-    types::Position &playerPos, types::Position &blinkyPos,
-    types::Direction playerDirection)
+void arcade::game::pacman::Inky::chaseMove(types::Position &playerPos,
+    types::Position &blinkyPos, types::Direction playerDirection)
 {
     types::Position pivot;
     types::Position target;
@@ -29,7 +28,7 @@ void arcade::game::pacman::Inky::chaseMove(types::Entity *ghost,
             break;
     }
     target = getPivotPosition(blinkyPos, pivot);
-    move(getTargetDirection(target.y, target.x), ghost);
+    _direction = getTargetDirection(target.y, target.x);
 }
 
 void arcade::game::pacman::Inky::update(types::Entity *ghost,
@@ -38,12 +37,15 @@ void arcade::game::pacman::Inky::update(types::Entity *ghost,
 {
     switch (_mode) {
         case SCATTER:
-            return move(getTargetDirection(30, 29), ghost);
+            _direction = getTargetDirection(28, 28);
+            break;
         case CHASE:
-            return chaseMove(ghost, playerPos, blinkyPos, playerDirection);
+            chaseMove(playerPos, blinkyPos, playerDirection);
+            break;
         case FRIGHTENED:
             return moveFrightened(ghost);
         case EATEN:
             return moveEaten(ghost);
     }
+    move(_direction, ghost);
 }

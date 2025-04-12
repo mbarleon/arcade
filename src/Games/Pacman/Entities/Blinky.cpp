@@ -12,12 +12,15 @@ void arcade::game::pacman::Blinky::update(types::Entity *ghost,
 {
     switch (_mode) {
         case SCATTER:
-            return move(getTargetDirection(-3, 27), ghost);
+            _direction = getTargetDirection(1, 28);
+            break;
         case CHASE:
-            return move(getTargetDirection(playerPos.y, playerPos.x), ghost);
+            _direction = getTargetDirection(playerPos.y, playerPos.x);
+            break;
         case FRIGHTENED:
             return moveFrightened(ghost);
         case EATEN:
             return moveEaten(ghost);
     }
+    move(_direction, ghost);
 }

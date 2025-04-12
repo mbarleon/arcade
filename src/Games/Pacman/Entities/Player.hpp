@@ -18,6 +18,7 @@ namespace arcade::game::pacman {
             types::Position getNextPos();
             types::Position &getPos();
             types::Position getRealPos();
+            types::Direction getDirection() const;
             int getExtraLifes() const;
             int getKillRow() const;
 

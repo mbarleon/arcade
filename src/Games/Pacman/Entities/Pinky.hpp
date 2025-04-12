@@ -18,8 +18,7 @@ namespace arcade::game::pacman {
                 types::Direction playerDirection);
 
         private:
-            void chaseMove(types::Entity *ghost, types::Position &playerPos,
-                types::Direction playerDirection);
+            void chaseMove(types::Position &playerPos, types::Direction playerDirection);
     };
 };
 

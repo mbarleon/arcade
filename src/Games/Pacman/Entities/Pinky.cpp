@@ -7,18 +7,22 @@
 
 #include "Pinky.hpp"
 
-void arcade::game::pacman::Pinky::chaseMove(types::Entity *ghost,
-    types::Position &playerPos, types::Direction playerDirection)
+void arcade::game::pacman::Pinky::chaseMove(types::Position &playerPos,
+    types::Direction playerDirection)
 {
     switch (playerDirection) {
         case types::UP:
-            return move(getTargetDirection(playerPos.y - 4, playerPos.x - 4), ghost);
+            _direction = getTargetDirection(playerPos.y - 4, playerPos.x - 4);
+            return;
         case types::LEFT:
-            return move(getTargetDirection(playerPos.y, playerPos.x - 4), ghost);
+            _direction = getTargetDirection(playerPos.y, playerPos.x - 4);
+            return;
         case types::RIGHT:
-            return move(getTargetDirection(playerPos.y, playerPos.x + 4), ghost);
+            _direction = getTargetDirection(playerPos.y, playerPos.x + 4);
+            return;
         default:
-            return move(getTargetDirection(playerPos.y + 4, playerPos.x), ghost);
+            _direction = getTargetDirection(playerPos.y + 4, playerPos.x);
+            return;
     }
 }
 
@@ -27,12 +31,15 @@ void arcade::game::pacman::Pinky::update(types::Entity *ghost,
 {
     switch (_mode) {
         case SCATTER:
-            return move(getTargetDirection(-3, 2), ghost);
+            _direction = getTargetDirection(1, 1);
+            break;
         case CHASE:
-            return chaseMove(ghost, playerPos, playerDirection);
+            chaseMove(playerPos, playerDirection);
+            break;
         case FRIGHTENED:
             return moveFrightened(ghost);
         case EATEN:
             return moveEaten(ghost);
     }
+    move(_direction, ghost);
 }

@@ -48,6 +48,11 @@ arcade::types::Position arcade::game::pacman::Player::getRealPos()
     return {_position.x, _position.y + MAP_MARGIN_TOP};
 }
 
+arcade::types::Direction arcade::game::pacman::Player::getDirection() const
+{
+    return _direction;
+}
+
 int arcade::game::pacman::Player::getExtraLifes() const
 {
     return _extraLifes;

@@ -39,20 +39,32 @@ void arcade::game::PacmanGame::refreshScore()
         "     high score : " + std::to_string(_highScore);
 }
 
-void arcade::game::PacmanGame::updateGhosts(types::Position &playerPos)
+void arcade::game::PacmanGame::updateGhosts()
 {
+    types::Direction playerDirection = _player.getDirection();
+    types::Position &playerPos = _player.getPos();
+
+    _blinky.update(getEntityAtByChar(pacman::BLINKY), playerPos);
+    // _pinky.update(getEntityAtByChar(pacman::PINKY), playerPos, playerDirection);
+    // if (_level > 1 || _dotCpt >= 30)
+    //     _inky.update(getEntityAtByChar(pacman::INKY), playerPos,
+    //     _blinky.getPosition(), playerDirection);
+    // if (_level > 2 || (_level > 1 && _dotCpt >= 50) || _dotCpt >= 60)
+    //     _clyde.update(getEntityAtByChar(pacman::CLYDE), playerPos);
 }
 
 void arcade::game::PacmanGame::update(GameEvent event)
 {
-    player.updateDirection(event.second);
+    _player.updateDirection(event.second);
 
     ++_timer;
     if (_timer % 6 != 0)
         return;
     _timer = 0;
 
-    types::Position nextPos = player.getNextPos();
+    updateGhosts();
+
+    types::Position nextPos = _player.getNextPos();
     types::Position nextScreenPos = {nextPos.x, nextPos.y + MAP_MARGIN_TOP};
     types::Entity *nextPosEntity = getEntityAt(nextScreenPos);
 
@@ -61,12 +73,12 @@ void arcade::game::PacmanGame::update(GameEvent event)
         nextPosEntity->type == types::ENEMY || nextPosEntity->type == types::EMPTY))
             return;
         if (nextPosEntity->type == types::ENEMY) {
-            int remainingLives = player.getExtraLifes();
+            int remainingLives = _player.getExtraLifes();
             if (remainingLives == 0) {
                 setGameOver(true);
                 return;   
             }
-            player.setExtraLifes(remainingLives);
+            _player.setExtraLifes(remainingLives);
             removeGameEntities();
             initGameEntities();
             return;
@@ -78,6 +90,5 @@ void arcade::game::PacmanGame::update(GameEvent event)
         removeEntityAt(nextScreenPos);
     } else if (pacman::pacMap[nextPos.y][nextPos.x] == pacman::WALL)
         return;
-    player.move(nextPos.y, nextPos.x, getEntityAt(player.getRealPos()));
-    updateGhosts(nextPos);
+    _player.move(nextPos.y, nextPos.x, getEntityAt(_player.getRealPos()));
 }

@@ -116,9 +116,7 @@ void arcade::game::pacman::Ghost::populateTargetMapSlot(int y, int x, int sum)
             x = 0;
     }
     if (y < 0 || x < 0 || y > 29 || x > 29 ||
-    pacMap[y][x] == WALL || pacMap[y][x] == CLYDE ||
-    pacMap[y][x] == BLINKY || pacMap[y][x] == INKY ||
-    pacMap[y][x] == PINKY)
+    pacMap[y][x] == WALL)
         return;
     if (_targetMap[y][x] == -1 || sum < _targetMap[y][x]) {
         _targetMap[y][x] = sum;
@@ -142,68 +140,99 @@ arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirectionCorrecte
     populateTargetMapSlot(y, x + 1, 1);
     populateTargetMapSlot(y, x - 1, 1);
 
-    if (y == 14) {
-        switch (x) {
-            case 0:
-                directions[types::LEFT] = _targetMap[_position.y][29];
-                directions[types::RIGHT] = _targetMap[_position.y][_position.x + 1];
-                break;
-            case 29:
-                directions[types::LEFT] = _targetMap[_position.y][_position.x - 1];
-                directions[types::RIGHT] = _targetMap[_position.y][0];
-                break;
-            default:
-                directions[types::LEFT] = _targetMap[_position.y][_position.x - 1];
-                directions[types::RIGHT] = _targetMap[_position.y][_position.x + 1];
-                break;
-        }
+    if (y == 14 && x == 0) {
+        directions[types::LEFT] = _targetMap[_position.y][29];
+        directions[types::RIGHT] = _targetMap[_position.y][_position.x + 1];
+    } else if (y == 14 && x == 29) {
+        directions[types::LEFT] = _targetMap[_position.y][_position.x - 1];
+        directions[types::RIGHT] = _targetMap[_position.y][0];
+    } else {
+        directions[types::LEFT] = _targetMap[_position.y][_position.x - 1];
+        directions[types::RIGHT] = _targetMap[_position.y][_position.x + 1];
     }
-    directions[types::UP] = _targetMap[_position.y - 1][_position.x];
-    directions[types::DOWN] = _targetMap[_position.y + 1][_position.x];
+    directions[types::UP] = (_position.y < 1) ? -1 : _targetMap[_position.y - 1][_position.x];
+    directions[types::DOWN] = (_position.y > 28) ? -1 : _targetMap[_position.y + 1][_position.x];
 
-    if (directions[types::RIGHT] != -1 &&
-    (directions[types::RIGHT] < directions[types::DOWN] || directions[types::DOWN] == -1) &&
-    (directions[types::RIGHT] < directions[types::LEFT] || directions[types::LEFT] == -1) &&
-    (directions[types::RIGHT] < directions[types::UP] || directions[types::UP] == -1) &&
-    _direction != types::LEFT)
-        return types::RIGHT;
-    if (directions[types::DOWN] != -1 &&
-    (directions[types::DOWN] < directions[types::RIGHT] || directions[types::RIGHT] == -1) &&
-    (directions[types::DOWN] < directions[types::LEFT] || directions[types::LEFT] == -1) &&
-    (directions[types::DOWN] < directions[types::UP] || directions[types::UP] == -1) &&
-    _direction != types::UP)
-        return types::DOWN;
-    if (directions[types::LEFT] != -1 &&
-    (directions[types::LEFT] < directions[types::RIGHT] || directions[types::RIGHT] == -1) &&
-    (directions[types::LEFT] < directions[types::DOWN] || directions[types::DOWN] == -1) &&
-    (directions[types::LEFT] < directions[types::UP] || directions[types::UP] == -1) &&
-    _direction != types::RIGHT)
+    switch (_direction) {
+        case types::UP:
+            directions[types::DOWN] = -1;
+            break;
+        case types::LEFT:
+            directions[types::RIGHT] = -1;
+            break;
+        case types::RIGHT:
+            directions[types::LEFT] = -1;
+            break;
+        default:
+            directions[types::UP] = -1;
+            break;
+    }
+    if (directions[types::UP] != -1 && _direction != types::DOWN &&
+    (directions[types::UP] <= directions[types::DOWN] || directions[types::DOWN] == -1) &&
+    (directions[types::UP] <= directions[types::LEFT] || directions[types::LEFT] == -1) &&
+    (directions[types::UP] <= directions[types::RIGHT] || directions[types::RIGHT] == -1))
+        return types::UP;
+    if (directions[types::LEFT] != -1 && _direction != types::RIGHT &&
+    (directions[types::LEFT] <= directions[types::DOWN] || directions[types::DOWN] == -1) &&
+    (directions[types::LEFT] <= directions[types::UP] || directions[types::UP] == -1) &&
+    (directions[types::LEFT] <= directions[types::RIGHT] || directions[types::RIGHT] == -1))
         return types::LEFT;
-    return types::UP;
+    if (directions[types::DOWN] != -1 && _direction != types::UP &&
+    (directions[types::DOWN] <= directions[types::RIGHT] || directions[types::RIGHT] == -1) &&
+    (directions[types::DOWN] <= directions[types::LEFT] || directions[types::LEFT] == -1) &&
+    (directions[types::DOWN] <= directions[types::UP] || directions[types::UP] == -1))
+        return types::DOWN;
+    return types::RIGHT;
 }
 
 arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirection(int y, int x)
 {
-    if (x < 0)
-        x = 0;
-    if (x > 29)
-        x = 29;
-    if (y < 0)
-        y = 0;
-    if (y > 29)
-        y = 29;
+    if (x <= 0)
+        x = (y == 14) ? 0 : 1;
+    if (x >= 29)
+        x = (y == 14) ? 29 : 28;
+    if (y < 1)
+        y = 1;
+    if (y > 28)
+        y = 28;
+    if (_position.x == 1) {
+        if (_position.y == 1) {
+            if (_direction == types::UP)
+                return types::RIGHT;
+            if (_direction == types::LEFT)
+                return types::DOWN;
+        }
+        if (_position.y == 28) {
+            if (_direction == types::DOWN)
+                return types::RIGHT;
+            if (_direction == types::LEFT)
+                return types::UP;
+        }
+    } else if (_position.x == 28) {
+        if (_position.y == 1) {
+            if (_direction == types::UP)
+                return types::LEFT;
+            if (_direction == types::RIGHT)
+                return types::DOWN;
+        }
+        if (_position.y == 28) {
+            if (_direction == types::DOWN)
+                return types::LEFT;
+            if (_direction == types::RIGHT)
+                return types::UP;
+        }
+    }
     if ((_position.x >= 12 && _position.x <= 14) &&
     (_position.y >= 12 && _position.y <= 14)) {
         y = 11;
         x = 13;
     }
     if ((_position.y == 11 || _position.y == 23) &&
-    (_position.x >= 12 && _position.x <= 17) &&
+    (_position.x >= 12 && _position.x <= 16) &&
     (_mode == SCATTER || _mode == CHASE)) {
         if (_direction == types::LEFT)
             return types::LEFT;
-        if (_direction == types::RIGHT)
-            return types::RIGHT;
+        return types::RIGHT;
     }
     return getTargetDirectionCorrected(y, x);
 }
@@ -218,6 +247,11 @@ int arcade::game::pacman::Ghost::getDistance(types::Position &pos, types::Positi
 {
     return static_cast<int>(std::sqrt(std::pow(pos.x - pos2.x, 2) +
         std::pow(pos.y - pos2.y, 2)));
+}
+
+arcade::types::Position &arcade::game::pacman::Ghost::getPosition()
+{
+    return _position;
 }
 
 void arcade::game::pacman::Ghost::move(types::Direction target, types::Entity *ghost)

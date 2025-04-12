@@ -7,26 +7,21 @@
 
 #include "Clyde.hpp"
 
-void arcade::game::pacman::Clyde::chaseMove(types::Entity *ghost,
-    types::Position &playerPos)
-{
-    if (getDistance(_position, playerPos) >= 8)
-        move(getTargetDirection(playerPos.y, playerPos.x), ghost);
-    else
-        move(getTargetDirection(30, 0), ghost);
-}
-
 void arcade::game::pacman::Clyde::update(types::Entity *ghost,
     types::Position &playerPos)
 {
     switch (_mode) {
         case SCATTER:
-            return move(getTargetDirection(30, 0), ghost);
+            _direction = getTargetDirection(28, 1);
+            break;
         case CHASE:
-            return chaseMove(ghost, playerPos);
+            _direction = (getDistance(_position, playerPos) >= 8) ?
+            getTargetDirection(playerPos.y, playerPos.x) : getTargetDirection(28, 1);
+            break;
         case FRIGHTENED:
             return moveFrightened(ghost);
         case EATEN:
             return moveEaten(ghost);
     }
+    move(_direction, ghost);
 }
