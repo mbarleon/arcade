@@ -140,18 +140,18 @@ arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirectionCorrecte
     populateTargetMapSlot(y, x + 1, 1);
     populateTargetMapSlot(y, x - 1, 1);
 
-    if (y == 14 && x == 0) {
+    if (_position.y == 14 && _position.x == 0) {
         directions[types::LEFT] = _targetMap[_position.y][29];
         directions[types::RIGHT] = _targetMap[_position.y][_position.x + 1];
-    } else if (y == 14 && x == 29) {
+    } else if (_position.y == 14 && _position.x == 29) {
         directions[types::LEFT] = _targetMap[_position.y][_position.x - 1];
         directions[types::RIGHT] = _targetMap[_position.y][0];
     } else {
         directions[types::LEFT] = _targetMap[_position.y][_position.x - 1];
         directions[types::RIGHT] = _targetMap[_position.y][_position.x + 1];
     }
-    directions[types::UP] = (_position.y < 1) ? -1 : _targetMap[_position.y - 1][_position.x];
-    directions[types::DOWN] = (_position.y > 28) ? -1 : _targetMap[_position.y + 1][_position.x];
+    directions[types::UP] = (_position.y <= 1) ? -1 : _targetMap[_position.y - 1][_position.x];
+    directions[types::DOWN] = (_position.y >= 28) ? -1 : _targetMap[_position.y + 1][_position.x];
 
     switch (_direction) {
         case types::UP:
@@ -195,6 +195,16 @@ arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirection(int y, 
         y = 1;
     if (y > 28)
         y = 28;
+    if (pacMap[y][x] == WALL) {
+        if (y > 0 && pacMap[y - 1][x] != WALL)
+            --y;
+        else if (y < 29 && pacMap[y + 1][x] != WALL)
+            ++y;
+        else if (x > 0 && pacMap[y][x - 1] != WALL)
+            --x;
+        else if (x < 29 && pacMap[y][x + 1] != WALL)
+            ++x;
+    }
     if (_position.x == 1) {
         if (_position.y == 1) {
             if (_direction == types::UP)
@@ -231,6 +241,10 @@ arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirection(int y, 
     (_position.x >= 12 && _position.x <= 16) &&
     (_mode == SCATTER || _mode == CHASE)) {
         if (_direction == types::LEFT)
+            return types::LEFT;
+        if (_direction == types::RIGHT)
+            return types::RIGHT;
+        if (x < _position.x)
             return types::LEFT;
         return types::RIGHT;
     }

@@ -45,12 +45,12 @@ void arcade::game::PacmanGame::updateGhosts()
     types::Position &playerPos = _player.getPos();
 
     _blinky.update(getEntityAtByChar(pacman::BLINKY), playerPos);
-    // _pinky.update(getEntityAtByChar(pacman::PINKY), playerPos, playerDirection);
-    // if (_level > 1 || _dotCpt >= 30)
-    //     _inky.update(getEntityAtByChar(pacman::INKY), playerPos,
-    //     _blinky.getPosition(), playerDirection);
-    // if (_level > 2 || (_level > 1 && _dotCpt >= 50) || _dotCpt >= 60)
-    //     _clyde.update(getEntityAtByChar(pacman::CLYDE), playerPos);
+    _pinky.update(getEntityAtByChar(pacman::PINKY), playerPos, playerDirection);
+    if (_level > 1 || _dotCpt >= 30)
+        _inky.update(getEntityAtByChar(pacman::INKY), playerPos,
+        _blinky.getPosition(), playerDirection);
+    if (_level > 2 || (_level > 1 && _dotCpt >= 50) || _dotCpt >= 60)
+        _clyde.update(getEntityAtByChar(pacman::CLYDE), playerPos);
 }
 
 void arcade::game::PacmanGame::update(GameEvent event)
@@ -79,6 +79,7 @@ void arcade::game::PacmanGame::update(GameEvent event)
                 return;   
             }
             _player.setExtraLifes(remainingLives);
+            _dotCpt = 0;
             removeGameEntities();
             initGameEntities();
             return;
