@@ -42,7 +42,8 @@ void arcade::game::pacman::Ghost::reverseDirection()
 
 void arcade::game::pacman::Ghost::setMode(GhostMode mode)
 {
-    if (_mode == FRIGHTENED)
+    if (mode == FRIGHTENED || mode == CHASE ||
+    (mode == SCATTER && _mode == CHASE))
         reverseDirection();
     _mode = mode;
 }
@@ -61,7 +62,8 @@ arcade::types::Direction arcade::game::pacman::Ghost::getRandomDirection()
     int nextDirection;
 
     if ((_position.y == 11 || _position.y == 23) &&
-    (_position.x >= 12 && _position.x <= 17)) {
+    (_position.x >= 12 && _position.x <= 17) &&
+    (_mode == SCATTER || _mode == CHASE)) {
         if (_direction == types::LEFT)
             return types::LEFT;
         if (_direction == types::RIGHT)
@@ -196,13 +198,26 @@ arcade::types::Direction arcade::game::pacman::Ghost::getTargetDirection(int y, 
         x = 13;
     }
     if ((_position.y == 11 || _position.y == 23) &&
-    (_position.x >= 12 && _position.x <= 17)) {
+    (_position.x >= 12 && _position.x <= 17) &&
+    (_mode == SCATTER || _mode == CHASE)) {
         if (_direction == types::LEFT)
             return types::LEFT;
         if (_direction == types::RIGHT)
             return types::RIGHT;
     }
     return getTargetDirectionCorrected(y, x);
+}
+
+arcade::types::Position arcade::game::pacman::Ghost::getPivotPosition(types::Position &src,
+    types::Position &pivot)
+{
+    return {2 * pivot.x - src.x, 2 * pivot.y - src.y};
+}
+
+int arcade::game::pacman::Ghost::getDistance(types::Position &pos, types::Position &pos2)
+{
+    return static_cast<int>(std::sqrt(std::pow(pos.x - pos2.x, 2) +
+        std::pow(pos.y - pos2.y, 2)));
 }
 
 void arcade::game::pacman::Ghost::move(types::Direction target, types::Entity *ghost)

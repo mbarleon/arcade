@@ -33,6 +33,7 @@ namespace arcade::game {
             void initGameEntities();
             void initGameMap();
             void removeGameEntities();
+            void updateGhosts(types::Position &playerPos);
 
             void saveHighScore();
             void loadHighScore();
@@ -43,6 +44,7 @@ namespace arcade::game {
             types::Position _ghostsTargetPos[4];
 
             int _highScore;
+            int _dotCpt;
             size_t _timer;
     };
 };

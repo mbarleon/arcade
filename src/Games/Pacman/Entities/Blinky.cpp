@@ -7,13 +7,14 @@
 
 #include "Blinky.hpp"
 
-void arcade::game::pacman::Blinky::update(types::Entity *ghost)
+void arcade::game::pacman::Blinky::update(types::Entity *ghost,
+    types::Position &playerPos)
 {
     switch (_mode) {
         case SCATTER:
             return move(getTargetDirection(-3, 27), ghost);
         case CHASE:
-            return;
+            return move(getTargetDirection(playerPos.y, playerPos.x), ghost);
         case FRIGHTENED:
             return moveFrightened(ghost);
         case EATEN:

@@ -14,9 +14,12 @@ namespace arcade::game::pacman {
         public:
             Inky() = default;
 
-            void update(types::Entity *ghost) override;
+            void update(types::Entity *ghost, types::Position &playerPos,
+                types::Position &blinkyPos, types::Direction playerDirection);
 
         private:
+            void chaseMove(types::Entity *ghost, types::Position &playerPos,
+                types::Position &blinkyPos, types::Direction playerDirection);
     };
 };
 

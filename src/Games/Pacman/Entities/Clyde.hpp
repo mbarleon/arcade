@@ -14,9 +14,10 @@ namespace arcade::game::pacman {
         public:
             Clyde() = default;
 
-            void update(types::Entity *ghost) override;
+            void update(types::Entity *ghost, types::Position &playerPos);
 
         private:
+            void chaseMove(types::Entity *ghost, types::Position &playerPos);
     };
 };
 

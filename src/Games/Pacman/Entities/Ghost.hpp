@@ -8,6 +8,7 @@
 #ifndef GHOST_HPP_
     #define GHOST_HPP_
     #include "../includes.hpp"
+    #include <cmath>
 
 namespace arcade::game::pacman {
     class Ghost {
@@ -16,12 +17,14 @@ namespace arcade::game::pacman {
             ~Ghost();
 
             void move(types::Direction target, types::Entity *ghost);
-            virtual void update(types::Entity *ghost) = 0;
 
             void setMode(GhostMode mode);
 
         protected:
             types::Direction getTargetDirection(int y, int x);
+            types::Position getPivotPosition(types::Position &src,
+                types::Position &pivot);
+            int getDistance(types::Position &pos, types::Position &pos2);
 
             void setPosition(int y, int x);
             void reverseDirection();

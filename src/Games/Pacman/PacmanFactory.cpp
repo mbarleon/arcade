@@ -39,7 +39,7 @@ extern "C" {
     }
 }
 
-arcade::game::PacmanGame::PacmanGame() : _timer(0)
+arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _timer(0)
 {
     initGameMap();
     initGameEntities();

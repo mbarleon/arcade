@@ -7,13 +7,29 @@
 
 #include "Pinky.hpp"
 
-void arcade::game::pacman::Pinky::update(types::Entity *ghost)
+void arcade::game::pacman::Pinky::chaseMove(types::Entity *ghost,
+    types::Position &playerPos, types::Direction playerDirection)
+{
+    switch (playerDirection) {
+        case types::UP:
+            return move(getTargetDirection(playerPos.y - 4, playerPos.x - 4), ghost);
+        case types::LEFT:
+            return move(getTargetDirection(playerPos.y, playerPos.x - 4), ghost);
+        case types::RIGHT:
+            return move(getTargetDirection(playerPos.y, playerPos.x + 4), ghost);
+        default:
+            return move(getTargetDirection(playerPos.y + 4, playerPos.x), ghost);
+    }
+}
+
+void arcade::game::pacman::Pinky::update(types::Entity *ghost,
+    types::Position &playerPos, types::Direction playerDirection)
 {
     switch (_mode) {
         case SCATTER:
             return move(getTargetDirection(-3, 2), ghost);
         case CHASE:
-            return;
+            return chaseMove(ghost, playerPos, playerDirection);
         case FRIGHTENED:
             return moveFrightened(ghost);
         case EATEN:

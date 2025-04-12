@@ -39,6 +39,10 @@ void arcade::game::PacmanGame::refreshScore()
         "     high score : " + std::to_string(_highScore);
 }
 
+void arcade::game::PacmanGame::updateGhosts(types::Position &playerPos)
+{
+}
+
 void arcade::game::PacmanGame::update(GameEvent event)
 {
     player.updateDirection(event.second);
@@ -75,4 +79,5 @@ void arcade::game::PacmanGame::update(GameEvent event)
     } else if (pacman::pacMap[nextPos.y][nextPos.x] == pacman::WALL)
         return;
     player.move(nextPos.y, nextPos.x, getEntityAt(player.getRealPos()));
+    updateGhosts(nextPos);
 }
