@@ -34,6 +34,7 @@ arcade::display::SFMLDisplayModule::SFMLDisplayModule()
     sf::Vector2f pixelSize = {RECTANGLE_SIZE, RECTANGLE_SIZE};
 
     _win.create(sf::VideoMode(VIDEO_SIZE.first, VIDEO_SIZE.second), "Arcade", sf::Style::Default);
+    _win.setFramerateLimit(60);
     sf::Listener::setGlobalVolume(50);
     _pixel.setSize(pixelSize);
     _circle.setRadius(CIRCLE_RADIUS);

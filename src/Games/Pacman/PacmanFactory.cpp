@@ -15,7 +15,7 @@
 #include "Assets/map/pacgum.hpp"
 #include "Assets/map/gum.hpp"
 #include "Assets/map/map.hpp"
-#include "Assets/pac/pac_bottom_4.hpp"
+#include "Assets/pac/pac_bottom_1.hpp"
 
 extern "C" {
     arcade::game::IGame *create(void)
@@ -181,7 +181,7 @@ void arcade::game::PacmanGame::initGameEntities()
 {
     addEntity(types::PLAYER, types::SPRITE, getPosition(16, 13), pacman::PAC,
     getEntityColor(pacman::PAC).color, "",
-    {.key = "Pacman", .assets = pac_bottom_4_png, .length = pac_bottom_4_png_len});
+    {.key = "Pacman", .assets = pac_bottom_1_png, .length = pac_bottom_1_png_len});
     _player.setPosition(16, 13);
 
     addEntity(types::ENEMY, types::SPRITE, getPosition(12, 13), pacman::BLINKY,
