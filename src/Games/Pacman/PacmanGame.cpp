@@ -53,6 +53,7 @@ void arcade::game::PacmanGame::updateGhosts()
         }
         _player.setExtraLifes(remainingLives - 1);
         _dotCpt = 0;
+        removeEntityAtByChar(pacman::LIFE);
         resetGameEntities();
         return;
     }

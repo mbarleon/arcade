@@ -27,7 +27,8 @@ namespace arcade::game::pacman {
         CHERRIES = 'c',
         PINEAPPLE = 'p',
         POTION = 'u',
-        KEY = 'k'
+        KEY = 'k',
+        LIFE = 'L'
     };
 
     enum GhostMode {

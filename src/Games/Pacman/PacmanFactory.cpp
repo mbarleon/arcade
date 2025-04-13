@@ -16,6 +16,7 @@
 #include "Assets/map/gum.hpp"
 #include "Assets/map/map.hpp"
 #include "Assets/pac/pac_bottom_1.hpp"
+#include "Assets/life.hpp"
 
 extern "C" {
     arcade::game::IGame *create(void)
@@ -52,6 +53,12 @@ arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0)
     addEntity(types::EMPTY, types::TEXT, (types::Position){2, 2}, ' ',
     getRGBA(255, 255, 255, 255).color,
     "score : 0     high score : " + std::to_string(_highScore));
+
+    addEntity(types::EMPTY, types::SPRITE, (types::Position){3, 37}, pacman::LIFE,
+    getRGBA(255, 255, 255, 255).color, "", getEntitySprite(pacman::LIFE));
+
+    addEntity(types::EMPTY, types::SPRITE, (types::Position){1, 37}, pacman::LIFE,
+    getRGBA(255, 255, 255, 255).color, "", getEntitySprite(pacman::LIFE));
 }
 
 arcade::game::PacmanGame::~PacmanGame()
@@ -144,6 +151,8 @@ arcade::types::Sprite arcade::game::PacmanGame::getEntitySprite(char c)
             return {.key = "Gum", .assets = gum_png, .length = gum_png_len};
         case pacman::GUM2:
             return {.key = "Gum2", .assets = pacgum_png, .length = pacgum_png_len};
+        case pacman::LIFE:
+            return {.key = "Life", .assets = life_png, .length = life_png_len};
         default:
             return {};
     }
