@@ -35,8 +35,9 @@ void arcade::game::PacmanGame::refreshScore()
     types::Entity *scoreTxt = getEntityAt((types::Position){2, 2});
 
     if (scoreTxt)
-        scoreTxt->str = "score : " + std::to_string(_score) +
-        "     high score : " + std::to_string(_highScore);
+        scoreTxt->str = "level " + std::to_string(_level) +
+        "   score " + std::to_string(_score) +
+        "   high score " + std::to_string(_highScore);
 }
 
 void arcade::game::PacmanGame::updateGhosts()
@@ -91,6 +92,7 @@ void arcade::game::PacmanGame::update(GameEvent event)
             refreshScore();
             if (_remainingDots == 0) {
                 ++_level;
+                refreshScore();
                 removeEntityAt(nextScreenPos);
                 removeEntityAtByChar(pacman::BLINKY);
                 removeEntityAtByChar(pacman::PINKY);

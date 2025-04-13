@@ -52,7 +52,7 @@ arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0)
 
     addEntity(types::EMPTY, types::TEXT, (types::Position){2, 2}, ' ',
     getRGBA(255, 255, 255, 255).color,
-    "score : 0     high score : " + std::to_string(_highScore));
+    "level 1   score 0   high score " + std::to_string(_highScore));
 
     addEntity(types::EMPTY, types::SPRITE, (types::Position){3, 37}, pacman::LIFE,
     getRGBA(255, 255, 255, 255).color, "", getEntitySprite(pacman::LIFE));
