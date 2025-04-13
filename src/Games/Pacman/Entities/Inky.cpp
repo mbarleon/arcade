@@ -7,6 +7,14 @@
 
 #include "Inky.hpp"
 
+void arcade::game::pacman::Inky::enterFrightenedMode()
+{
+}
+
+void arcade::game::pacman::Inky::exitFrightenedMode()
+{
+}
+
 void arcade::game::pacman::Inky::chaseMove(types::Position &playerPos,
     types::Position &blinkyPos, types::Direction playerDirection)
 {

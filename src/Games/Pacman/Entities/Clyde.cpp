@@ -7,6 +7,14 @@
 
 #include "Clyde.hpp"
 
+void arcade::game::pacman::Clyde::enterFrightenedMode()
+{
+}
+
+void arcade::game::pacman::Clyde::exitFrightenedMode()
+{
+}
+
 void arcade::game::pacman::Clyde::update(types::Entity *ghost,
     types::Position &playerPos)
 {

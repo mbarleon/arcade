@@ -85,6 +85,11 @@ int arcade::game::PacmanGame::getFoodValue(char food)
         case pacman::GUM2:
             ++_dotCpt;
             --_remainingDots;
+            _player.setKillRow(0);
+            _blinky.setMode(pacman::FRIGHTENED);
+            _pinky.setMode(pacman::FRIGHTENED);
+            _inky.setMode(pacman::FRIGHTENED);
+            _clyde.setMode(pacman::FRIGHTENED);
             return 50;
         case pacman::APPLE:
             return 200;
@@ -114,6 +119,7 @@ int arcade::game::PacmanGame::getFoodValue(char food)
         default:
             return 1600;
     }
+    refreshScore();
 }
 
 arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)

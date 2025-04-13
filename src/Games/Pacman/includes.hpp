@@ -9,6 +9,7 @@
     #define CONFIG_HPP_
     #define MAP_SIDE 30
     #define MAP_MARGIN_TOP 6
+    #define TIME_1_SEC 12
     #include "../../../include/Types.hpp"
 
 namespace arcade::game::pacman {

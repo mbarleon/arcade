@@ -7,6 +7,14 @@
 
 #include "Blinky.hpp"
 
+void arcade::game::pacman::Blinky::enterFrightenedMode()
+{
+}
+
+void arcade::game::pacman::Blinky::exitFrightenedMode()
+{
+}
+
 void arcade::game::pacman::Blinky::update(types::Entity *ghost,
     types::Position &playerPos)
 {

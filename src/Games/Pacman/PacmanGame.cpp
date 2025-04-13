@@ -47,10 +47,34 @@ void arcade::game::PacmanGame::updateGhosts()
 {
     types::Direction playerDirection = _player.getDirection();
     types::Position &playerPos = _player.getPos();
+    types::Position &blinkyPos = _blinky.getPosition();
+    types::Position &pinkyPos = _pinky.getPosition();
+    types::Position &inkyPos = _inky.getPosition();
+    types::Position &clydePos = _clyde.getPosition();
     int remainingLives = _player.getExtraLifes();
 
-    if (_blinky.getPosition() == playerPos || _pinky.getPosition() == playerPos ||
-    _inky.getPosition() == playerPos || _clyde.getPosition() == playerPos) {
+    if ((blinkyPos == playerPos && _blinky.getMode() == pacman::FRIGHTENED) ||
+    (pinkyPos == playerPos && _pinky.getMode() == pacman::FRIGHTENED) ||
+    (inkyPos == playerPos && _inky.getMode() == pacman::FRIGHTENED) ||
+    (clydePos == playerPos && _clyde.getMode() == pacman::FRIGHTENED)) {
+        int playerKillRow = _player.getKillRow() + 1;
+
+        _score += getFoodValue(pacman::BLINKY);
+        _player.setKillRow(playerKillRow);
+        if (blinkyPos == playerPos)
+            _blinky.setMode(pacman::EATEN);
+        if (pinkyPos == playerPos)
+            _pinky.setMode(pacman::EATEN);
+        if (inkyPos == playerPos)
+            _inky.setMode(pacman::EATEN);
+        if (clydePos == playerPos)
+            _clyde.setMode(pacman::EATEN);
+    }
+
+    if ((blinkyPos == playerPos && _blinky.getMode() < pacman::FRIGHTENED) ||
+    (pinkyPos == playerPos && _pinky.getMode() < pacman::FRIGHTENED) ||
+    (inkyPos == playerPos && _inky.getMode() < pacman::FRIGHTENED) ||
+    (clydePos == playerPos && _clyde.getMode() < pacman::FRIGHTENED)) {
         if (remainingLives == 0) {
             setGameOver(true);
             return;
@@ -76,11 +100,11 @@ void arcade::game::PacmanGame::update(GameEvent event)
     _player.updateDirection(event.second);
 
     ++_timer;
-    ++_fruitTimer;
     if (_timer % 6 != 0)
         return;
     _timer = 0;
-    if (_fruitTimer % 720 == 0) {
+    ++_fruitTimer;
+    if (_fruitTimer % (TIME_1_SEC * 10) == 0) {
         types::Entity *entity = getEntityAt(_playerStartPos);
 
         if (entity && entity->type == types::FOOD)

@@ -7,6 +7,14 @@
 
 #include "Pinky.hpp"
 
+void arcade::game::pacman::Pinky::enterFrightenedMode()
+{
+}
+
+void arcade::game::pacman::Pinky::exitFrightenedMode()
+{
+}
+
 void arcade::game::pacman::Pinky::chaseMove(types::Position &playerPos,
     types::Direction playerDirection)
 {

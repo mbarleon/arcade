@@ -17,12 +17,15 @@ namespace arcade::game::pacman {
             ~Ghost();
 
             types::Position &getPosition();
+            GhostMode getMode() const;
 
             void move(types::Direction target, types::Entity *ghost);
 
             void setMode(GhostMode mode);
             void setPosition(int y, int x);
             void setDirection(types::Direction direction);
+            virtual void enterFrightenedMode() = 0;
+            virtual void exitFrightenedMode() = 0;
 
         protected:
             types::Direction getTargetDirection(int y, int x);
@@ -37,6 +40,7 @@ namespace arcade::game::pacman {
             types::Direction _direction;
             types::Position _position;
             GhostMode _mode;
+            GhostMode _lastMode;
 
         private:
             types::Direction getTargetDirectionCorrected(int y, int x);
@@ -45,6 +49,7 @@ namespace arcade::game::pacman {
             types::Direction getRandomDirection();
 
             int _targetMap[MAP_SIDE][MAP_SIDE];
+            size_t _timer;
     };
 };
 

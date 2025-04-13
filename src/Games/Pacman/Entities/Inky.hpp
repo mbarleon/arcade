@@ -16,6 +16,8 @@ namespace arcade::game::pacman {
 
             void update(types::Entity *ghost, types::Position &playerPos,
                 types::Position &blinkyPos, types::Direction playerDirection);
+            void enterFrightenedMode() override;
+            void exitFrightenedMode() override;
 
         private:
             void chaseMove(types::Position &playerPos, types::Position &blinkyPos,
