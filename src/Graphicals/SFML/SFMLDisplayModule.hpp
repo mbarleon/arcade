@@ -15,11 +15,32 @@
     #include <SFML/System.hpp>
     #include <SFML/Window.hpp>
 
+/**
+ * @file SFMLDisplayModule.hpp
+ * @brief Header file for SFML display module.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Declares all the methods and attributes related to SFML rendering.
+ * It defines the SFMLDisplayModule class, which handles window creation, rendering,
+ * and entity display operations using the SFML library.
+ */
 namespace arcade::display {
+    /**
+     * @class SFMLDisplayModule
+     * @brief SFML-based implementation of the ADisplayModule interface.
+     * @details This class handles rendering and event processing using the SFML library.
+     * It is responsible for drawing visual elements such as shapes, sprites, and text,
+     * and for capturing input events to be passed back to the core logic.
+     *
+     * @see ADisplayModule
+     */
     class SFMLDisplayModule : public ADisplayModule {
         public:
             SFMLDisplayModule();
-            ~SFMLDisplayModule() override;
+            ~SFMLDisplayModule() override = default;
 
             void draw(Entities entities) override;
             std::pair<types::Position, types::InputEvent> event() override;

@@ -7,6 +7,19 @@
 
 #include "SFMLDisplayModule.hpp"
 
+/**
+ * @file SFMLDisplayModule.cpp
+ * @brief This file contains all functions related to SFML.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-13
+ * @see SFMLDisplayModule.hpp, IGameModule.hpp, Types.hpp
+ *
+ * @details
+ * Includes all functions related to SFML. It initializes the window and uses
+ * an unordered map to store sprites for optimized rendering. It provides the functions
+ * used to display entities.
+ */
 extern "C" {
     arcade::display::IDisplayModule *create(void)
     {
@@ -29,6 +42,10 @@ extern "C" {
     }
 }
 
+/**
+ * @brief Constructor of the SFMLDisplayModule class.
+ * @details Constructs and initializes all the necessary parameters for the creation and use of the graphical library.
+ */
 arcade::display::SFMLDisplayModule::SFMLDisplayModule()
 {
     sf::Vector2f pixelSize = {RECTANGLE_SIZE, RECTANGLE_SIZE};
@@ -41,10 +58,13 @@ arcade::display::SFMLDisplayModule::SFMLDisplayModule()
     _font.loadFromMemory(__default_font, __default_font_len);
 }
 
-arcade::display::SFMLDisplayModule::~SFMLDisplayModule()
-{
-}
-
+/**
+ * @brief Display function.
+ * @details This function retrieves the complete list of elements and displays them
+ * according to their type (rectangles, circles, texts, and sprites).
+ * @param entities The list of all entities to load.
+ * @see Entities structure in arcade::types
+ */
 void arcade::display::SFMLDisplayModule::draw(Entities entities)
 {
     sf::Vector2f pos;
@@ -100,6 +120,12 @@ void arcade::display::SFMLDisplayModule::draw(Entities entities)
     _win.display();
 }
 
+/**
+ * @brief Returns the events.
+ * @details This function captures SFML events and returns them to the core,
+ * allowing games to react based on player actions.
+ * @see Event structure in arcade::types
+ */
 std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::SFMLDisplayModule::event()
 {
     if (!_win.isOpen())
@@ -114,8 +140,6 @@ std::pair<arcade::types::Position, arcade::types::InputEvent> arcade::display::S
             return std::make_pair(types::Position{_mouse.x, _mouse.y}, (types::InputEvent)_event.key.code);
         else if (_event.type == sf::Event::MouseButtonPressed)
             return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::ALEFT_BUTTON);
-        // else if (_event.type == sf::Event::Resized)
-        //     _win.setView(sf::View(sf::FloatRect(0, 0, _event.size.width, _event.size.height)));
     }
     return std::make_pair(types::Position{_mouse.x, _mouse.y}, types::AKEY_UNKNOWN);
 }

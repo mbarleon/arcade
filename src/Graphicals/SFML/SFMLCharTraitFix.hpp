@@ -11,6 +11,17 @@
 #include <cstring>
 #include <cwchar>
 
+/**
+ * @file SFMLCharTraitFix.cpp
+ * @brief Contains compatibilty functions related to SFML.
+ * @author Mathieu BARLEON
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Includes patches that correct SFML errors to ensure compatibility
+ * with certain operating systems.
+ */
 namespace std {
     template<>
     struct char_traits<sf::Uint32> {
