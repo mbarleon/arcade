@@ -57,6 +57,7 @@ namespace arcade::display {
             SDL_Window* _window;
             SDL_Renderer* _renderer;
             SDL_Event _event;
+            std::unordered_map<std::string, SDL_Texture *> _textures;
             bool _quit = false;
     };
 }

@@ -101,24 +101,27 @@ void arcade::display::SDLDisplayModule::draw(Entities entities)
             }
 
             if (it.first == arcade::types::SPRITE) {
-                SDL_RWops *rw = SDL_RWFromConstMem(ti.sprite.assets, static_cast<int>(ti.sprite.length));
-                if (!rw)
-                    throw exception::Error("SDL DRAW (l:88)", "SDL_RWFromConstMem failed");
-                SDL_Surface *surface = IMG_Load_RW(rw, 1);
-                if (!surface)
-                    throw exception::Error("SDL DRAW (l:91)", std::string("IMG_Load_RW failed: ") + IMG_GetError());
-                SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
-                SDL_FreeSurface(surface);
-                if (!texture)
-                    throw arcade::exception::Error("SDL DRAW (l:95)", "SDL_CreateTextureFromSurface failed");
+                if (_textures.find(ti.sprite.key) == _textures.end()) {
+                    SDL_RWops *rw = SDL_RWFromConstMem(ti.sprite.assets, static_cast<int>(ti.sprite.length));
+                    if (!rw)
+                        throw exception::Error("SDL DRAW (l:107)", "SDL_RWFromConstMem failed");
+                    SDL_Surface *surface = IMG_Load_RW(rw, 1);
+                    if (!surface)
+                        throw exception::Error("SDL DRAW (l:110)", std::string("IMG_Load_RW failed: ") + IMG_GetError());
+                    SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
+                    SDL_FreeSurface(surface);
+                    if (!texture)
+                        throw arcade::exception::Error("SDL DRAW (l:114)", "SDL_CreateTextureFromSurface failed");
+                    _textures[ti.sprite.key] = texture;
+                }
+                SDL_Texture *stored_texture = _textures[ti.sprite.key];
                 SDL_Rect dest = {
                     static_cast<int>(ti.pos.x * RECTANGLE_SIZE),
                     static_cast<int>(ti.pos.y * RECTANGLE_SIZE),
                     0, 0
                 };
-                SDL_QueryTexture(texture, nullptr, nullptr, &dest.w, &dest.h);
-                SDL_RenderCopy(this->_renderer, texture, nullptr, &dest);
-                SDL_DestroyTexture(texture);
+                SDL_QueryTexture(stored_texture, nullptr, nullptr, &dest.w, &dest.h);
+                SDL_RenderCopy(this->_renderer, stored_texture, nullptr, &dest);
                 continue;
             }
 
@@ -210,6 +213,9 @@ arcade::display::SDLDisplayModule::~SDLDisplayModule()
         SDL_DestroyWindow(_window);
     if (_font)
         TTF_CloseFont(_font);
+    for (auto &it : _textures)
+        SDL_DestroyTexture(it.second);
+    _textures.clear();
     TTF_Quit();
     SDL_Quit();
 }
