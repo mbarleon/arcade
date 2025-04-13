@@ -9,24 +9,25 @@
 
 void arcade::game::PacmanGame::loadHighScore()
 {
-    std::ifstream file("Score/PacmanGame.arcade");
+    std::ifstream file("Score/pacman.dat", std::ios::binary);
 
     if (!file || !file.is_open()) {
         _highScore = 0;
         return;
     }
-    if (!(file >> _highScore))
+    file.read(reinterpret_cast<char *>(&_highScore), sizeof(_highScore));
+    if (file.gcount() != sizeof(_highScore))
         _highScore = 0;
     file.close();
 }
 
 void arcade::game::PacmanGame::saveHighScore()
 {
-    std::ofstream file("Score/PacmanGame.arcade", std::ios::trunc);
+    std::ofstream file("Score/pacman.dat", std::ios::binary | std::ios::trunc);
 
     if (!file || !file.is_open())
         return;
-    file << _highScore;    
+    file.write(reinterpret_cast<char *>(&_highScore), sizeof(_highScore));
     file.close();
 }
 
