@@ -5,11 +5,29 @@
 ** Inky
 */
 
+/**
+ * @file Inky.hpp
+ * @brief Contains the behavior of the ghost Inky.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Contains the update method, which defines the behavior of the Inky ghost.
+ *
+ * @see arcade::game::pacman::Ghost
+ */
 #ifndef INKY_HPP_
     #define INKY_HPP_
     #include "Ghost.hpp"
 
 namespace arcade::game::pacman {
+    /**
+     * @class Inky
+     * @brief Implements the Inky class, which inherits directly from the ghost class.
+     *
+     * @see arcade::game::pacman::Ghost
+     */
     class Inky : public Ghost {
         public:
             Inky() = default;

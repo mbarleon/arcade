@@ -7,11 +7,44 @@
 
 #include "Inky.hpp"
 
+/**
+ * @file Inky.hpp
+ * @brief Implements the Inky class, which inherits directly from the ghost class.
+ * @author Jason Koenig
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Implements the Inky class, which inherits directly from the Ghost class.
+ * Inky is a green ghost (cyan in the original game). In chase mode,
+ * it moves to the position obtained by mirroring Blinky's position relative
+ * to the player's +2 position (in the player's direction), which acts as a pivot.
+ * In scatter mode, it moves to the lower right-hand corner of the maze. He's the
+ * most unpredictable. He starts in the cage.
+ *
+ * @see arcade::game::pacman::Ghost
+ */
+
+/**
+ * @brief Get ghost id.
+ * @return Ghost id.
+ * 
+ * @see arcade::game::pacman::GameEntity
+ **/
 char arcade::game::pacman::Inky::getId() const
 {
     return pacman::INKY;
 }
 
+/**
+ * @brief Set Inky's direction in chase mode.
+ * @param playerPos Player's position in the maze.
+ * @param blinkyPos Blinky's position in the maze.
+ * @param playerDirection Player's direction.
+ * 
+ * @see arcade::game::pacman::Inky::getPivotPosition
+ * @see arcade::game::pacman::Inky::getTargetDirection
+ */
 void arcade::game::pacman::Inky::chaseMove(types::Position &playerPos,
     types::Position &blinkyPos, types::Direction playerDirection)
 {
@@ -36,6 +69,9 @@ void arcade::game::pacman::Inky::chaseMove(types::Position &playerPos,
     _direction = getTargetDirection(target.y, target.x);
 }
 
+ /**
+ * @brief Moves the ghost to a position calculated according to its mode.
+ **/
 void arcade::game::pacman::Inky::update(types::Entity *ghost,
     types::Position &playerPos, types::Position &blinkyPos,
     types::Direction playerDirection)

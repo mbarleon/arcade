@@ -5,6 +5,20 @@
 ** PacmanGame
 */
 
+/**
+ * @file PacmanGame.hpp
+ * @brief Main file of the Pacman game.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Contains the entire game and directly manages mechanics that require
+ * global access, such as texture changes or collisions.
+ *
+ * @see arcade::game::AGame
+ */
+
 #ifndef PACMANGAME_HPP_
     #define PACMANGAME_HPP_
     #include "../AGame.hpp"
@@ -18,6 +32,16 @@
     #include <fstream>
 
 namespace arcade::game {
+    /**
+     * @class PacmanGame
+     * @brief Main class of the Pacman game.
+     * @details Manages the entire game using the AGame inheritance and
+     * handles events sent by the Core. Manages various timers such as the fruit
+     * disappearance time or the duration of ghost states. The time gets
+     * shorter as the player levels up.
+     *
+     * @see arcade::game::AGame
+     */
     class PacmanGame : public AGame {
         public:
             using GameEvent = const std::pair<types::Position, types::InputEvent>;

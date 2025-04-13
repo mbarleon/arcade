@@ -6,12 +6,40 @@
 */
 
 #include "Pinky.hpp"
+/**
+ * @file Pinky.hpp
+ * @brief Implements the Pinky class, which inherits directly from the ghost class.
+ * @author Jason Koenig
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Implements the Pinky class, which inherits directly from the Ghost class.
+ * Pinky is a pink ghost. In chase mode, it moves to the player's +4 position
+ * (in the player's direction). In scatter mode, she moves to the upper left
+ * of the maze. She starts in the cage, but exits directly at the start of the game.
+ *
+ * @see arcade::game::pacman::Ghost
+ */
 
+ /**
+ * @brief Get ghost id.
+ * @return Ghost id.
+ * 
+ * @see arcade::game::pacman::GameEntity
+ **/
 char arcade::game::pacman::Pinky::getId() const
 {
     return pacman::PINKY;
 }
 
+/**
+ * @brief Set Pinky's direction in chase mode.
+ * @param playerPos Player's position in the maze.
+ * @param playerDirection Player's direction.
+ * 
+ * @see arcade::game::pacman::Inky::getTargetDirection
+ */
 void arcade::game::pacman::Pinky::chaseMove(types::Position &playerPos,
     types::Direction playerDirection)
 {
@@ -31,6 +59,9 @@ void arcade::game::pacman::Pinky::chaseMove(types::Position &playerPos,
     }
 }
 
+ /**
+ * @brief Moves the ghost to a position calculated according to its mode.
+ **/
 void arcade::game::pacman::Pinky::update(types::Entity *ghost,
     types::Position &playerPos, types::Direction playerDirection)
 {

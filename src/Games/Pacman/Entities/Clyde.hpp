@@ -5,11 +5,29 @@
 ** Clyde
 */
 
+/**
+ * @file Clyde.hpp
+ * @brief Contains the behavior of the ghost Clyde.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Contains the update method, which defines the behavior of the Clyde ghost.
+ *
+ * @see arcade::game::pacman::Ghost
+ */
 #ifndef CLYDE_HPP_
     #define CLYDE_HPP_
     #include "Ghost.hpp"
 
 namespace arcade::game::pacman {
+    /**
+     * @class Clyde
+     * @brief Implements the Clyde class, which inherits directly from the ghost class.
+     *
+     * @see arcade::game::pacman::Ghost
+     */
     class Clyde : public Ghost {
         public:
             Clyde() = default;

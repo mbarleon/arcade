@@ -5,12 +5,34 @@
 ** Ghost
 */
 
+/**
+ * @file Ghost.hpp
+ * @brief Contains the behavior of the ghosts.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Contains all the methods that allow ghosts to move around the maze
+ * and switch modes to attack the player in different ways, or to give him respite.
+ *
+ * @see arcade::game::PacmanGame
+ */
+
 #ifndef GHOST_HPP_
     #define GHOST_HPP_
     #include "../includes.hpp"
     #include <cmath>
 
 namespace arcade::game::pacman {
+    /**
+     * @class Ghost
+     * @brief Abstract base class for ghosts in the Pacman game.
+     * @details Contains the basic methods inherited by ghosts, enabling
+     * them to move and perform actions in the maze.
+     *
+     * @see arcade::game::PacmanGame
+     */
     class Ghost {
         public:
             Ghost();

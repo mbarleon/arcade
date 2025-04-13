@@ -5,11 +5,33 @@
 ** Player
 */
 
+/**
+ * @file Ghost.hpp
+ * @brief Contains methods that define possible player behaviors.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-13
+ *
+ * @details
+ * Contains all the methods that allow the player to move around the maze.
+ *
+ * @see arcade::game::PacmanGame
+ */
+
 #ifndef PLAYER_HPP_
     #define PLAYER_HPP_
     #include "../includes.hpp"
 
 namespace arcade::game::pacman {
+    /**
+     * @class Player
+     * @brief Player Class.
+     * @details Contains the methods that define the player's possible behaviors
+     * and allows to manage his remaining lives and ghost kill counter in ghosts's
+     * frightened mode.
+     *
+     * @see arcade::game::PacmanGame
+     */
     class Player {
         public:
             Player();
