@@ -22,6 +22,7 @@ namespace arcade::game::pacman {
             int getExtraLifes() const;
             int getKillRow() const;
 
+            void setDirection(types::Direction direction);
             void setPosition(int y, int x);
             void setExtraLifes(int extraLifes);
             void setKillRow(int killRow);

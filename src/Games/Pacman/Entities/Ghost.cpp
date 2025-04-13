@@ -22,6 +22,11 @@ void arcade::game::pacman::Ghost::setPosition(int y, int x)
     _position.y = y;
 }
 
+void arcade::game::pacman::Ghost::setDirection(types::Direction direction)
+{
+    _direction = direction;
+}
+
 void arcade::game::pacman::Ghost::reverseDirection()
 {
     switch (_direction) {

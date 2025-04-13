@@ -22,6 +22,7 @@ namespace arcade::game::pacman {
 
             void setMode(GhostMode mode);
             void setPosition(int y, int x);
+            void setDirection(types::Direction direction);
 
         protected:
             types::Direction getTargetDirection(int y, int x);

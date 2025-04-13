@@ -38,7 +38,8 @@ namespace arcade::game {
 
             void initGameEntities();
             void initGameMap();
-            void removeGameEntities();
+            void removeEntityAtByChar(char c);
+            void resetGameEntities();
             void updateGhosts();
 
             void saveHighScore();
@@ -53,6 +54,7 @@ namespace arcade::game {
 
             int _highScore;
             int _dotCpt;
+            int _remainingDots;
             int _level;
             size_t _timer;
     };

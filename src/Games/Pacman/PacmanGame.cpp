@@ -43,6 +43,19 @@ void arcade::game::PacmanGame::updateGhosts()
 {
     types::Direction playerDirection = _player.getDirection();
     types::Position &playerPos = _player.getPos();
+    int remainingLives = _player.getExtraLifes();
+
+    if (_blinky.getPosition() == playerPos || _pinky.getPosition() == playerPos ||
+    _inky.getPosition() == playerPos || _clyde.getPosition() == playerPos) {
+        if (remainingLives == 0) {
+            setGameOver(true);
+            return;
+        }
+        _player.setExtraLifes(remainingLives - 1);
+        _dotCpt = 0;
+        resetGameEntities();
+        return;
+    }
 
     _blinky.update(getEntityAtByChar(pacman::BLINKY), playerPos);
     _pinky.update(getEntityAtByChar(pacman::PINKY), playerPos, playerDirection);
@@ -62,34 +75,35 @@ void arcade::game::PacmanGame::update(GameEvent event)
         return;
     _timer = 0;
 
-    updateGhosts();
-
     types::Position nextPos = _player.getNextPos();
     types::Position nextScreenPos = {nextPos.x, nextPos.y + MAP_MARGIN_TOP};
     types::Entity *nextPosEntity = getEntityAt(nextScreenPos);
 
     if (nextPosEntity) {
         if (!(nextPosEntity->type == types::FOOD ||
-        nextPosEntity->type == types::ENEMY || nextPosEntity->type == types::EMPTY))
-            return;
-        if (nextPosEntity->type == types::ENEMY) {
-            int remainingLives = _player.getExtraLifes();
-            if (remainingLives == 0) {
-                setGameOver(true);
-                return;   
-            }
-            _player.setExtraLifes(remainingLives);
-            _dotCpt = 0;
-            removeGameEntities();
-            initGameEntities();
+        nextPosEntity->type == types::ENEMY || nextPosEntity->type == types::EMPTY)) {
+            updateGhosts();
             return;
         }
         if (nextPosEntity->type == types::FOOD) {
             _score += getFoodValue(nextPosEntity->display_char);
             refreshScore();
+            if (_remainingDots == 0) {
+                ++_level;
+                removeEntityAt(nextScreenPos);
+                removeEntityAtByChar(pacman::BLINKY);
+                removeEntityAtByChar(pacman::PINKY);
+                removeEntityAtByChar(pacman::INKY);
+                removeEntityAtByChar(pacman::CLYDE);
+                removeEntityAtByChar(pacman::PAC);
+                initGameMap();
+                initGameEntities();
+                return;
+            }
         }
-        removeEntityAt(nextScreenPos);
-    } else if (pacman::pacMap[nextPos.y][nextPos.x] == pacman::WALL)
-        return;
+        if (nextPosEntity->type != types::ENEMY)
+            removeEntityAt(nextScreenPos);
+    }
     _player.move(nextPos.y, nextPos.x, getEntityAt(_player.getRealPos()));
+    updateGhosts();
 }

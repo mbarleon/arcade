@@ -63,6 +63,12 @@ int arcade::game::pacman::Player::getKillRow() const
     return _killRow;
 }
 
+void arcade::game::pacman::Player::setDirection(types::Direction direction)
+{
+    _direction = direction;
+    _wantedDirection = direction;
+}
+
 void arcade::game::pacman::Player::setPosition(int y, int x)
 {
     _position.x = x;
