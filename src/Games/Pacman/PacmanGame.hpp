@@ -41,6 +41,7 @@ namespace arcade::game {
             void removeEntityAtByChar(char c);
             void resetGameEntities();
             void updateGhosts();
+            void generateFood();
 
             void saveHighScore();
             void loadHighScore();
@@ -52,11 +53,13 @@ namespace arcade::game {
             pacman::Inky _inky;
             pacman::Clyde _clyde;
 
+            types::Position _playerStartPos;
             int _highScore;
             int _dotCpt;
             int _remainingDots;
             int _level;
-            size_t _timer;
+            unsigned int _timer;
+            size_t _fruitTimer;
     };
 };
 

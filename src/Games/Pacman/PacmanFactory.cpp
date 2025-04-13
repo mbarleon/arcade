@@ -17,6 +17,12 @@
 #include "Assets/map/map.hpp"
 #include "Assets/pac/pac_bottom_1.hpp"
 #include "Assets/life.hpp"
+#include "Assets/fruits/apple.hpp"
+#include "Assets/fruits/banana.hpp"
+#include "Assets/fruits/cherries.hpp"
+#include "Assets/fruits/key.hpp"
+#include "Assets/fruits/pineapple.hpp"
+#include "Assets/fruits/potion.hpp"
 
 extern "C" {
     arcade::game::IGame *create(void)
@@ -40,7 +46,7 @@ extern "C" {
     }
 }
 
-arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0)
+arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0), _fruitTimer(0)
 {
     addEntity(types::EMPTY, types::SPRITE, getPosition(0, 0),
     pacman::WALL, getEntityColor(pacman::WALL).color, "",
@@ -59,6 +65,8 @@ arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0)
 
     addEntity(types::EMPTY, types::SPRITE, (types::Position){1, 37}, pacman::LIFE,
     getRGBA(255, 255, 255, 255).color, "", getEntitySprite(pacman::LIFE));
+
+    _playerStartPos = getPosition(16, 13);
 }
 
 arcade::game::PacmanGame::~PacmanGame()
@@ -257,4 +265,43 @@ void arcade::game::PacmanGame::initGameMap()
                 pacman::pacMap[y][x], getEntityColor(pacman::pacMap[y][x]).color, "",
                 getEntitySprite(pacman::pacMap[y][x]));
         }
+}
+
+void arcade::game::PacmanGame::generateFood()
+{
+    if (getEntityAt(_playerStartPos))
+        return;
+    _fruitTimer = 0;
+    switch (_level) {
+        case 1:
+            addEntity(types::FOOD, types::SPRITE, _playerStartPos, pacman::APPLE,
+            getEntityColor(pacman::APPLE).color, "",
+            {.key = "Apple", .assets = apple_png, .length = apple_png_len});
+            return;
+        case 2:
+            addEntity(types::FOOD, types::SPRITE, _playerStartPos, pacman::BANANA,
+            getEntityColor(pacman::BANANA).color, "",
+            {.key = "Banana", .assets = banana_png, .length = banana_png_len});
+            return;
+        case 3:
+            addEntity(types::FOOD, types::SPRITE, _playerStartPos, pacman::CHERRIES,
+            getEntityColor(pacman::CHERRIES).color, "",
+            {.key = "Cherries", .assets = cherries_png, .length = cherries_png_len});
+            return;
+        case 4:
+            addEntity(types::FOOD, types::SPRITE, _playerStartPos, pacman::PINEAPPLE,
+            getEntityColor(pacman::PINEAPPLE).color, "",
+            {.key = "Pineapple", .assets = pineapple_png, .length = pineapple_png_len});
+            return;
+        case 5:
+            addEntity(types::FOOD, types::SPRITE, _playerStartPos, pacman::POTION,
+            getEntityColor(pacman::POTION).color, "",
+            {.key = "Potion", .assets = potion_png, .length = potion_png_len});
+            return;
+        default:
+            addEntity(types::FOOD, types::SPRITE, _playerStartPos, pacman::KEY,
+            getEntityColor(pacman::KEY).color, "",
+            {.key = "Key", .assets = key_png, .length = key_png_len});
+            return;
+    }
 }

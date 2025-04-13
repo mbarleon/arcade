@@ -34,6 +34,8 @@ void arcade::game::PacmanGame::refreshScore()
 {
     types::Entity *scoreTxt = getEntityAt((types::Position){2, 2});
 
+    if (_score > _highScore)
+        _highScore = _score;
     if (scoreTxt)
         scoreTxt->str = "level " + std::to_string(_level) +
         "   score " + std::to_string(_score) +
@@ -73,9 +75,16 @@ void arcade::game::PacmanGame::update(GameEvent event)
     _player.updateDirection(event.second);
 
     ++_timer;
+    ++_fruitTimer;
     if (_timer % 6 != 0)
         return;
     _timer = 0;
+    if (_fruitTimer % 720 == 0) {
+        types::Entity *entity = getEntityAt(_playerStartPos);
+
+        if (entity && entity->type == types::FOOD)
+            removeEntityAt(_playerStartPos);
+    }
 
     types::Position nextPos = _player.getNextPos();
     types::Position nextScreenPos = {nextPos.x, nextPos.y + MAP_MARGIN_TOP};
@@ -90,7 +99,9 @@ void arcade::game::PacmanGame::update(GameEvent event)
         if (nextPosEntity->type == types::FOOD) {
             _score += getFoodValue(nextPosEntity->display_char);
             refreshScore();
-            if (_remainingDots == 0) {
+            if (_remainingDots == 70 || _remainingDots == 170) {
+                generateFood();
+            } else if (_remainingDots == 0) {
                 ++_level;
                 refreshScore();
                 removeEntityAt(nextScreenPos);
