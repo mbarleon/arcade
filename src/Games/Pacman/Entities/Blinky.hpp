@@ -14,9 +14,8 @@ namespace arcade::game::pacman {
         public:
             Blinky() = default;
 
+            char getId() const override;
             void update(types::Entity *ghost, types::Position &playerPos);
-            void enterFrightenedMode() override;
-            void exitFrightenedMode() override;
     };
 };
 

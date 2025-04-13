@@ -7,12 +7,9 @@
 
 #include "Inky.hpp"
 
-void arcade::game::pacman::Inky::enterFrightenedMode()
+char arcade::game::pacman::Inky::getId() const
 {
-}
-
-void arcade::game::pacman::Inky::exitFrightenedMode()
-{
+    return pacman::INKY;
 }
 
 void arcade::game::pacman::Inky::chaseMove(types::Position &playerPos,

@@ -14,10 +14,9 @@ namespace arcade::game::pacman {
         public:
             Pinky() = default;
 
+            char getId() const override;
             void update(types::Entity *ghost, types::Position &playerPos,
                 types::Direction playerDirection);
-            void enterFrightenedMode() override;
-            void exitFrightenedMode() override;
 
         private:
             void chaseMove(types::Position &playerPos, types::Direction playerDirection);

@@ -45,6 +45,11 @@ void arcade::game::pacman::Ghost::reverseDirection()
     }
 }
 
+void arcade::game::pacman::Ghost::setTimer(size_t timer)
+{
+    _timer = timer;
+}
+
 void arcade::game::pacman::Ghost::setMode(GhostMode mode)
 {
     if (mode == FRIGHTENED || mode == CHASE ||
@@ -53,9 +58,7 @@ void arcade::game::pacman::Ghost::setMode(GhostMode mode)
     if (mode == FRIGHTENED) {
         _timer = 0;
         _lastMode = _mode;
-        enterFrightenedMode();
     } else if (mode == EATEN) {
-        exitFrightenedMode();
         _mode = mode;
         return;
     }
@@ -63,6 +66,11 @@ void arcade::game::pacman::Ghost::setMode(GhostMode mode)
         _lastMode = mode;
     else
         _mode = mode;
+}
+
+void arcade::game::pacman::Ghost::loadLastMode()
+{
+    _mode = _lastMode;
 }
 
 void arcade::game::pacman::Ghost::resetTargetMap()
@@ -292,6 +300,11 @@ arcade::game::pacman::GhostMode arcade::game::pacman::Ghost::getMode() const
     return _mode;
 }
 
+size_t arcade::game::pacman::Ghost::getTimer() const
+{
+    return _timer;
+}
+
 void arcade::game::pacman::Ghost::move(types::Direction target, types::Entity *ghost)
 {
     types::Position nextPos;
@@ -323,17 +336,10 @@ void arcade::game::pacman::Ghost::moveFrightened(types::Entity *ghost)
 {
     _direction = getRandomDirection();
     move(_direction, ghost);
-    ++_timer;
-    if (_timer % (TIME_1_SEC * 10) == 0) {
-        _timer = 0;
-        setMode(_lastMode);
-    }
 }
 
 void arcade::game::pacman::Ghost::moveEaten(types::Entity *ghost)
 {
     _direction = getTargetDirection(14, 13);
     move(_direction, ghost);
-    if (_position.x == 13 && _position.y == 14)
-        setMode(_lastMode);
 }

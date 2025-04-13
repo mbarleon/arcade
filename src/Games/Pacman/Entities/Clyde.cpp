@@ -7,12 +7,9 @@
 
 #include "Clyde.hpp"
 
-void arcade::game::pacman::Clyde::enterFrightenedMode()
+char arcade::game::pacman::Clyde::getId() const
 {
-}
-
-void arcade::game::pacman::Clyde::exitFrightenedMode()
-{
+    return pacman::CLYDE;
 }
 
 void arcade::game::pacman::Clyde::update(types::Entity *ghost,

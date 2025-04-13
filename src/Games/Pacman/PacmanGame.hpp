@@ -40,8 +40,13 @@ namespace arcade::game {
             void initGameMap();
             void removeEntityAtByChar(char c);
             void resetGameEntities();
+            bool updateGhost(pacman::Ghost &ghost, types::Position &playerPos);
             void updateGhosts();
             void generateFood();
+            void exitGhostSpecialModes(pacman::Ghost &ghost);
+            void setGhostsFrightened();
+            void setFrightenedSkin(char c);
+            void unsetFrightenedSkin(char c);
 
             void saveHighScore();
             void loadHighScore();

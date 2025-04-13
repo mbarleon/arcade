@@ -29,7 +29,8 @@ namespace arcade::game::pacman {
         PINEAPPLE = 'p',
         POTION = 'u',
         KEY = 'k',
-        LIFE = 'L'
+        LIFE = 'L',
+        VULNERABLE = 'V'
     };
 
     enum GhostMode {

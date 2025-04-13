@@ -7,12 +7,9 @@
 
 #include "Pinky.hpp"
 
-void arcade::game::pacman::Pinky::enterFrightenedMode()
+char arcade::game::pacman::Pinky::getId() const
 {
-}
-
-void arcade::game::pacman::Pinky::exitFrightenedMode()
-{
+    return pacman::PINKY;
 }
 
 void arcade::game::pacman::Pinky::chaseMove(types::Position &playerPos,

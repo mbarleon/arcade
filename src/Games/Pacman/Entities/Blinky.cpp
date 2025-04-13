@@ -7,12 +7,9 @@
 
 #include "Blinky.hpp"
 
-void arcade::game::pacman::Blinky::enterFrightenedMode()
+char arcade::game::pacman::Blinky::getId() const
 {
-}
-
-void arcade::game::pacman::Blinky::exitFrightenedMode()
-{
+    return pacman::BLINKY;
 }
 
 void arcade::game::pacman::Blinky::update(types::Entity *ghost,

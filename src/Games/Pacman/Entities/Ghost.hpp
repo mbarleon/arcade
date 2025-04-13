@@ -18,14 +18,16 @@ namespace arcade::game::pacman {
 
             types::Position &getPosition();
             GhostMode getMode() const;
+            size_t getTimer() const;
+            virtual char getId() const = 0;
 
             void move(types::Direction target, types::Entity *ghost);
 
+            void setTimer(size_t timer);
             void setMode(GhostMode mode);
+            void loadLastMode();
             void setPosition(int y, int x);
             void setDirection(types::Direction direction);
-            virtual void enterFrightenedMode() = 0;
-            virtual void exitFrightenedMode() = 0;
 
         protected:
             types::Direction getTargetDirection(int y, int x);

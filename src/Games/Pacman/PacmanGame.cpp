@@ -43,48 +43,46 @@ void arcade::game::PacmanGame::refreshScore()
         "   high score " + std::to_string(_highScore);
 }
 
+bool arcade::game::PacmanGame::updateGhost(pacman::Ghost &ghost,
+    types::Position &playerPos)
+{
+    types::Position &ghostPos = ghost.getPosition();
+    pacman::GhostMode ghostMode = ghost.getMode();
+
+    exitGhostSpecialModes(ghost);
+    if (ghostPos == playerPos) {
+        if (ghostMode == pacman::FRIGHTENED) {
+            int killRow = _player.getKillRow() + 1;
+
+            _score += getFoodValue(ghost.getId());
+            _player.setKillRow(killRow);
+            ghost.setMode(pacman::EATEN);
+        }
+        if (ghostMode < pacman::FRIGHTENED) {
+            int remainingLives = _player.getExtraLifes();
+
+            if (remainingLives == 0) {
+                setGameOver(true);
+                return true;
+            }
+            _player.setExtraLifes(remainingLives - 1);
+            _dotCpt = 0;
+            removeEntityAtByChar(pacman::LIFE);
+            resetGameEntities();
+            return true;
+        }
+    }
+    return false;
+}
+
 void arcade::game::PacmanGame::updateGhosts()
 {
     types::Direction playerDirection = _player.getDirection();
     types::Position &playerPos = _player.getPos();
-    types::Position &blinkyPos = _blinky.getPosition();
-    types::Position &pinkyPos = _pinky.getPosition();
-    types::Position &inkyPos = _inky.getPosition();
-    types::Position &clydePos = _clyde.getPosition();
-    int remainingLives = _player.getExtraLifes();
 
-    if ((blinkyPos == playerPos && _blinky.getMode() == pacman::FRIGHTENED) ||
-    (pinkyPos == playerPos && _pinky.getMode() == pacman::FRIGHTENED) ||
-    (inkyPos == playerPos && _inky.getMode() == pacman::FRIGHTENED) ||
-    (clydePos == playerPos && _clyde.getMode() == pacman::FRIGHTENED)) {
-        int playerKillRow = _player.getKillRow() + 1;
-
-        _score += getFoodValue(pacman::BLINKY);
-        _player.setKillRow(playerKillRow);
-        if (blinkyPos == playerPos)
-            _blinky.setMode(pacman::EATEN);
-        if (pinkyPos == playerPos)
-            _pinky.setMode(pacman::EATEN);
-        if (inkyPos == playerPos)
-            _inky.setMode(pacman::EATEN);
-        if (clydePos == playerPos)
-            _clyde.setMode(pacman::EATEN);
-    }
-
-    if ((blinkyPos == playerPos && _blinky.getMode() < pacman::FRIGHTENED) ||
-    (pinkyPos == playerPos && _pinky.getMode() < pacman::FRIGHTENED) ||
-    (inkyPos == playerPos && _inky.getMode() < pacman::FRIGHTENED) ||
-    (clydePos == playerPos && _clyde.getMode() < pacman::FRIGHTENED)) {
-        if (remainingLives == 0) {
-            setGameOver(true);
-            return;
-        }
-        _player.setExtraLifes(remainingLives - 1);
-        _dotCpt = 0;
-        removeEntityAtByChar(pacman::LIFE);
-        resetGameEntities();
+    if (updateGhost(_blinky, playerPos) || updateGhost(_pinky, playerPos) ||
+    updateGhost(_inky, playerPos) || updateGhost(_clyde, playerPos))
         return;
-    }
 
     _blinky.update(getEntityAtByChar(pacman::BLINKY), playerPos);
     _pinky.update(getEntityAtByChar(pacman::PINKY), playerPos, playerDirection);
