@@ -8,7 +8,7 @@
 #include "Ghost.hpp"
 
 arcade::game::pacman::Ghost::Ghost() : _direction(types::UP),
-    _position({0, 0}), _mode(SCATTER)
+    _position({0, 0}), _mode(EATEN)
 {
 }
 
@@ -66,9 +66,14 @@ arcade::types::Direction arcade::game::pacman::Ghost::getRandomDirection()
     int possibleDirections = 0;
     int nextDirection;
 
+    if ((_position.x >= 12 && _position.x <= 14) &&
+    (_position.y >= 12 && _position.y <= 14))
+        return getTargetDirection(11, 13);
+    if (_position.y == 14 && ((_position.x >= 0 && _position.x <= 4) ||
+    (_position.x >= 25 && _position.x <= 29)))
+        return _direction;
     if ((_position.y == 11 || _position.y == 23) &&
-    (_position.x >= 12 && _position.x <= 17) &&
-    (_mode == SCATTER || _mode == CHASE)) {
+    (_position.x >= 12 && _position.x <= 17)) {
         if (_direction == types::LEFT)
             return types::LEFT;
         if (_direction == types::RIGHT)
@@ -91,12 +96,10 @@ arcade::types::Direction arcade::game::pacman::Ghost::getRandomDirection()
     if (pacMap[_position.y - 1][_position.x] == WALL ||
     pacMap[_position.y - 1][_position.x] == DOOR)
         directions[types::UP] = false;
-    if (_position.y != 14 && _position.x != 0 &&
-    (pacMap[_position.y][_position.x - 1] == WALL ||
+    if ((pacMap[_position.y][_position.x - 1] == WALL ||
     pacMap[_position.y][_position.x - 1] == DOOR))
         directions[types::LEFT] = false;
-    if (_position.y != 14 && _position.x != 27 &&
-    (pacMap[_position.y][_position.x + 1] == WALL ||
+    if ((pacMap[_position.y][_position.x + 1] == WALL ||
     pacMap[_position.y][_position.x + 1] == DOOR))
         directions[types::RIGHT] = false;
     if (pacMap[_position.y + 1][_position.x] == WALL ||
@@ -105,8 +108,7 @@ arcade::types::Direction arcade::game::pacman::Ghost::getRandomDirection()
     for (int i = 0; i < 4; ++i)
         if (directions[i])
             ++possibleDirections;
-    nextDirection = rand() % possibleDirections;
-    for (; nextDirection < 4; ++nextDirection)
+    for (nextDirection = rand() % possibleDirections; nextDirection < 4; ++nextDirection)
         if (directions[nextDirection])
             return static_cast<types::Direction>(nextDirection);
     return types::UP;
@@ -302,10 +304,12 @@ void arcade::game::pacman::Ghost::move(types::Direction target, types::Entity *g
 
 void arcade::game::pacman::Ghost::moveFrightened(types::Entity *ghost)
 {
-    move(getRandomDirection(), ghost);
+    _direction = getRandomDirection();
+    move(_direction, ghost);
 }
 
 void arcade::game::pacman::Ghost::moveEaten(types::Entity *ghost)
 {
-    move(getTargetDirection(13, 13), ghost);
+    _direction = getTargetDirection(13, 13);
+    move(_direction, ghost);
 }
