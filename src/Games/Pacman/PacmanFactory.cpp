@@ -12,6 +12,7 @@
 #include "Assets/ghosts/pink_bottom.hpp"
 #include "Assets/ghosts/red_bottom.hpp"
 #include "Assets/ghosts/vulnerable_bottom.hpp"
+#include "Assets/ghosts/dead.hpp"
 #include "Assets/map/pacgum.hpp"
 #include "Assets/map/gum.hpp"
 #include "Assets/map/map.hpp"
@@ -171,23 +172,25 @@ arcade::types::Sprite arcade::game::PacmanGame::getEntitySprite(char c)
 {
     switch (c) {
         case pacman::GUM:
-            return {.key = "Gum", .assets = gum_png, .length = gum_png_len};
+            return {.key = "Pacman_Gum", .assets = gum_png, .length = gum_png_len};
         case pacman::GUM2:
-            return {.key = "Gum2", .assets = pacgum_png, .length = pacgum_png_len};
+            return {.key = "Pacman_Gum2", .assets = pacgum_png, .length = pacgum_png_len};
         case pacman::LIFE:
-            return {.key = "Life", .assets = life_png, .length = life_png_len};
+            return {.key = "Pacman_Life", .assets = life_png, .length = life_png_len};
         case pacman::PAC:
-            return {.key = "Pacman", .assets = pac_bottom_1_png, .length = pac_bottom_1_png_len};
+            return {.key = "Pacman_Pac", .assets = pac_bottom_1_png, .length = pac_bottom_1_png_len};
         case pacman::BLINKY:
-            return {.key = "Blinky", .assets = red_bottom_png, .length = red_bottom_png_len};
+            return {.key = "Pacman_Blinky", .assets = red_bottom_png, .length = red_bottom_png_len};
         case pacman::PINKY:
-            return {.key = "Pinky", .assets = pink_bottom_png, .length = pink_bottom_png_len};
+            return {.key = "Pacman_Pinky", .assets = pink_bottom_png, .length = pink_bottom_png_len};
         case pacman::INKY:
-            return {.key = "Inky", .assets = green_bottom_png, .length = green_bottom_png_len};
+            return {.key = "Pacman_Inky", .assets = green_bottom_png, .length = green_bottom_png_len};
         case pacman::CLYDE:
-            return {.key = "Clyde", .assets = orange_bottom_png, .length = orange_bottom_png_len};
+            return {.key = "Pacman_Clyde", .assets = orange_bottom_png, .length = orange_bottom_png_len};
+        case pacman::DEAD:
+            return {.key = "Pacman_Eaten", .assets = dead_png, .length = dead_png_len};
         case pacman::VULNERABLE:
-            return {.key = "Vulnerable", .assets = vulnerable_bottom_png,
+            return {.key = "Pacman_Vulnerable", .assets = vulnerable_bottom_png,
                 .length = vulnerable_bottom_png_len};
         default:
             return {};
@@ -353,7 +356,7 @@ void arcade::game::PacmanGame::exitGhostSpecialModes(pacman::Ghost &ghost)
             ++timer;
             if (timer % (TIME_1_SEC * 10) == 0) {
                 ghost.setTimer(0);
-                unsetFrightenedSkin(ghost.getId());
+                restoreGhostSkin(ghost.getId());
                 ghost.loadLastMode();
                 return;
             }
@@ -362,7 +365,7 @@ void arcade::game::PacmanGame::exitGhostSpecialModes(pacman::Ghost &ghost)
         case pacman::EATEN:
             if (pos.x == 13 && pos.y == 14) {
                 ghost.loadLastMode();
-                unsetFrightenedSkin(ghost.getId());
+                restoreGhostSkin(ghost.getId());
             }
             return;
         default:
@@ -374,37 +377,37 @@ void arcade::game::PacmanGame::setGhostsFrightened()
 {
     if (_blinky.getMode() != pacman::EATEN &&
     _blinky.getMode() != pacman::FRIGHTENED) {
-        setFrightenedSkin(pacman::BLINKY);
+        setGhostSkin(pacman::BLINKY, pacman::VULNERABLE);
         _blinky.setMode(pacman::FRIGHTENED);
     }
     if (_pinky.getMode() != pacman::EATEN &&
     _pinky.getMode() != pacman::FRIGHTENED) {
-        setFrightenedSkin(pacman::PINKY);
+        setGhostSkin(pacman::PINKY, pacman::VULNERABLE);
         _pinky.setMode(pacman::FRIGHTENED);
     }
     if (_inky.getMode() != pacman::EATEN &&
     _inky.getMode() != pacman::FRIGHTENED) {
-        setFrightenedSkin(pacman::INKY);
+        setGhostSkin(pacman::INKY, pacman::VULNERABLE);
         _inky.setMode(pacman::FRIGHTENED);
     }
     if (_clyde.getMode() != pacman::EATEN &&
     _clyde.getMode() != pacman::FRIGHTENED) {
-        setFrightenedSkin(pacman::CLYDE);
+        setGhostSkin(pacman::CLYDE, pacman::VULNERABLE);
         _clyde.setMode(pacman::FRIGHTENED);
     }
 }
 
-void arcade::game::PacmanGame::setFrightenedSkin(char c)
+void arcade::game::PacmanGame::setGhostSkin(char c, char skin)
 {
     types::Entity *ghost = getEntityAtByChar(c);
 
     if (ghost) {
-        ghost->color = getEntityColor(pacman::VULNERABLE).color;
-        ghost->sprite = getEntitySprite(pacman::VULNERABLE);
+        ghost->color = getEntityColor(skin).color;
+        ghost->sprite = getEntitySprite(skin);
     }
 }
 
-void arcade::game::PacmanGame::unsetFrightenedSkin(char c)
+void arcade::game::PacmanGame::restoreGhostSkin(char c)
 {
     types::Entity *ghost = getEntityAtByChar(c);
 

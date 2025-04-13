@@ -46,8 +46,8 @@ namespace arcade::game {
             void generateFood();
             void exitGhostSpecialModes(pacman::Ghost &ghost);
             void setGhostsFrightened();
-            void setFrightenedSkin(char c);
-            void unsetFrightenedSkin(char c);
+            void setGhostSkin(char c, char skin);
+            void restoreGhostSkin(char c);
 
             void saveHighScore();
             void loadHighScore();

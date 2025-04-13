@@ -56,6 +56,7 @@ bool arcade::game::PacmanGame::updateGhost(pacman::Ghost &ghost,
 
             _score += getFoodValue(ghost.getId());
             _player.setKillRow(killRow);
+            setGhostSkin(ghost.getId(), pacman::DEAD);
             ghost.setMode(pacman::EATEN);
         }
         if (ghostMode < pacman::FRIGHTENED) {

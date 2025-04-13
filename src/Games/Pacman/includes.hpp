@@ -30,7 +30,8 @@ namespace arcade::game::pacman {
         POTION = 'u',
         KEY = 'k',
         LIFE = 'L',
-        VULNERABLE = 'V'
+        VULNERABLE = 'V',
+        DEAD = 'D'
     };
 
     enum GhostMode {
