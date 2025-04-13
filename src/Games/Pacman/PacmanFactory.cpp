@@ -351,17 +351,30 @@ void arcade::game::PacmanGame::exitGhostSpecialModes(pacman::Ghost &ghost)
     size_t timer = ghost.getTimer();
     types::Position &pos = ghost.getPosition();
 
+    ++timer;
     switch (mode) {
+        case pacman::SCATTER:
+            if (timer % (getCycleTime() * TIME_1_SEC) == 0) {
+                ghost.setMode(pacman::CHASE);
+                ghost.setTimer(0);
+                return;
+            }
+            break;
+        case pacman::CHASE:
+            if (timer % ((10 - getCycleTime()) * TIME_1_SEC) == 0) {
+                ghost.setMode(pacman::SCATTER);
+                ghost.setTimer(0);
+                return;
+            }
+            break;
         case pacman::FRIGHTENED:
-            ++timer;
             if (timer % (TIME_1_SEC * 10) == 0) {
                 ghost.setTimer(0);
                 restoreGhostSkin(ghost.getId());
                 ghost.loadLastMode();
                 return;
             }
-            ghost.setTimer(timer);
-            return;
+            break;
         case pacman::EATEN:
             if (pos.x == 13 && pos.y == 14) {
                 ghost.loadLastMode();
@@ -371,6 +384,7 @@ void arcade::game::PacmanGame::exitGhostSpecialModes(pacman::Ghost &ghost)
         default:
             return;
     }
+    ghost.setTimer(timer);
 }
 
 void arcade::game::PacmanGame::setGhostsFrightened()
