@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "../../Core/Core.hpp"
+#include "Assets/wallpaper.hpp"
 
 /**
  * @file Menu.cpp
@@ -97,7 +98,7 @@ arcade::game::Menu::Menu()
     this->_nbrGames = this->_gam.size();
     this->_gam.erase("MENU");
     this->_nbrGames --;
-    this->_color = getRGBA(255, 255, 255, 255);
+    this->_color = getRGBA(43, 255, 255, 255);
     this->_selected = false;
     this->_selectedGam = 0;
     this->_selectedLib = 0;
@@ -281,4 +282,6 @@ void arcade::game::Menu::update(const std::pair<types::Position, types::InputEve
     if (this->_selected) {
         this->displaySelectedOptionLib();
     }
+    addEntity(types::WALL, types::SPRITE, {0, 0}, ' ', 0, "",
+        {.key = "Wallpaper", .assets = wallpaper_jpg, .length = wallpaper_jpg_len});
 }
