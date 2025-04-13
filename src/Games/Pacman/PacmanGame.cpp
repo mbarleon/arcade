@@ -72,6 +72,8 @@ bool arcade::game::PacmanGame::updateGhost(pacman::Ghost &ghost,
             return true;
         }
     }
+    if (ghostMode == pacman::FRIGHTENED && _timer % (getCycleTime() * 2) != 0)
+        return true;
     return false;
 }
 
@@ -80,16 +82,15 @@ void arcade::game::PacmanGame::updateGhosts()
     types::Direction playerDirection = _player.getDirection();
     types::Position &playerPos = _player.getPos();
 
-    if (updateGhost(_blinky, playerPos) || updateGhost(_pinky, playerPos) ||
-    updateGhost(_inky, playerPos) || updateGhost(_clyde, playerPos))
-        return;
-
-    _blinky.update(getEntityAtByChar(pacman::BLINKY), playerPos);
-    _pinky.update(getEntityAtByChar(pacman::PINKY), playerPos, playerDirection);
-    if (_level > 1 || _dotCpt >= 30)
+    if (!updateGhost(_blinky, playerPos))
+        _blinky.update(getEntityAtByChar(pacman::BLINKY), playerPos);
+    if (!updateGhost(_pinky, playerPos))
+        _pinky.update(getEntityAtByChar(pacman::PINKY), playerPos, playerDirection);
+    if (!updateGhost(_inky, playerPos) && (_level > 1 || _dotCpt >= 30))
         _inky.update(getEntityAtByChar(pacman::INKY), playerPos,
         _blinky.getPosition(), playerDirection);
-    if (_level > 2 || (_level > 1 && _dotCpt >= 50) || _dotCpt >= 60)
+    if (!updateGhost(_clyde, playerPos) &&
+    (_level > 2 || (_level > 1 && _dotCpt >= 50) || _dotCpt >= 60))
         _clyde.update(getEntityAtByChar(pacman::CLYDE), playerPos);
 }
 
@@ -98,9 +99,8 @@ void arcade::game::PacmanGame::update(GameEvent event)
     _player.updateDirection(event.second);
 
     ++_timer;
-    if (_timer % 6 != 0)
+    if (_timer % getCycleTime() != 0)
         return;
-    _timer = 0;
     ++_fruitTimer;
     if (_fruitTimer % (TIME_1_SEC * 10) == 0) {
         types::Entity *entity = getEntityAt(_playerStartPos);

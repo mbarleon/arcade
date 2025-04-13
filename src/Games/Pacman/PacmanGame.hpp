@@ -35,6 +35,7 @@ namespace arcade::game {
             types::Position getPosition(int y, int x);
             int getFoodValue(char food);
             types::Entity *getEntityAtByChar(char c);
+            int getCycleTime();
 
             void initGameEntities();
             void initGameMap();
@@ -63,7 +64,7 @@ namespace arcade::game {
             int _dotCpt;
             int _remainingDots;
             int _level;
-            unsigned int _timer;
+            size_t _timer;
             size_t _fruitTimer;
     };
 };

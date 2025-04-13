@@ -215,6 +215,19 @@ arcade::types::Entity *arcade::game::PacmanGame::getEntityAtByChar(char c)
     return nullptr;
 }
 
+int arcade::game::PacmanGame::getCycleTime()
+{
+    if (_level > 8)
+        return 2;
+    if (_level > 6)
+        return 3;
+    if (_level > 4)
+        return 4;
+    if (_level > 2)
+        return 5;
+    return 6;
+}
+
 void arcade::game::PacmanGame::removeEntityAtByChar(char c)
 {
     for (auto &pair : _entities) {
@@ -359,14 +372,26 @@ void arcade::game::PacmanGame::exitGhostSpecialModes(pacman::Ghost &ghost)
 
 void arcade::game::PacmanGame::setGhostsFrightened()
 {
-    setFrightenedSkin(pacman::BLINKY);
-    setFrightenedSkin(pacman::PINKY);
-    setFrightenedSkin(pacman::INKY);
-    setFrightenedSkin(pacman::CLYDE);
-    _blinky.setMode(pacman::FRIGHTENED);
-    _pinky.setMode(pacman::FRIGHTENED);
-    _inky.setMode(pacman::FRIGHTENED);
-    _clyde.setMode(pacman::FRIGHTENED);
+    if (_blinky.getMode() != pacman::EATEN &&
+    _blinky.getMode() != pacman::FRIGHTENED) {
+        setFrightenedSkin(pacman::BLINKY);
+        _blinky.setMode(pacman::FRIGHTENED);
+    }
+    if (_pinky.getMode() != pacman::EATEN &&
+    _pinky.getMode() != pacman::FRIGHTENED) {
+        setFrightenedSkin(pacman::PINKY);
+        _pinky.setMode(pacman::FRIGHTENED);
+    }
+    if (_inky.getMode() != pacman::EATEN &&
+    _inky.getMode() != pacman::FRIGHTENED) {
+        setFrightenedSkin(pacman::INKY);
+        _inky.setMode(pacman::FRIGHTENED);
+    }
+    if (_clyde.getMode() != pacman::EATEN &&
+    _clyde.getMode() != pacman::FRIGHTENED) {
+        setFrightenedSkin(pacman::CLYDE);
+        _clyde.setMode(pacman::FRIGHTENED);
+    }
 }
 
 void arcade::game::PacmanGame::setFrightenedSkin(char c)
