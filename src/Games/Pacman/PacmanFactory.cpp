@@ -5,6 +5,25 @@
 ** PacmanFactory
 */
 
+/**
+ * @file PacmanFactory.cpp
+ * @brief Factory functions to create and destroy the Pacman game instance.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-14
+ *
+ * @details
+ * This file implements the C interface expected by the Core to dynamically load
+ * the Pacman game shared object. It defines:
+ * - `create()` to instantiate the game
+ * - `destroy()` to delete it
+ * - `getType()` to indicate the module type (`GAME`)
+ * - `getName()` to return the name of the game
+ *
+ * These functions are used by the Arcade Core loader and allow the Pacman game
+ * to be treated as a plugin.
+ */
+
 #include "PacmanGame.hpp"
 
 #include "Assets/ghosts/green_bottom.hpp"

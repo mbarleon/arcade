@@ -5,6 +5,32 @@
 ** Ghost
 */
 
+/**
+ * @file Ghost.cpp
+ * @brief Implementation file for the Ghost class used in the Pacman game.
+ * @author Jason KOENIG
+ * @version 1.0
+ * @date 2025-04-14
+ *
+ * @details
+ * This file contains all the logic for ghost behavior in the Pacman game. It
+ * includes movement algorithms, behavior mode switching (SCATTER, CHASE, FRIGHTENED,
+ * EATEN), direction reversal, pathfinding using distance propagation, and interaction
+ * with the game map. Ghosts in the game are autonomous enemies and their behavior
+ * varies based on game state and proximity to the player.
+ *
+ * The following ghost mechanics are handled in this file:
+ * - Movement in various directions
+ * - Random movement and collision logic
+ * - Pathfinding based on map distances
+ * - Mode switching and timer control
+ * - Sprite and visual updates linked to behavior
+ *
+ * @see Ghost.hpp
+ * @see PacmanGame.cpp
+ * @see arcade::game::pacman
+ */
+
 #include "Ghost.hpp"
 
 /**
