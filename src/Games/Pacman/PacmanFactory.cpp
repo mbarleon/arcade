@@ -47,6 +47,18 @@ extern "C" {
     }
 }
 
+/**
+ * @brief Constructor for the PacmanGame class.
+ * @details Initializes all game-related data and entities. This includes:
+ * - Setting initial counters (score, level, timers).
+ * - Adding the background sprite.
+ * - Initializing the game map and all entities (player, ghosts, food, etc.).
+ * - Loading the high score from file.
+ * - Displaying the initial score text and extra life icons.
+ * - Setting the player's starting position.
+ *
+ * This constructor prepares the entire game to be ready for the first frame.
+ */
 arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0), _fruitTimer(0)
 {
     addEntity(types::EMPTY, types::SPRITE, getPosition(0, 0),
@@ -70,12 +82,31 @@ arcade::game::PacmanGame::PacmanGame() : _dotCpt(0), _level(1), _timer(0), _frui
     _playerStartPos = getPosition(16, 13);
 }
 
+/**
+ * @brief Destructor for the PacmanGame class.
+ * @details Ensures that the current high score is saved to disk before the game is destroyed,
+ * and clears all entities from the game state.
+ */
 arcade::game::PacmanGame::~PacmanGame()
 {
     saveHighScore();
     clearEntities();
 }
 
+/**
+ * @brief Returns the score value of a food or ghost entity.
+ * @details Determines the number of points to award based on the type of entity collected:
+ * - Basic food (`GUM`) gives 10 points and increments the dot counter.
+ * - Power food (`GUM2`) gives 50 points, resets ghost kill chain, and sets all ghosts to FRIGHTENED.
+ * - Fruits (e.g., apple, banana, etc.) give increasing point values.
+ * - If a ghost is eaten (in FRIGHTENED mode), the score depends on the current kill chain:
+ *   200, 400, 800, or 1600 points depending on how many ghosts have been eaten in a row.
+ *
+ * The dot counter `_dotCpt` and `_remainingDots` are updated when food is eaten.
+ *
+ * @param food The character representing the food or ghost entity.
+ * @return The score value associated with the collected entity.
+ */
 int arcade::game::PacmanGame::getFoodValue(char food)
 {
     switch (food) {
@@ -120,6 +151,20 @@ int arcade::game::PacmanGame::getFoodValue(char food)
     refreshScore();
 }
 
+/**
+ * @brief Maps a character to its corresponding EntityType.
+ * @details Translates a character from the static Pac-Man map to the internal
+ * EntityType used for game logic and rendering.
+ *
+ * The conversion is as follows:
+ * - `WALL` → `types::WALL`
+ * - `GUM`, `GUM2` → `types::FOOD`
+ * - `DOOR` → `types::OBSTACLE`
+ * - Anything else → `types::EMPTY`
+ *
+ * @param c The character representing the entity in the static map.
+ * @return The corresponding EntityType used in the game.
+ */
 arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)
 {
     switch (c) {
@@ -136,6 +181,17 @@ arcade::types::EntityType arcade::game::PacmanGame::getEntityType(char c)
     }
 }
 
+/**
+ * @brief Maps a character to its corresponding EntityDraw type.
+ * @details Determines how the given entity should be rendered by the graphics libraries.
+ *
+ * The conversion is as follows:
+ * - `GUM`, `GUM2` → `types::SPRITE`
+ * - Anything else → `types::NONE` (no specific draw instruction)
+ *
+ * @param c The character representing the entity in the static map.
+ * @return The corresponding EntityDraw value used for rendering.
+ */
 arcade::types::EntityDraw arcade::game::PacmanGame::getEntityDraw(char c)
 {
     switch (c) {
@@ -148,6 +204,22 @@ arcade::types::EntityDraw arcade::game::PacmanGame::getEntityDraw(char c)
     }
 }
 
+/**
+ * @brief Returns the display color associated with a specific entity character.
+ * @details Associates each entity (ghosts, Pac-Man, etc.) with a specific RGBA color:
+ * - `PAC` → Yellow (255, 255, 0, 255)
+ * - `BLINKY` → Red (255, 0, 0, 255)
+ * - `INKY` → Green (0, 255, 0, 255)
+ * - `PINKY` → Pink (255, 192, 203, 255)
+ * - `CLYDE` → Orange (255, 165, 0, 255)
+ * - `VULNERABLE` → Blue (0, 0, 255, 255)
+ * - Any other character → White (255, 255, 255, 255)
+ *
+ * This is used to color entities in rendering, including sprites and text fallback.
+ *
+ * @param c The character representing the entity.
+ * @return The color value in `color_t` format (RGBA).
+ */
 arcade::types::color_t arcade::game::PacmanGame::getEntityColor(char c)
 {
     switch (c) {
@@ -168,6 +240,26 @@ arcade::types::color_t arcade::game::PacmanGame::getEntityColor(char c)
     }
 }
 
+/**
+ * @brief Returns the sprite associated with a specific entity character.
+ * @details Maps each character from the static Pac-Man map to a corresponding
+ * sprite structure, containing a unique key, raw image data, and its size.
+ *
+ * Sprite mapping includes:
+ * - `GUM` → Small food sprite
+ * - `GUM2` → Power-up food (Pac-Gum)
+ * - `LIFE` → Extra life icon
+ * - `PAC`, `BLINKY`, `INKY`, `PINKY`, `CLYDE` → Default downward-facing sprites for each character
+ * - `DEAD` → Eaten ghost sprite
+ * - `VULNERABLE` → Frightened mode ghost sprite
+ *
+ * If the character does not match any known entity, an empty sprite is returned.
+ *
+ * @param c The character representing the entity.
+ * @return The corresponding `Sprite` structure, or an empty sprite if none matches.
+ *
+ * @see arcade::types::Sprite
+ */
 arcade::types::Sprite arcade::game::PacmanGame::getEntitySprite(char c)
 {
     switch (c) {
@@ -197,6 +289,17 @@ arcade::types::Sprite arcade::game::PacmanGame::getEntitySprite(char c)
     }
 }
 
+/**
+* @brief Converts map coordinates to screen coordinates.
+* @details Adjusts the Y-axis value by adding a vertical margin
+* (`MAP_MARGIN_TOP`) to fit the game map into the graphical window layout.
+*
+* This is used when placing entities so they appear correctly offset from the top of the screen.
+*
+* @param y The Y-coordinate in the map (tile-based).
+* @param x The X-coordinate in the map (tile-based).
+* @return A `Position` representing the screen-relative coordinates
+*/
 arcade::types::Position arcade::game::PacmanGame::getPosition(int y, int x)
 {
     types::Position pos;
@@ -206,6 +309,19 @@ arcade::types::Position arcade::game::PacmanGame::getPosition(int y, int x)
     return pos;
 }
 
+/**
+ * @brief Retrieves the first entity that matches a given display character.
+ * @details Iterates through all entities grouped by draw type to find the first one
+ * whose `display_char` matches the provided character.
+ *
+ * This function is primarily used to locate a unique game entity (like a ghost or Pac-Man)
+ * based on its character representation.
+ *
+ * @param c The character used to identify the target entity.
+ * @return A pointer to the matching `Entity`, or `nullptr` if not found.
+ *
+ * @see types::Entity
+ */
 arcade::types::Entity *arcade::game::PacmanGame::getEntityAtByChar(char c)
 {
     for (auto &pair : _entities) {
@@ -218,6 +334,20 @@ arcade::types::Entity *arcade::game::PacmanGame::getEntityAtByChar(char c)
     return nullptr;
 }
 
+/**
+ * @brief Returns the current game cycle time based on the level.
+ * @details The cycle time determines the pacing of ghost updates and other timed events.
+ * It decreases as the player progresses to higher levels, making the game faster and more difficult.
+ *
+ * Level thresholds:
+ * - > 8 → cycle time = 2
+ * - > 6 → cycle time = 3
+ * - > 4 → cycle time = 4
+ * - > 2 → cycle time = 5
+ * - ≤ 2 → cycle time = 6
+ *
+ * @return The number of ticks to wait between each logic update cycle.
+ */
 int arcade::game::PacmanGame::getCycleTime()
 {
     if (_level > 8)
@@ -231,6 +361,16 @@ int arcade::game::PacmanGame::getCycleTime()
     return 6;
 }
 
+/**
+ * @brief Removes the first entity matching a specific display character.
+ * @details Iterates through all entity groups and erases the first entity found
+ * whose `display_char` matches the provided character. Once removed, the function exits.
+ *
+ * This is typically used to delete unique entities such as lives, ghosts, or the player,
+ * identified by their character representation.
+ *
+ * @param c The character used to identify the entity to remove.
+ */
 void arcade::game::PacmanGame::removeEntityAtByChar(char c)
 {
     for (auto &pair : _entities) {
@@ -243,6 +383,20 @@ void arcade::game::PacmanGame::removeEntityAtByChar(char c)
     }
 }
 
+/**
+ * @brief Resets all main game entities to their initial positions and states.
+ * @details Repositions the player and each ghost (Blinky, Pinky, Inky, Clyde)
+ * to their default spawn points on the map. Also:
+ * - Resets the direction of all entities.
+ * - Sets all ghosts to `SCATTER` mode.
+ *
+ * This function is typically called after the player loses a life, to restart the round
+ * without restarting the full game.
+ *
+ * @see getEntityAtByChar()
+ * @see getPosition()
+ * @see pacman::GhostMode
+ */
 void arcade::game::PacmanGame::resetGameEntities()
 {
     _player.setPosition(16, 13);
@@ -268,6 +422,22 @@ void arcade::game::PacmanGame::resetGameEntities()
     _clyde.setMode(pacman::SCATTER);
 }
 
+/**
+ * @brief Initializes all main entities for the Pac-Man game.
+ * @details Creates and places the player (`PAC`) and the four ghosts
+ * (`BLINKY`, `PINKY`, `INKY`, `CLYDE`) on the map using their corresponding
+ * position, color, and sprite.
+ *
+ * All entities are added via `addEntity()` with appropriate types:
+ * - `PLAYER` for Pac-Man
+ * - `ENEMY` for each ghost
+ *
+ * After creation, the function calls `resetGameEntities()` to set
+ * their initial direction and behavior.
+ *
+ * @see addEntity()
+ * @see resetGameEntities()
+ */
 void arcade::game::PacmanGame::initGameEntities()
 {
     addEntity(types::PLAYER, types::SPRITE, getPosition(16, 13), pacman::PAC,
@@ -288,6 +458,22 @@ void arcade::game::PacmanGame::initGameEntities()
     resetGameEntities();
 }
 
+/**
+ * @brief Initializes the Pac-Man level map.
+ * @details Iterates through the static `pacMap` layout and creates entities for
+ * all visible tiles, such as walls, food, power-ups, and doors. Each entity is
+ * assigned the correct type, draw method, color, and sprite.
+
+ * Additionally:
+ * - Increments `_remainingDots` for each food entity (`GUM` or `GUM2`),
+ *   used to track progression and level completion.
+ * - Skips empty tiles that have no visual or logical significance.
+
+ * @see pacMap
+ * @see getEntityDraw()
+ * @see getEntityType()
+ * @see addEntity()
+ */
 void arcade::game::PacmanGame::initGameMap()
 {
     _remainingDots = 0;
@@ -306,6 +492,27 @@ void arcade::game::PacmanGame::initGameMap()
         }
 }
 
+/**
+ * @brief Spawns a bonus food item at the player's starting position.
+ * @details This function generates a fruit or bonus item at the center of the map
+ * (player start position) depending on the current game level.
+ *
+ * Behavior:
+ * - If an entity already exists at the target position, no food is generated.
+ * - Resets the fruit timer.
+ * - Selects the food to spawn based on the level:
+ *   - 1 → Apple
+ *   - 2 → Banana
+ *   - 3 → Cherries
+ *   - 4 → Pineapple
+ *   - 5 → Potion
+ *   - ≥6 → Key
+ *
+ * The generated item is added to the game as a `FOOD` entity with a corresponding sprite.
+ *
+ * @see addEntity()
+ * @see _playerStartPos
+ */
 void arcade::game::PacmanGame::generateFood()
 {
     if (getEntityAt(_playerStartPos))
@@ -345,6 +552,23 @@ void arcade::game::PacmanGame::generateFood()
     }
 }
 
+/**
+ * @brief Handles the transition between ghost behavior modes based on timers and position.
+ * @details This function updates the mode of a ghost depending on its current state and elapsed time:
+ *
+ * - **SCATTER → CHASE**: After `getCycleTime() * TIME_1_SEC` ticks, the ghost switches to CHASE mode.
+ * - **CHASE → SCATTER**: After `(10 - getCycleTime()) * TIME_1_SEC` ticks, the ghost returns to SCATTER mode.
+ * - **FRIGHTENED → Last Mode**: After 10 seconds, the ghost returns to its previous mode and skin is restored.
+ * - **EATEN → Last Mode**: If the ghost reaches the ghost house center (13,14), it is revived and its appearance is reset.
+ *
+ * The function is typically called once per game loop iteration to manage state transitions.
+ *
+ * @param ghost Reference to the ghost whose mode should be checked and possibly updated.
+ *
+ * @see pacman::GhostMode
+ * @see Ghost::loadLastMode()
+ * @see restoreGhostSkin()
+ */
 void arcade::game::PacmanGame::exitGhostSpecialModes(pacman::Ghost &ghost)
 {
     pacman::GhostMode mode = ghost.getMode();
@@ -387,6 +611,20 @@ void arcade::game::PacmanGame::exitGhostSpecialModes(pacman::Ghost &ghost)
     ghost.setTimer(timer);
 }
 
+/**
+ * @brief Puts all eligible ghosts into FRIGHTENED mode.
+ * @details This function updates the state and appearance of all ghosts
+ * (Blinky, Pinky, Inky, Clyde) that are currently not in `EATEN` or `FRIGHTENED` mode:
+ *
+ * - Changes their mode to `FRIGHTENED`
+ * - Updates their skin to the vulnerable appearance (`pacman::VULNERABLE`)
+ *
+ * Ghosts already in FRIGHTENED or EATEN mode are ignored.
+ * This function is typically called when the player eats a power-up (`GUM2`).
+ *
+ * @see setGhostSkin()
+ * @see pacman::GhostMode
+ */
 void arcade::game::PacmanGame::setGhostsFrightened()
 {
     if (_blinky.getMode() != pacman::EATEN &&
@@ -411,6 +649,20 @@ void arcade::game::PacmanGame::setGhostsFrightened()
     }
 }
 
+/**
+ * @brief Changes the skin (color and sprite) of a ghost entity.
+ * @details This function updates both the `color` and `sprite` fields of the ghost
+ * identified by its `display_char` to match a new skin character.
+ *
+ * Typically used to change a ghost's appearance to `VULNERABLE` or `DEAD`.
+ *
+ * @param c The character representing the ghost (e.g., `BLINKY`, `PINKY`...).
+ * @param skin The character representing the new skin (e.g., `VULNERABLE`, `DEAD`...).
+ *
+ * @see getEntityAtByChar()
+ * @see getEntityColor()
+ * @see getEntitySprite()
+ */
 void arcade::game::PacmanGame::setGhostSkin(char c, char skin)
 {
     types::Entity *ghost = getEntityAtByChar(c);
@@ -421,6 +673,19 @@ void arcade::game::PacmanGame::setGhostSkin(char c, char skin)
     }
 }
 
+/**
+ * @brief Restores a ghost's original appearance.
+ * @details This function resets the `color` and `sprite` of the ghost to match
+ * its original look based on its character identifier.
+ *
+ * Used after a ghost exits `FRIGHTENED` or `EATEN` mode.
+ *
+ * @param c The character representing the ghost (e.g., `BLINKY`, `INKY`...).
+ *
+ * @see getEntityAtByChar()
+ * @see getEntityColor()
+ * @see getEntitySprite()
+ */
 void arcade::game::PacmanGame::restoreGhostSkin(char c)
 {
     types::Entity *ghost = getEntityAtByChar(c);

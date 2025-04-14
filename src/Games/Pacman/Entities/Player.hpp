@@ -6,7 +6,7 @@
 */
 
 /**
- * @file Ghost.hpp
+ * @file Player.hpp
  * @brief Contains methods that define possible player behaviors.
  * @author Jason KOENIG
  * @version 1.0

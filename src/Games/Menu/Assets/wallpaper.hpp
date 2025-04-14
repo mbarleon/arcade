@@ -1,3 +1,22 @@
+/**
+* @file wallpaper.hpp
+ * @brief Contains the binary data of a resized PNG image.
+ * @author CARABIN Noé (CorpsB)
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * This file contains the raw binary representation of a PNG image embedded as a
+ * constant unsigned char array. The image can be used directly within the code
+ * without requiring external file access.
+ *
+ * It was likely generated using a binary-to-header converter such as `xxd -i`,
+ * `bin2c`, or a custom image embedding tool.
+ *
+ * @note The variable `wallpaper_jpgs` indicates the total size of the image data in bytes.
+ */
+
+/** Binary data of the resized PNG image. */
 static constexpr unsigned char wallpaper_jpg[] = {
   0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01,
   0x01, 0x01, 0x00, 0x60, 0x00, 0x60, 0x00, 0x00, 0xff, 0xe1, 0x00, 0xbc,
@@ -3217,4 +3236,6 @@ static constexpr unsigned char wallpaper_jpg[] = {
   0xd8, 0xab, 0x31, 0xbd, 0x54, 0x15, 0x2a, 0x1c, 0x55, 0x81, 0x7d, 0x1a,
   0x8a, 0x86, 0x36, 0xa2, 0x80, 0x3f, 0xff, 0xd9
 };
+
+/** Size of the binary image data in bytes. */
 unsigned int wallpaper_jpg_len = 38600;

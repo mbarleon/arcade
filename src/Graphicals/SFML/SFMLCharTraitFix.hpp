@@ -12,7 +12,7 @@
 #include <cwchar>
 
 /**
- * @file SFMLCharTraitFix.cpp
+ * @file SFMLCharTraitFix.hpp
  * @brief Contains compatibilty functions related to SFML.
  * @author Mathieu BARLEON
  * @version 1.0
