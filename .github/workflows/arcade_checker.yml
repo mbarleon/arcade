@@ -45,6 +45,7 @@ jobs:
           fi
 
   check_program_compilation:
+    if: ${{vars.MIRROR_URL != ''}}
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     timeout-minutes: 5
