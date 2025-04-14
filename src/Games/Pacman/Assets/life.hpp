@@ -1,3 +1,21 @@
+/**
+ * @file life.hpp
+ * @brief Contains the binary data of a resized PNG image.
+ * @author Jason Koenig
+ * @version 1.0
+ * @date 2025-03-26
+ *
+ * @details
+ * This file contains the raw binary representation of a PNG image embedded as a
+ * constant unsigned char array. The image can be used directly within the code
+ * without requiring external file access.
+ *
+ * It was likely generated using a binary-to-header converter such as `xxd -i`,
+ * `bin2c`, or a custom image embedding tool.
+ *
+ * @note The variable `life_png` indicates the total size of the image data in bytes.
+ */
+
 static constexpr unsigned char life_png[] = {
   0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
   0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x28,
