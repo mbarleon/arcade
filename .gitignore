@@ -56,3 +56,5 @@ doc/latex/*
 venv/
 *.arcade
 *.dat
+!CODE_OF_CONDUCT
+!CONTRIBUTION_GUIDELINES

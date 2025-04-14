@@ -37,12 +37,12 @@ jobs:
               if [ "$error" -ge 4 ]; then
                   echo "::error:: /!\ TOO MANY CODING_STYLE INFRACTION /!\\\""
                   exit 1
-                  fi
-                  done < coding-style-reports.log
-                  echo "$error"
-                  else
-                  echo "::notice:: No coding-style error detected, good work."
-                  fi
+              fi
+            done < coding-style-reports.log
+            echo "$error"
+          else
+            echo "::notice:: No coding-style error detected, good work."
+          fi
                   
   check_program_compilation:
     if: ${{vars.MIRROR_URL != ''}}
