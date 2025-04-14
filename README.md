@@ -1,14 +1,16 @@
 # Arcade
 
-> Arcade games with multiple libraries supported
+> A modular arcade paltform
 
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-blue)
 
-## Group leaders
+## Group leaders (for Epitech)
 
 The lead developper of this program is Mathieu BARLEON (@mbarleon). You can contact him at mathieu.barleon@epitech.eu
 
 This arcade is compatible with the one developped by Léo QUINZLER (@Leorevoir). You can contact him at leo.quinzler@epitech.eu
+
+His arcade is available at https://github.com/Leorevoir/Arcade
 
 ## 📦 Features
 
@@ -181,3 +183,7 @@ Noé CARABIN (@CorpsB): noe.carabin@epitech.eu
         ├── Logger.hpp
         └── Makefile*
 ```
+
+## ⚠️ WARNING
+
+Epitech students, beware of -42.
