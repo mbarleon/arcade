@@ -1,53 +1,71 @@
-ARCADE: CODE OF CONDUCT
+# ARCADE: CONTRIBUTION GUIDELINES
 
-If you're reading this text, it's because you intend to play / participate / help with the Arcade project, and for that, on behalf of all collaborators, THANK YOU!
+**Contents**: Preamble · I) Reporting a bug / error · II) Proposing new features · III) Discussions · IV) Runtime environment · V) Project development direction · VI) Contacting contributors
 
-Preamble
+---
 
-The code of conduct should never be used in an open source project like this, which advocates development and cooperation between its members. But as GitHub likes to remind us, it's an integral part of open source projects. And even if none of us feel like using it, one day we surely will. So, in the spirit of never using this code of conduct, we're creating it to preserve the project, and create a safe and welcoming environment for all.
+### **Preamble**
+We'd like to remind you that the **Arcade** project is an open-source project whose base was developed over a weekend, so it may contain a few bugs.
 
-I) Discussions, collaboration?
+---
 
-As previously stated, discussions between our members have been created for cooperation and team development. Our aim? That you can develop, have fun, and get feedback from people perhaps more experienced than you, or that you can help others.
+### **I) Reporting bugs**
 
-All forms of discrimination (racial, religious, etc.) have no place here, and will result in sanctions (see sanctions). We believe that every opinion, whatever the person and their knowledge (developer, user, ...) has a say, and divergent opinions not only complete the game, but also show everyone the different points of view faced with the same situation. You'll see, we'll all come out the better for it.
+Bugs must be reported on GitHub, directly via the project issues. You'll find a form called "bug report" to be filled in with the following information:
 
-II) Pull request
+- **The title**: please include the word **BUG**  
+- **A short description** of the bug  
+- **A description of when the bug occurred / how to reproduce it**  
+- **What you think should have happened** instead of the bug  
+- **Additional documents**: error codes, screenshots, etc.  
+- **Comments (optional)**: An additional comment on the bug, what you'd like to say
 
-The project is open-source, and is protected by a license (GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007) which protects our/your code from any attempt at commercialization. So, anyone is free to request a pull request, modify or add content to the game. However, your code must:
+---
 
-Be readable and understandable by the majority of other contributors
+### **II) New feature proposal**
 
-Be consistent with the project objective
+Proposals for new features must also follow a pre-established template on GitHub, in the project issues, with the following information:
 
-Respect other project instructions (see collaboration guidelines)
+- **Title**: Please indicate **NEW_FEAT**  
+- **Description**: Describe what you want to add to the game  
+- **Interest**: What do you think this would bring to the project?  
+- **Comment (optional)**: A personal comment
 
-III) Violation of the code of conduct
+---
 
-Has a member breached this code of conduct? Let us know immediately! Go to project issues and make a WARN request. Follow the established template, and attach evidence to your accusation, to add credence to it. For your part, don't react, just stay calm. Once the issue has been sent, you'll be sure to be considered as soon as possible, so there's no need to continue down the path of the wrongdoer and risk being the subject of a WARN.
+### **III) Discussions**
 
-IV) Sanctions
+Within our project, we have created a discussion (directly on GitHub). It allows contributors, future contributors and users to exchange ideas.
 
-We take no pleasure in applying sanctions to our contributors, only that it may sometimes be necessary for the good of the project. Thus, the main contributors (@mbarleon, @OkotEgarim, and @CorpsB) can apply sanctions to our members. These sanctions may vary depending on the situation, and it's up to these main contributors to decide which sanction to apply, always with a view to preserving the project, and making it enjoyable for EVERYONE.
+You'll find different rooms, with different topics, some official like **"Announcements"**, which will concern game updates and new features, or others in which you can exchange, like **"Ideas"**, where you can submit an idea to the community, and look at the evolutions that are possible to add to it, before making an official issue.
 
-Nevertheless, the main sanctions that can be applied are as follows:
+**ATTENTION**: You must still respect the **code of conduct** within project discussions, so that everyone feels at ease within **ARCADE**.
 
-Private warning
+---
 
-Public warning
+### **IV) Execution environment**
 
-Each push will have to go through another contributor who will validate the new code
+The attached code should be executed as follows:
+More details on the Readme.md file.
 
-Temporary ban from the project
+```bash
+make
+./arcade [lib]
+```
 
-Permanent ban from the project
+**WARNING**: The file must have execution permissions and you must have downloaded PHP beforehand.
 
-V) Main contributors
+---
 
-The original contributors to the project (@NoeCarabin, @AgentFowy, @Pierre_Epitech, @Luc, and @CorpsB) reserve the right:
+### **V) Project development direction**
 
-Update these terms and conditions without prior notice
+The reason we're making this project open source is, on the one hand, to create a game accessible to all, but on the other, as a means of adding more content. Indeed, we want the project to evolve by continually implementing new features, namely mini-games for **ARCADE**.
 
-Apply sanctions ranging from public warnings to permanent bans, and any other sanctions that may prove necessary
+So we're looking forward to the majority of contributions in this direction, at least to get our project off the ground. Thanks in advance to those who will participate.
 
-Choose between different project guidelines at any time
+---
+
+### **VI) Contact for contributors**
+
+The contributors can be reached via the **discussions on GitHub**, and will reply as far as possible. Please do **not attempt to contact us via our e-mail addresses.**
+
