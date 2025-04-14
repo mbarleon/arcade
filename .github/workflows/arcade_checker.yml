@@ -43,7 +43,7 @@ jobs:
           else
             echo "::notice:: No coding-style error detected, good work."
           fi
-                  
+
   check_program_compilation:
     if: ${{vars.MIRROR_URL != ''}}
     runs-on: ubuntu-latest
