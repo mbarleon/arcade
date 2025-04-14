@@ -25,6 +25,7 @@ Make sure you have the following installed:
 
 - `g++` / `clang`
 - `make`
+- `SFML2.X`, `SDL2` and `ncurses`
 - (Optional) `doxygen`, `python3`
 
 ### Installation
