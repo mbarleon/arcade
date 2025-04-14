@@ -1,0 +1,115 @@
+name: 42sh_checker
+
+on:
+  push:
+    branches-ignore:
+      - "ga-ignore-*"
+  pull_request:
+    branches-ignore:
+      - "ga-ignore-*"
+
+jobs:
+  check_coding_style:
+    runs-on: ubuntu-latest
+    container: ghcr.io/epitech/coding-style-checker:latest
+    steps:
+      - name: Place depo inside the container
+        uses: actions/checkout@v3
+      - name : Lauch coding-style
+        shell: bash
+        run: |
+          declare -i error=0
+          check.sh $(pwd) $(pwd)
+          if test -s coding-style-reports.log; then
+            while IFS= read -r line; do
+              file=$(echo "$line" | cut -d':' -f1)
+              line_num=$(echo "$line" | cut -d':' -f2-3)
+              error_type=$(echo "$line" | cut -d' ' -f2 | cut -d':' -f1)
+              if [ "$error_type" = "MAJOR" ]; then
+                  error+=3
+              fi
+              if [ "$error_type" = "MINOR" ]; then
+                  error+=1
+              fi
+              error_name=$(echo "$line" | cut -d':' -f4)
+              title="$error_type  coding style error:"
+              echo "::error file=$file,line=$line_num::$title $error_name"
+              if [ "$error" -ge 4 ]; then
+                  echo "::error:: /!\ TOO MANY CODING_STYLE INFRACTION /!\\\""
+                  exit 1
+              fi
+            done < coding-style-reports.log
+            echo "$error"
+          else
+            echo "::notice:: No coding-style error detected, good work."
+          fi
+
+  check_program_compilation:
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    timeout-minutes: 5
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+        - name: Check for Makefile
+          run: |
+            if [ ! -f "Makefile" ]; then
+              echo "::error ::/!\\ WARNING NO MAKEFILE FOUND /!\\"
+              exit 1
+            else
+              echo "::notice::Makefile found."
+            fi
+        - name: Launch make
+          run: |
+              if make; then
+                echo "::notice file=Makefile::Succesfully compilation (make)."
+              else
+                echo "::error file=Makefile::/!\\ COMPILATION ERROR (make)/!\\"
+              fi   
+        - name: Launch make clean
+          run: |
+            if make clean; then
+              echo "::notice file=Makefile::Succesfully compilation (make clean)."
+            else
+              echo "::error file=Makefile::/!\\ COMPILATION ERROR (make clean)/!\\"
+            fi
+        - name: Check executables
+          run: |
+              if ! test -x ./arcade; then
+                echo "::error file=$executable::Executable $executable is missing or not executable."
+                exit 1
+              else
+                echo "::notice file=$executable::Executable $executable found and is executable."
+              fi
+
+  push_to_mirror:
+    if: github.event_name == 'push'
+    needs: check_program_compilation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Mirror to epitech repo
+        uses: pixta-dev/repository-mirroring-action@v1.1.1
+        with:
+          target_repo_url: ${{ vars.MIRROR_URL }}
+          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+
+#  # Paramétrage des tests
+#  run_tests:
+#    needs: check_program_compilation
+#    runs-on: ubuntu-latest
+#    container: epitechcontent/epitest-docker
+#    timeout-minutes: 5
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v3
+#      - name: Build 42SH
+#        run: |
+#          ls
+#          make re
+#      - name: Run tests
+#        run: |
+#          ./tests/test.sh -g
