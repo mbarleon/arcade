@@ -5,8 +5,23 @@
 ** PacmanGame
 */
 
+/**
+ * @file PacmanGame.cpp
+ * @brief Implements the Main class of the Pacman game.
+ * @author Jason Koenig
+ * @version 1.0
+ * @date 2025-04-14
+ *
+ * @details
+ * Contains the entire game loop, which is managed by the update function.
+ *
+ * @see arcade::game::PacmanGame
+ */
 #include "PacmanGame.hpp"
 
+ /**
+ * @brief Loads the best score stored in binary form in the file Score/pacman.dat.
+ **/
 void arcade::game::PacmanGame::loadHighScore()
 {
     std::ifstream file("Score/pacman.dat", std::ios::binary);
@@ -21,6 +36,9 @@ void arcade::game::PacmanGame::loadHighScore()
     file.close();
 }
 
+ /**
+ * @brief Stores the best score achieved in binary format in the file Score/pacman.dat.
+ **/
 void arcade::game::PacmanGame::saveHighScore()
 {
     std::ofstream file("Score/pacman.dat", std::ios::binary | std::ios::trunc);
@@ -31,6 +49,9 @@ void arcade::game::PacmanGame::saveHighScore()
     file.close();
 }
 
+ /**
+ * @brief Updates level, score and highscore display.
+ **/
 void arcade::game::PacmanGame::refreshScore()
 {
     types::Entity *scoreTxt = getEntityAt((types::Position){2, 2});
@@ -43,6 +64,12 @@ void arcade::game::PacmanGame::refreshScore()
         "   high score " + std::to_string(_highScore);
 }
 
+/**
+ * @brief Updates the state of a specific ghost (collision with player, mode switch).
+ * @param ghost The ghost to update (Blinky, Inky, Pinky or Clyde).
+ * @param playerPos The current position of the player (Pacman).
+ * @return true if the ghost collided with the player and caused a state change (death or kill), false otherwise.
+ **/
 bool arcade::game::PacmanGame::updateGhost(pacman::Ghost &ghost,
     types::Position &playerPos)
 {
@@ -78,6 +105,13 @@ bool arcade::game::PacmanGame::updateGhost(pacman::Ghost &ghost,
     return false;
 }
 
+/**
+ * @brief Updates all ghosts’ movement and state.
+ * @details
+ * Each ghost checks whether it should move or change state.
+ * Ghost movement depends on player position, direction, and current level.
+ * Certain ghosts (Inky, Clyde) are unlocked progressively based on the number of dots eaten.
+ */
 void arcade::game::PacmanGame::updateGhosts()
 {
     types::Direction playerDirection = _player.getDirection();
@@ -95,6 +129,15 @@ void arcade::game::PacmanGame::updateGhosts()
         _clyde.update(getEntityAtByChar(pacman::CLYDE), playerPos);
 }
 
+/**
+ * @brief Main game loop entrypoint for Pacman.
+ * @param event The current input event (usually a direction from the player).
+ * @details
+ * Handles timing, movement, food collection, level transitions and ghost logic.
+ * Updates map state and entities accordingly.
+ * 
+ * @see updateGhosts(), updateGhost(), refreshScore()
+ */
 void arcade::game::PacmanGame::update(GameEvent event)
 {
     _player.updateDirection(event.second);
