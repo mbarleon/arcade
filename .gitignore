@@ -58,3 +58,4 @@ venv/
 *.dat
 !CODE_OF_CONDUCT
 !CONTRIBUTING
+!.github/CODEOWNERS
